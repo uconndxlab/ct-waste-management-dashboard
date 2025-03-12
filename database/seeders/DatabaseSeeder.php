@@ -3,6 +3,9 @@
 namespace Database\Seeders;
 
 use App\Models\User;
+
+use App\Models\Town;
+
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -19,5 +22,8 @@ class DatabaseSeeder extends Seeder
             'name' => 'Test User',
             'email' => 'test@example.com',
         ]);
+
+        Town::create(['name' => 'Example1', 'description' => 'This is an example town!']);
+        Town::create(['name' => 'Example2', 'description' => 'This is another example town.']);
     }
 }
