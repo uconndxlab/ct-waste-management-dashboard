@@ -1,4 +1,4 @@
-!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
         <meta charset="utf-8">
@@ -20,6 +20,6 @@
         @endif
     </head>
     <body class="">
-        
+        <a href="/towns">View All Towns</a>
     </body>
 </html>

@@ -18,12 +18,20 @@ class DatabaseSeeder extends Seeder
     {
         // User::factory(10)->create();
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
+        // User::factory()->create([
+        //     'name' => 'Test User',
+        //     'email' => 'test@example.com',
+        // ]);
+
+        // create some example towns
+        Town::create([
+            'name' => 'Example1',
+            'description' => 'This is an example town!'
         ]);
 
-        Town::create(['name' => 'Example1', 'description' => 'This is an example town!']);
-        Town::create(['name' => 'Example2', 'description' => 'This is another example town.']);
+        Town::create([
+            'name' => 'Example2',
+            'description' => 'This is another example town.'
+        ]);
     }
 }
