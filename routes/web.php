@@ -6,7 +6,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-use App\Http\Controllers\TownController;
+use App\Http\Controllers\MunicipalityController;
 
-Route::get('/towns', [TownController::class, 'index'])->name('towns.index');
-Route::get('/towns/{id}', [TownController::class, 'show'])->name('towns.show');
+Route::get('/municipalities', [MunicipalityController::class, 'allMunicipalities'])->name('municipalities.view-all');
+Route::get('/municipalities/{id}', [MunicipalityController::class, 'show'])->name('municipalities.show');

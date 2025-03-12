@@ -20,6 +20,6 @@
         @endif
     </head>
     <body class="">
-        <a href="/towns">View All Towns</a>
+        <a href="/municipalities">View All Municipalities</a>
     </body>
 </html>

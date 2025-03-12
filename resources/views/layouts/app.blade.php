@@ -12,7 +12,7 @@
 </head>
 <body>
     <nav>
-        <a href="{{ route('towns.index') }}">Home</a>
+        <a href="/municipalities">Home</a>
     </nav>
 
     <main>
