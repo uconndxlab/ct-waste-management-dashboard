@@ -40,10 +40,11 @@ class ImportTowns extends Command
                     'hauling_fees' => $record['Hauling fees'] ?? null,
                     'curbside_pickup_fees' => $record['Curbside Pickup fees (town)'] ?? null,
                     'waste_collection' => $record['Waste Collection'] ?? null,
-                    'notes' => $record['notes/ other broken down variables'] ?? null,
+                    'notes' => $record['notes/ other broken down variables'] ?? null, // Ensure this matches CSV
                 ]
             );
         }
+        
 
         $this->info("CSV import completed successfully!");
     }

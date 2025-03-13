@@ -2,9 +2,29 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Municipality extends Model
 {
-    //
+    use HasFactory;
+
+    protected $fillable = [
+        'name', // Add this
+        'year',
+        'bulky_waste',
+        'recycling',
+        'tipping_fees',
+        'admin_costs',
+        'hazardous_waste',
+        'contractual_services',
+        'landfill_costs',
+        'total_sanitation_refuse',
+        'only_public_works',
+        'transfer_station_wages',
+        'hauling_fees',
+        'curbside_pickup_fees',
+        'waste_collection',
+        'notes'
+    ];
 }
