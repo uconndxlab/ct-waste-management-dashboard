@@ -17,5 +17,7 @@
     <p><strong>Curbside Pickup Fees:</strong> {{ $municipality->curbside_pickup_fees !== '' ? '$' . $municipality->curbside_pickup_fees : 'No data' }}</p>
     <p><strong>Waste Collection:</strong> {{ $municipality->waste_collection !== '' ? '$' . $municipality->waste_collection : 'No data' }}</p>
 
+    <p><strong>Notes:</strong> {{ $municipality->notes !== '' ? $municipality->notes : 'None' }}</p>
+
     <a href="/municipalities">Back to Municipalities</a>
 @endsection
