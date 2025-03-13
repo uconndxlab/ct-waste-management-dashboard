@@ -3,6 +3,8 @@
 @section('title', $municipality->name)
 
 @section('content')
+    <h1> {{ $municipality->name }}</h1>
+    <h3>{{ $municipality->year }}</h3>
     <p><strong>Bulky Waste:</strong> {{ $municipality->bulky_waste !== '' ? '$' . $municipality->bulky_waste : 'No data' }}</p>
     <p><strong>Recycling:</strong> {{ $municipality->recycling !== '' ? '$' . $municipality->recycling : 'No data' }}</p>
     <p><strong>Tipping Fees:</strong> {{ $municipality->tipping_fees !== '' ? '$' . $municipality->tipping_fees : 'No data' }}</p>
@@ -19,5 +21,5 @@
 
     <p><strong>Notes:</strong> {{ $municipality->notes !== '' ? $municipality->notes : 'None' }}</p>
 
-    <a href="/municipalities">Back to Municipalities</a>
+    <a href="/municipalities/{name}">Back to {{ $municipality->name }} Overview Page</a>
 @endsection

@@ -5,9 +5,9 @@
 @section('content')
     <h1>All Municipalities</h1>
     <ol>
-        @foreach ($municipalities as $municipality)
+        @foreach($municipalities as $municipality)
             <li>
-                <a href="{{ route('municipalities.show', $municipality->id) }}">{{ $municipality->name }}</a>
+                <a href="{{ route('municipalities.view', ['name' => $municipality->name]) }}">{{ $municipality->name }}</a>
             </li>
         @endforeach
     </ol>
