@@ -7,11 +7,12 @@
 
     <ul>
         @foreach($reports as $report)
-            <li>
-                <a href="{{ route('municipalities.report', ['id' => $report->id]) }}">
-                    Report for {{ $report->year }}
-                </a>
-            </li>
+        <li>
+            <a href="{{ route('municipalities.report', ['id' => $report->id]) }}">
+                {{ $report->year !== '' ? 'Report for ' . $report->year : 'Report #' . $report->id . ': Year Not Specified' }}
+            </a>
+        </li>
+        
         @endforeach
     </ul>
 
