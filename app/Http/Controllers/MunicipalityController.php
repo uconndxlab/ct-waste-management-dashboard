@@ -8,11 +8,15 @@ use Illuminate\Http\Request;
 class MunicipalityController extends Controller
 {
     // Display a list of all unique municipalities
-    public function allMunicipalities()
+    public function allMunicipalities(Request $request)
     {
-        $municipalities = Municipality::select('name')
-            ->groupBy('name')
-            ->get();
+        $query = Municipality::select('name')->groupBy('name');
+
+        if ($request->has('search') && !empty($request->search)) {
+            $query->where('name', 'like', '%' . $request->search . '%');
+        }
+
+        $municipalities = $query->get();
 
         return view('municipalities.view-all', compact('municipalities'));
     }
@@ -21,7 +25,7 @@ class MunicipalityController extends Controller
     public function viewMunicipality($name)
     {
         $reports = Municipality::where('name', $name)
-            ->orderBy('year', 'desc')
+            ->orderBy('year')
             ->get();
 
         return view('municipalities.view-municipality', compact('name', 'reports'));
