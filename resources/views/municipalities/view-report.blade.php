@@ -4,7 +4,7 @@
 
 @section('content')
     <h1> {{ $municipality->name }}</h1>
-    <h3>{{ $municipality->year }}</h3>
+    <h3>{{ $municipality->year !== '' ? $municipality->year : 'Year Not Specified' }}</h3>
     <p><strong>Bulky Waste:</strong> {{ $municipality->bulky_waste !== '' ? '$' . $municipality->bulky_waste : 'No data' }}</p>
     <p><strong>Recycling:</strong> {{ $municipality->recycling !== '' ? '$' . $municipality->recycling : 'No data' }}</p>
     <p><strong>Tipping Fees:</strong> {{ $municipality->tipping_fees !== '' ? '$' . $municipality->tipping_fees : 'No data' }}</p>
