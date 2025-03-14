@@ -7,21 +7,35 @@ use Illuminate\Http\Request;
 
 class MunicipalityController extends Controller
 {
-    // Display a list of all unique municipalities
+
     public function allMunicipalities(Request $request)
     {
-        $query = Municipality::select('name')->groupBy('name');
-
-        if ($request->has('search') && !empty($request->search)) {
-            $query->where('name', 'like', '%' . $request->search . '%');
+        $letters = Municipality::selectRaw('SUBSTR(name, 1, 1) as letter')
+            ->groupBy('letter')
+            ->orderBy('letter')
+            ->pluck('letter');
+    
+        $selectedLetter = $request->input('letter', null);
+    
+        $search = $request->input('search', '');
+    
+        $query = Municipality::select('name')
+            ->groupBy('name')
+            ->orderBy('name');
+    
+        if ($selectedLetter) {
+            $query->where('name', 'like', $selectedLetter . '%');
         }
-
+    
+        if ($search) {
+            $query->where('name', 'like', '%' . $search . '%');
+        }
         $municipalities = $query->get();
-
-        return view('municipalities.view-all', compact('municipalities'));
+    
+        return view('municipalities.view-all', compact('municipalities', 'letters', 'selectedLetter', 'search'));
     }
+    
 
-    // Display a summary page for a specific municipality with links to reports by year
     public function viewMunicipality($name)
     {
         $reports = Municipality::where('name', $name)
