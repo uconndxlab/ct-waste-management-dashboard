@@ -17,7 +17,7 @@
     </form>
 
     <div class="mb-3">
-        <strong>Search by Letter:</strong>
+        <strong>Search by Letter: </strong>
         <a href="{{ route('municipalities.all') }}" 
            class="btn btn-sm {{ !$selectedLetter ? 'btn-primary' : 'btn-outline-primary' }}">
             All

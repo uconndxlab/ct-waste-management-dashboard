@@ -34,4 +34,5 @@
 
     <a href="{{ route('municipalities.view', ['name' => $municipality->name]) }}" class="btn btn-secondary">Back to Overview</a>
     <a href="{{ route('municipalities.all') }}" class="btn btn-primary">Back to All Municipalities</a>
+    <br/><br/>
 @endsection
