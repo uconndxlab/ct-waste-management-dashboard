@@ -16,39 +16,49 @@
             Town Contact Information
         </div>
         <div class="card-body">
-            @if(!empty($townInfo->department))
-                <p><strong>Department:</strong> {{ $townInfo->department }}</p>
-            @endif
+            <div class="row">
+                @if(!empty($townInfo->department))
+                    <div class="col-12">
+                        <p><strong>Department:</strong> {{ $townInfo->department }}</p>
+                    </div>
+                @endif
 
-            <h5>Primary Contact</h5>
-            @if(!empty($townInfo->contact_1)) 
-                <p><strong>Name:</strong> {{ $townInfo->contact_1 }}</p>
-            @endif
-            @if(!empty($townInfo->title_1)) 
-                <p><strong>Title:</strong> {{ $townInfo->title_1 }}</p>
-            @endif
-            @if(!empty($townInfo->phone_1)) 
-                <p><strong>Phone:</strong> {{ $townInfo->phone_1 }}</p>
-            @endif
-            @if(!empty($townInfo->email_1)) 
-                <p><strong>Email:</strong> <a href="mailto:{{ $townInfo->email_1 }}">{{ $townInfo->email_1 }}</a></p>
-            @endif
+                @if(!empty($townInfo->contact_1) || !empty($townInfo->title_1) || !empty($townInfo->phone_1) || !empty($townInfo->email_1))
+                <div class="col-md-6">
+                    <h5>Primary Contact</h5>
+                    @if(!empty($townInfo->contact_1)) 
+                        <p><strong>Name:</strong> {{ $townInfo->contact_1 }}</p>
+                    @endif
+                    @if(!empty($townInfo->title_1)) 
+                        <p><strong>Title:</strong> {{ $townInfo->title_1 }}</p>
+                    @endif
+                    @if(!empty($townInfo->phone_1)) 
+                        <p><strong>Phone:</strong> {{ $townInfo->phone_1 }}</p>
+                    @endif
+                    @if(!empty($townInfo->email_1)) 
+                        <p><strong>Email:</strong> <a href="mailto:{{ $townInfo->email_1 }}">{{ $townInfo->email_1 }}</a></p>
+                    @endif
+                </div>
+                @endif
 
-            @if(!empty($townInfo->contact_2) || !empty($townInfo->title_2) || !empty($townInfo->phone_2) || !empty($townInfo->email_2))
-                <h5>Secondary Contact</h5>
-                @if(!empty($townInfo->contact_2)) 
-                    <p><strong>Name:</strong> {{ $townInfo->contact_2 }}</p>
+                @if(!empty($townInfo->contact_2) || !empty($townInfo->title_2) || !empty($townInfo->phone_2) || !empty($townInfo->email_2))
+                <div class="col-md-6">
+                    <h5>Secondary Contact</h5>
+                    @if(!empty($townInfo->contact_2)) 
+                        <p><strong>Name:</strong> {{ $townInfo->contact_2 }}</p>
+                    @endif
+                    @if(!empty($townInfo->title_2)) 
+                        <p><strong>Title:</strong> {{ $townInfo->title_2 }}</p>
+                    @endif
+                    @if(!empty($townInfo->phone_2)) 
+                        <p><strong>Phone:</strong> {{ $townInfo->phone_2 }}</p>
+                    @endif
+                    @if(!empty($townInfo->email_2)) 
+                        <p><strong>Email:</strong> <a href="mailto:{{ $townInfo->email_2 }}">{{ $townInfo->email_2 }}</a></p>
+                    @endif
+                </div>
                 @endif
-                @if(!empty($townInfo->title_2)) 
-                    <p><strong>Title:</strong> {{ $townInfo->title_2 }}</p>
-                @endif
-                @if(!empty($townInfo->phone_2)) 
-                    <p><strong>Phone:</strong> {{ $townInfo->phone_2 }}</p>
-                @endif
-                @if(!empty($townInfo->email_2)) 
-                    <p><strong>Email:</strong> <a href="mailto:{{ $townInfo->email_2 }}">{{ $townInfo->email_2 }}</a></p>
-                @endif
-            @endif
+            </div>
 
             @if(!empty($townInfo->notes) || !empty($townInfo->other_useful_notes))
                 <h5>Additional Notes</h5>
