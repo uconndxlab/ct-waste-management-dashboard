@@ -12,7 +12,7 @@
     <form action="{{ route('municipalities.all') }}" method="GET" class="mb-3">
         <div class="input-group">
             <input type="text" name="search" class="form-control" placeholder="Search Municipality">
-            <button type="submit" class="btn btn-primary">Search</button>
+            <button type="submit" class="btn btn-primary"><i class="bi bi-search"></i> Search</button>
         </div>
     </form>
 
