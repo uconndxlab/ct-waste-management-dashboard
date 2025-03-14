@@ -10,7 +10,7 @@
 @section('content')
     <h1 class="text-primary">{{ $name }} Overview</h1>
 
-    @if($townInfo)
+    @if(!empty($townInfo->contact_1) || !empty($townInfo->title_1) || !empty($townInfo->phone_1) || !empty($townInfo->email_1) || !empty($townInfo->department) || !empty($townInfo->contact_2) || !empty($townInfo->title_2) || !empty($townInfo->phone_2) || !empty($townInfo->email_2) || !empty($townInfo->notes))
     <div class="card mb-4">
         <div class="card-header bg-primary text-white">
             Town Contact Information
@@ -72,7 +72,14 @@
         </div>
     </div>
 @else
-    <p class="text-muted">No contact information available.</p>
+    <div class="card mb-4">
+        <div class="card-header bg-primary text-white">
+            Town Contact Information
+        </div>
+        <div class="card-body">
+            <p class="text-muted">No contact information available.</p>
+        </div>
+    </div>
 @endif
 
     <h2 class="text-secondary">Expenditure Reports</h2>
