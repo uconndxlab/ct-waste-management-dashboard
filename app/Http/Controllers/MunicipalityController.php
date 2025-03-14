@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\OverallTownInfo;
+
 use App\Models\Municipality;
 use Illuminate\Http\Request;
 
@@ -41,9 +43,11 @@ class MunicipalityController extends Controller
         $reports = Municipality::where('name', $name)
             ->orderBy('year')
             ->get();
-
-        return view('municipalities.view-municipality', compact('name', 'reports'));
-    }
+    
+        $townInfo = OverallTownInfo::where('municipality', $name)->first();
+    
+        return view('municipalities.view-municipality', compact('name', 'reports', 'townInfo'));
+    }    
 
     // Display a specific report
     public function viewReport($id)
