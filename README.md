@@ -1,6 +1,6 @@
 <h1>Running the Application</h1>
 
-<h4>Clone the Git repo</h4>
+<h4>Clone the Git Repo</h4>
 <pre><code>git clone git@github.com:uconndxlab/ct-waste-management-dashboard.git</code></pre>
 
 <h4>User Composer to Install Dependencies</h4>
