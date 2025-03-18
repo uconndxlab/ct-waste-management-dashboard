@@ -10,15 +10,15 @@
 
 @section('content')
     <h1 class="text-primary">{{ $financialData->municipality }}</h1>
-    <h3 class="text-muted">Financial Information for {{ $financialData->time_period ?? 'Time Period Not Specified' }}</h3>
+    <h3 class="text-muted">Financial Information for {{ $financialData->time_period == "" ? 'Time Period Not Specified' : $financialData->time_period }}</h3>
 
     <table class="table table-striped">
         <tbody>
-            <tr><th>Time Period</th><td>{{ $financialData->time_period ?? 'No data' }}</td></tr>
-            <tr><th>Town Population (2022)</th><td>{{ $financialData->population ? number_format($financialData->population) : 'No data' }}</td></tr>
-            <tr><th>Town Size (Square Miles, 2010)</th><td>{{ $financialData->size ?? 'No data' }}</td></tr>
-            <tr><th>Link to Town Budget</th><td><a href="{{ $financialData->link }}" target="_blank">View Town Budget</a></td></tr>
-            <tr><th>Notes</th><td>{{ $financialData->notes ?? 'No additional notes' }}</td></tr>
+            <tr><th>Time Period</th><td>{{ $financialData->time_period == "" ? 'No data' : $financialData->time_period }}</td></tr>
+            <tr><th>Town Population (2022)</th><td>{{ $financialData->population == "" ? 'No data' : number_format($financialData->population) }}</td></tr>
+            <tr><th>Town Size (Square Miles, 2010)</th><td>{{ $financialData->size == "" ? 'No data' : $financialData->size }}</td></tr>
+            <tr><th>Link to Town Budget</th><td><a href="{{ $financialData->link == "" ? '#' : $financialData->link }}" target="_blank">View Town Budget</a></td></tr>
+            <tr><th>Notes</th><td>{{ $financialData->notes == "" ? 'No additional notes' : $financialData->notes }}</td></tr>
         </tbody>
     </table>
 

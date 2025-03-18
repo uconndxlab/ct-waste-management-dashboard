@@ -95,5 +95,21 @@
         </div>
     @endif
 
+
+    <h2 class="text-secondary">Financial Information</h2>
+    @if($financials->isEmpty()) 
+        <p class="text-muted">No Financial Information Available.</p>
+    @else
+        <div class="list-group mb-4">
+            @foreach($financials as $financial)
+                <a href="{{ route('municipalities.financials', ['municipality' => $name]) }}" class="list-group-item list-group-item-action">
+                    {{ $financial->time_period !== '' ? 'Financial Info for ' . $financial->time_period : 'Financial Info: Time Period Not Specified' }}
+                </a>
+            @endforeach
+        </div>
+    @endif
+
     <a href="{{ route('municipalities.all') }}" class="btn btn-secondary">Back to All Municipalities</a>
+
+    <br/><br/>
 @endsection
