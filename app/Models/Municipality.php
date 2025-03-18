@@ -10,7 +10,7 @@ class Municipality extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name', // Add this
+        'name',
         'year',
         'bulky_waste',
         'recycling',
@@ -25,6 +25,6 @@ class Municipality extends Model
         'hauling_fees',
         'curbside_pickup_fees',
         'waste_collection',
-        'notes'
+        'notes',
     ];
 }
