@@ -41,7 +41,5 @@ class ImportTownContacts extends Command
                 ]
             );
         }
-
-        $this->info("Town contact info imported successfully!");
     }
 }

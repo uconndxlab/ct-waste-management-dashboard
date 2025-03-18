@@ -39,7 +39,5 @@ class ImportMunicipalityFinancialData extends Command
                 ]
             );
         }
-
-        $this->info("Municipality financial data imported successfully!");
     }
 }

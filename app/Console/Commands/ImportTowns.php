@@ -46,6 +46,5 @@ class ImportTowns extends Command
         }
         
 
-        $this->info("CSV import completed successfully!");
     }
 }

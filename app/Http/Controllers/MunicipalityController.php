@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\OverallTownInfo;
+use App\Models\MunicipalityFinancialData;
 
 use App\Models\Municipality;
 use Illuminate\Http\Request;
@@ -45,8 +46,10 @@ class MunicipalityController extends Controller
             ->get();
     
         $townInfo = OverallTownInfo::where('municipality', $name)->first();
+
+        $financials = MunicipalityFinancialData::where('municipality', $name)->get();
     
-        return view('municipalities.view-municipality', compact('name', 'reports', 'townInfo'));
+        return view('municipalities.view-municipality', compact('name', 'reports', 'townInfo', 'financials'));
     }    
 
     // Display a specific report
