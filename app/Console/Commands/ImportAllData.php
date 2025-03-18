@@ -43,6 +43,6 @@ class ImportAllData extends Command
             $this->error("File not found: $contactsFile");
         }
 
-        $this->info('All imports completed successfully!');
+        $this->info('All imports completed successfully.');
     }
 }
