@@ -5,7 +5,7 @@
 @section('breadcrumbs')
     <li class="breadcrumb-item"><a href="{{ route('municipalities.all') }}">Municipalities</a></li>
     <li class="breadcrumb-item"><a href="{{ route('municipalities.view', ['name' => $municipality->name]) }}">{{ $municipality->name }}</a></li>
-    <li class="breadcrumb-item active" aria-current="page">{{ $municipality->year !== '' ? $municipality->year : 'Undated' }} Report</li>
+    <li class="breadcrumb-item active" aria-current="page">{{ $municipality->year !== '' ? $municipality->year : 'Undated' }} Expenditure Report</li>
 @endsection
 
 @section('content')
@@ -35,4 +35,10 @@
     <a href="{{ route('municipalities.view', ['name' => $municipality->name]) }}" class="btn btn-secondary">Back to Overview</a>
     <a href="{{ route('municipalities.all') }}" class="btn btn-primary">Back to All Municipalities</a>
     <br/><br/>
+
+    @if(session('success'))
+    <div class="alert alert-success">
+        {{ session('success') }}
+    </div>
+    @endif
 @endsection

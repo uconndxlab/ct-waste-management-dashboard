@@ -112,4 +112,5 @@
     <a href="{{ route('municipalities.all') }}" class="btn btn-secondary">Back to All Municipalities</a>
 
     <br/><br/>
+
 @endsection
