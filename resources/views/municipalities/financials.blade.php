@@ -10,7 +10,14 @@
 
 @section('content')
     <h1 class="text-primary">{{ $financialData->municipality }}</h1>
-    <h3 class="text-muted">Financial Information for {{ $financialData->time_period == "" ? 'Time Period Not Specified' : $financialData->time_period }}</h3>
+    <h3 class="text-muted">Financial Information for {{ $financialData->time_period == "" ? 'Time Period Not Specified' : $financialData->time_period }} <a style="text-decoration: none;" href="{{ route('municipalities.financials.edit', ['municipality' => $financialData->municipality]) }}" class="badge bg-danger badge-sm">Edit</a></h3>
+    
+    @if(session('success'))
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <p style="margin-bottom: 0;"> Financial Information Successfully Updated</p>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    @endif
 
     <table class="table table-striped">
         <tbody>
