@@ -9,7 +9,7 @@
 @section('content')
     <h1 class="text-primary">All Municipalities</h1>
 
-    <form action="{{ route('municipalities.all') }}" method="GET" class="mb-3">
+    <form action="{{ route('municipalities.all') }}" method="GET" class="mb-4 mt-3">
         <div class="input-group">
             <input type="text" name="search" class="form-control" placeholder="Search Municipality" value="{{ request('search') }}">
             <button type="submit" class="btn btn-primary"><i class="bi bi-search"></i> Search</button>

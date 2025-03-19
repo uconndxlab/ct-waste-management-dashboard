@@ -9,13 +9,13 @@
 </head>
 <body class="">
 
-    <nav class="navbar navbar-expand-lg navbar-light bg-light mb-4">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
         <div class="container-fluid">
             <a class="navbar-brand" href="/municipalities">CT Waste Management Database</a>
             <div class="collapse navbar-collapse">
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a class="nav-link" href="/municipalities">Home</a>
+                        <a class="nav-link text-light" href="/municipalities">Home</a>
                     </li>
                 </ul>
             </div>
