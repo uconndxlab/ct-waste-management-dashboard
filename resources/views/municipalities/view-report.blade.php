@@ -8,9 +8,16 @@
     <li class="breadcrumb-item active" aria-current="page">{{ $municipality->year !== '' ? $municipality->year : 'Undated' }} Expenditure Report</li>
 @endsection
 
+
 @section('content')
     <h1 class="text-primary">{{ $municipality->name }}</h1>
     <h3 class="text-muted">{{ $municipality->year !== '' ? $municipality->year : 'Year Not Specified' }}</h3>
+
+    @if(session('success'))
+    <div class="alert alert-success">
+        {{ session('success') }}
+    </div>
+    @endif
 
     <table class="table table-striped">
         <tbody>
@@ -35,10 +42,4 @@
     <a href="{{ route('municipalities.view', ['name' => $municipality->name]) }}" class="btn btn-secondary">Back to Overview</a>
     <a href="{{ route('municipalities.all') }}" class="btn btn-primary">Back to All Municipalities</a>
     <br/><br/>
-
-    @if(session('success'))
-    <div class="alert alert-success">
-        {{ session('success') }}
-    </div>
-    @endif
 @endsection

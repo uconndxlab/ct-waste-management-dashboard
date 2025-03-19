@@ -88,8 +88,9 @@ class MunicipalityController extends Controller
         
         $municipality->update($validatedData);
         
-        return redirect()->route('municipalities.view', ['name' => $municipality->name])
-                        ->with('success', 'Report updated successfully');
+        return redirect()->route('municipalities.report', ['id' => $municipality->id])
+        ->with('success', 'Report updated successfully');
     }
+    
 
 }
