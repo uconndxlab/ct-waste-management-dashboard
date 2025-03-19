@@ -10,7 +10,7 @@
 
 @section('content')
     <h1 class="text-primary">{{ $municipality->name }}</h1>
-    <h3 class="text-muted">{{ $municipality->year }}</h3>
+    <h3 class="text-muted">Expenditure Report: {{ $municipality->year }} <a style="text-decoration: none;" href="{{ route('municipalities.report', ['id' => $municipality->id]) }}" class="badge bg-danger badge-sm">Cancel</a></h3>
 
     <form action="{{ route('municipalities.report.update', $municipality->id) }}" method="POST">
         @csrf
