@@ -38,7 +38,4 @@ class MunicipalityFinancialController extends Controller
         return redirect()->route('municipalities.financials', ['municipality' => $municipality])
                          ->with('success', 'Financial data updated successfully.');
     }
-    
-
-    
 }

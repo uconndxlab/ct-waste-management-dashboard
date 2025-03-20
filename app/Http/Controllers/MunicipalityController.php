@@ -91,6 +91,37 @@ class MunicipalityController extends Controller
         return redirect()->route('municipalities.report', ['id' => $municipality->id])
         ->with('success', 'Report updated successfully');
     }
+
+    public function editContacts($name)
+    {
+        $townInfo = OverallTownInfo::where('municipality', $name)->firstOrFail();
+        return view('municipalities.edit-municipality', compact('townInfo', 'name'));
+    }
+    
+    public function updateContacts(Request $request, $name)
+    {
+        $townInfo = OverallTownInfo::where('municipality', $name)->firstOrFail();
+    
+        $validatedData = $request->validate([
+            'department' => 'nullable|string',
+            'contact_1' => 'nullable|string',
+            'title_1' => 'nullable|string',
+            'phone_1' => 'nullable|string',
+            'email_1' => 'nullable|email',
+            'contact_2' => 'nullable|string',
+            'title_2' => 'nullable|string',
+            'phone_2' => 'nullable|string',
+            'email_2' => 'nullable|email',
+            'notes' => 'nullable|string',
+            'other_useful_notes' => 'nullable|string',
+        ]);
+    
+        $townInfo->update($validatedData);
+    
+        return redirect()->route('municipalities.view', ['name' => $name])
+                         ->with('success', 'Town contact information updated successfully.');
+    }
+    
     
 
 }
