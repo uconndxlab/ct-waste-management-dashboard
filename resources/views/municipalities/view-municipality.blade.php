@@ -8,9 +8,18 @@
 @endsection
 
 @section('content')
+
     <h1 class="text-primary">{{ $name }} Overview</h1>
-    <h4><a href="{{ route('municipalities.contacts.edit', ['name' => $name]) }}" class="badge bg-danger" style="text-decoration: none;">Edit</a></h4>
+    <h4><a href="{{ route('municipalities.edit', ['name' => $name]) }}" class="badge bg-danger" style="text-decoration: none;">Edit</a></h4>
     @if(!empty($townInfo->contact_1) || !empty($townInfo->title_1) || !empty($townInfo->phone_1) || !empty($townInfo->email_1) || !empty($townInfo->department) || !empty($townInfo->contact_2) || !empty($townInfo->title_2) || !empty($townInfo->phone_2) || !empty($townInfo->email_2) || !empty($townInfo->notes))
+    
+    @if(session('success'))
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <p style="margin-bottom: 0;"> Municipality Contact Information Successfully Updated</p>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    @endif
+
     <div class="card mb-4">
         <div class="card-header bg-primary text-white">
             Town Contact Information
@@ -71,6 +80,7 @@
             @endif
         </div>
     </div>
+
 @else
     <div class="card mb-4">
         <div class="card-header bg-primary text-white">
@@ -94,7 +104,7 @@
             @endforeach
         </div>
     @endif
-
+    
 
     <h2 class="text-secondary">Financial Information</h2>
     @if($financials->isEmpty()) 
