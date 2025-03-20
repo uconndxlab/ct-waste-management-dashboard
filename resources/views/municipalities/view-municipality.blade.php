@@ -15,7 +15,7 @@
     
     @if(session('success'))
     <div class="alert alert-success alert-dismissible fade show" role="alert">
-        <p style="margin-bottom: 0;"> Municipality Contact Information Successfully Updated</p>
+        <p style="margin-bottom: 0;"> {{ session('success') }}</p>
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
     @endif
@@ -93,7 +93,7 @@
 @endif
 
     <h2 class="text-secondary">Expenditure Reports </h2> 
-    <h4><a href="" class="badge bg-success mb-2" style="text-decoration: none;">New</a></h4>
+    <h4><a href="{{ route('municipalities.report.create', ['name' => $name]) }}" class="badge bg-success mb-2" style="text-decoration: none;">New</a></h4>
     @if($reports->isEmpty())
         <p class="text-muted">No reports available.</p>
     @else
