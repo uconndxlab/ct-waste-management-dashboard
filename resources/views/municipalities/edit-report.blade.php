@@ -87,6 +87,7 @@
         </div>
 
         <button type="submit" class="btn btn-primary">Update Report</button>
-        <a href="{{ route('municipalities.view', ['name' => $municipality->name]) }}" class="btn btn-secondary">Cancel</a>
+        <a href="{{ route('municipalities.report', ['id' => $municipality->id]) }}" class="btn btn-secondary">Cancel</a>
+
     </form>
 @endsection
