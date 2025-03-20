@@ -18,3 +18,5 @@ Route::get('municipalities/report/{id}/edit', [MunicipalityController::class, 'e
 Route::put('/municipalities/report/{id}', [MunicipalityController::class, 'updateReport'])->name('municipalities.report.update');
 Route::get('/municipalities/{name}/edit', [MunicipalityController::class, 'editContacts'])->name('municipalities.edit');
 Route::put('/municipalities/{name}', [MunicipalityController::class, 'updateContacts'])->name('municipalities.update');
+Route::get('/municipalities/{name}/reports/create', [MunicipalityController::class, 'createReport'])->name('municipalities.report.create');
+Route::post('/municipalities/{name}/reports', [MunicipalityController::class, 'storeReport'])->name('municipalities.report.store');
