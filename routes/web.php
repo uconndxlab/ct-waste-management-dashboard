@@ -16,3 +16,5 @@ Route::get('/municipalities/{municipality}/financials/edit', [MunicipalityFinanc
 Route::put('/municipalities/{municipality}/financials/', [MunicipalityFinancialController::class, 'updateFinancials'])->name('municipalities.financials.update');
 Route::get('municipalities/report/{id}/edit', [MunicipalityController::class, 'editReport'])->name('municipalities.report.edit');
 Route::put('/municipalities/report/{id}', [MunicipalityController::class, 'updateReport'])->name('municipalities.report.update');
+Route::get('/municipalities/{name}/edit', [MunicipalityController::class, 'editContacts'])->name('municipalities.edit');
+Route::put('/municipalities/{name}', [MunicipalityController::class, 'updateContacts'])->name('municipalities.update');
