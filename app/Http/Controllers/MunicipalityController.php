@@ -152,6 +152,16 @@ class MunicipalityController extends Controller
         return redirect()->route('municipalities.view', ['name' => $name])
             ->with('success', 'New Report Added Successfully.');
     }
+
+    public function deleteReport($name, $reportId)
+    {
+        $report = Municipality::where('name', $name)->where('id', $reportId)->firstOrFail();
+        $report->delete();
+    
+        return redirect()->route('municipalities.view', ['name' => $name])->with('success', 'Report Deleted Successfully.');
+    }
+    
+    
     
 
 }
