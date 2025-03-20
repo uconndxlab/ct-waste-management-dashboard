@@ -92,7 +92,8 @@
     </div>
 @endif
 
-    <h2 class="text-secondary">Expenditure Reports</h2>
+    <h2 class="text-secondary">Expenditure Reports </h2> 
+    <h4><a href="" class="badge bg-success mb-2" style="text-decoration: none;">New</a></h4>
     @if($reports->isEmpty())
         <p class="text-muted">No reports available.</p>
     @else
