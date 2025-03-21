@@ -55,14 +55,14 @@ class MunicipalityController extends Controller
     public function viewReport($id)
     {
         $municipality = Municipality::findOrFail($id);
-        return view('municipalities.view-report', compact('municipality'));
+        return view('municipalities.reports.view-report', compact('municipality'));
     }
 
     public function editReport($id)
     {
         $municipality = Municipality::findOrFail($id);
         
-        return view('municipalities.edit-report', compact('municipality'));
+        return view('municipalities.reports.edit-report', compact('municipality'));
     }
 
     public function updateReport(Request $request, $id)
@@ -119,8 +119,48 @@ class MunicipalityController extends Controller
         $townInfo->update($validatedData);
     
         return redirect()->route('municipalities.view', ['name' => $name])
-                         ->with('success', 'Town contact information updated successfully.');
+                         ->with('success', 'Town Contact Information Updated Successfully.');
     }
+    
+    public function createReport($name)
+    {
+        return view('municipalities.reports.create-report', compact('name'));
+    }
+    
+    public function storeReport(Request $request, $name)
+    {
+        $validatedData = $request->validate([
+            'year' => 'required|integer',
+            'bulky_waste' => 'nullable|string',
+            'recycling' => 'nullable|string',
+            'tipping_fees' => 'nullable|string',
+            'admin_costs' => 'nullable|string',
+            'hazardous_waste' => 'nullable|string',
+            'contractual_services' => 'nullable|string',
+            'landfill_costs' => 'nullable|string',
+            'total_sanitation_refuse' => 'nullable|string',
+            'only_public_works' => 'nullable|string',
+            'transfer_station_wages' => 'nullable|string',
+            'hauling_fees' => 'nullable|string',
+            'curbside_pickup_fees' => 'nullable|string',
+            'waste_collection' => 'nullable|string',
+            'notes' => 'nullable|string',
+        ]);
+    
+        $municipality = Municipality::create(array_merge($validatedData, ['name' => $name]));
+    
+        return redirect()->route('municipalities.view', ['name' => $name])
+            ->with('success', 'New Report Added Successfully.');
+    }
+
+    public function deleteReport($name, $reportId)
+    {
+        $report = Municipality::where('name', $name)->where('id', $reportId)->firstOrFail();
+        $report->delete();
+    
+        return redirect()->route('municipalities.view', ['name' => $name])->with('success', 'Report Deleted Successfully.');
+    }
+    
     
     
 
