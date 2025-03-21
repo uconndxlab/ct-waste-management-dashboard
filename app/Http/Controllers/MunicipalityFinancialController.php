@@ -12,13 +12,13 @@ class MunicipalityFinancialController extends Controller
 
         $financialData = MunicipalityFinancialData::where('municipality', $municipality)->first();
 
-        return view('municipalities.financials', compact('financialData'));
+        return view('municipalities.financials.financials', compact('financialData'));
     }
 
     public function editFinancials($municipality)
     {
         $financialData = MunicipalityFinancialData::where('municipality', $municipality)->firstOrFail();
-        return view('municipalities.edit-financials', compact('financialData'));
+        return view('municipalities.financials.edit-financials', compact('financialData'));
     }
 
     public function updateFinancials(Request $request, $municipality)

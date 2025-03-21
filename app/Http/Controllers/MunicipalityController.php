@@ -55,14 +55,14 @@ class MunicipalityController extends Controller
     public function viewReport($id)
     {
         $municipality = Municipality::findOrFail($id);
-        return view('municipalities.view-report', compact('municipality'));
+        return view('municipalities.reports.view-report', compact('municipality'));
     }
 
     public function editReport($id)
     {
         $municipality = Municipality::findOrFail($id);
         
-        return view('municipalities.edit-report', compact('municipality'));
+        return view('municipalities.reports.edit-report', compact('municipality'));
     }
 
     public function updateReport(Request $request, $id)
@@ -124,7 +124,7 @@ class MunicipalityController extends Controller
     
     public function createReport($name)
     {
-        return view('municipalities.create-report', compact('name'));
+        return view('municipalities.reports.create-report', compact('name'));
     }
     
     public function storeReport(Request $request, $name)
