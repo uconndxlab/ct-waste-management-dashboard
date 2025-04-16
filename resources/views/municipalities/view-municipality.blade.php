@@ -123,7 +123,7 @@
         <div class="list-group mb-4">
             @foreach($financials as $financial)
                 <a href="{{ route('municipalities.financials', ['municipality' => $name]) }}" class="list-group-item list-group-item-action">
-                    {{ $financial->time_period !== '' ? 'Financial Info for ' . $financial->time_period : 'Financial Info: Time Period Not Specified' }}
+                    {{ $financial->time_period !== '' ? 'Financial Information for ' . $financial->time_period : 'Financial Info: Time Period Not Specified' }}
                 </a>
             @endforeach
         </div>
