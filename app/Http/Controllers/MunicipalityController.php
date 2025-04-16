@@ -37,6 +37,11 @@ class MunicipalityController extends Controller
     
         return view('municipalities.view-all', compact('municipalities', 'letters', 'selectedLetter', 'search'));
     }
+
+    public function showHome()
+    {
+        return view('welcome');
+    }
     
 
     public function viewMunicipality($name)

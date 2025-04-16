@@ -11,11 +11,11 @@
 
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
         <div class="container-fluid">
-            <a class="navbar-brand" href="/municipalities">CT Waste Management Database</a>
+            <a class="navbar-brand" href="/">CT Waste Management Database</a>
             <div class="collapse navbar-collapse">
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a class="nav-link text-light" href="/municipalities">Home</a>
+                        <a class="nav-link text-light" href="/">Home</a>
                     </li>
                 </ul>
             </div>
@@ -25,7 +25,7 @@
     <main class="container">
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="/municipalities">Home</a></li>
+                <li class="breadcrumb-item"><a href="/">Home</a></li>
                 @yield('breadcrumbs')
             </ol>
         </nav>
