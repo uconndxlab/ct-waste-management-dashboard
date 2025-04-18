@@ -1,0 +1,101 @@
+.blue-nav-line {
+    height: 6px; 
+    background-color: #2F42BF; 
+    position: absolute; 
+    bottom: -5px; 
+    left: 0;
+}
+
+.view-all-button {
+    height: 11em;
+    width: 11em;
+    padding: 1em;
+    background-color: #2F42BF;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    color: #fff;
+    border-radius: 8px;
+    text-align: center;
+    font-weight: bolder;
+    -webkit-box-shadow: 1px 4px 3px 0px rgb(135, 134, 134);
+    -moz-box-shadow: 1px 4px 3px 0px rgba(204,204,204,1);
+    box-shadow: 1px 4px 3px 0px rgba(204,204,204,1);
+}
+
+.view-all-button svg {
+    margin-top: 0.8em;
+}
+
+.view-all-button-link {
+    text-decoration: none;
+    display: inline-block;
+}
+
+.dashboard-section {
+    padding: 1em;
+    border-radius: 8px;
+    background-color: rgba(217, 217, 217, 0.252);
+    -webkit-box-shadow: 1px 4px 3px 0px rgb(135, 134, 134);
+    -moz-box-shadow: 1px 4px 3px 0px rgba(204,204,204,1);
+    box-shadow: 1px 4px 3px 0px rgba(204,204,204,1);
+}
+
+.contact-section {
+    width: 40%;
+}
+
+.contact-section-content {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    margin-top: 10px;
+}
+
+.contact-snip {
+    /* width: 38%; */
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    margin: 0.8em;
+}
+
+.contact-snip p {
+    margin-left: 1em;
+    margin-bottom: 0 !important;
+}
+
+.hr-margin {
+    margin: 0 !important;
+}
+
+.dashboard-home {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+.blue-fill {
+    color: #2F42BF;
+}
+
+.external-resources {
+    width: 30%;
+}
+
+.external-content a {
+    text-decoration: none;
+    color: #000;
+}
+
+.external-content p {
+    margin-bottom: 10px;
+}
+
+.external-content {
+    padding: 1em;
+    padding-bottom:0;
+}
