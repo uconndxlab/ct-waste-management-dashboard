@@ -47,11 +47,8 @@
                           </svg>
                           <p>123-456-7890</p>
                     </div>
-
-
                 </div>
             </div>
-
 
             <div class="external-resources dashboard-section">
                 <h5 class="blue-fill">External Resources</h5>
@@ -66,8 +63,24 @@
             </div>
 
 
-
         </main>
+
+        <section class="dashboard-home mt-5">
+            <div class="dashboard-section other-info">
+                <h5 class="blue-fill">Other Information</h5>
+                <hr class="hr-margin"/>
+                <div class="external-content">
+                    <p>CT Department of Transportation</p>
+                    <p>CT Data & Information</p>
+                    <p>Some Other Link</p>
+                </div>
+            </div>
+
+            <div class="dashboard-map">
+                <p>Map Placehoder</p>
+            </div>
+        </section>
+
 
 
     </body>

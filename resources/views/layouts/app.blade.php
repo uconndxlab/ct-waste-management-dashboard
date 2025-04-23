@@ -11,7 +11,7 @@
 </head>
 <body>
 
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4 position-relative">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-5 position-relative">
         <div class="container-fluid">
             <a class="navbar-brand" href="/">CT Waste Management Database</a>
             <div class="collapse navbar-collapse">
@@ -28,12 +28,12 @@
     
 
     <main class="container">
-        <nav aria-label="breadcrumb">
+        {{-- <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="/">Home</a></li>
                 @yield('breadcrumbs')
             </ol>
-        </nav>
+        </nav> --}}
 
         @yield('content')
     </main>

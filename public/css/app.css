@@ -99,3 +99,15 @@
     padding: 1em;
     padding-bottom:0;
 }
+
+.other-info {
+    width: 35%;
+}
+
+.dashboard-map {
+    width: 60%;
+    border: 1px solid #000;
+    height: 25em;
+    border-radius: 1em;
+    text-align: center;
+}
