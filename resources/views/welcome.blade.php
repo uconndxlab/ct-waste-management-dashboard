@@ -67,12 +67,10 @@
 
         <section class="dashboard-home mt-5">
             <div class="dashboard-section other-info">
-                <h5 class="blue-fill">Other Information</h5>
+                <h5 class="blue-fill">Welcome Message</h5>
                 <hr class="hr-margin"/>
                 <div class="external-content">
-                    <p>CT Department of Transportation</p>
-                    <p>CT Data & Information</p>
-                    <p>Some Other Link</p>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
                 </div>
             </div>
 
