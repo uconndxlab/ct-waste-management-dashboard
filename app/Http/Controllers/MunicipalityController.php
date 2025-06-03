@@ -35,7 +35,7 @@ class MunicipalityController extends Controller
         }
     
         if ($search) {
-            $query->where('name', 'like', '%' . $search . '%');
+            $query->where('municipalities.name', 'like', '%' . $search . '%');
         }
 
         if ($regionType) {
