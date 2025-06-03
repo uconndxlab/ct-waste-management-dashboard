@@ -13,22 +13,20 @@
         <div class="input-group">
             <input type="text" name="search" class="form-control" placeholder="Search Municipality" value="{{ request('search') }}">
 
-            @if($regionType)
-                <input type="hidden" name="region_type" value="{{ $regionType }}">
-            @endif
+            @php
+                $filters = [
+                    'region_type' => $regionType,
+                    'geographical_region' => $geographicalRegion,
+                    'county' => $county,
+                    'letter' => $selectedLetter,
+                ];
+            @endphp
 
-            @if($geographicalRegion)
-                <input type="hidden" name="geographical_region" value="{{ $geographicalRegion }}">
-            @endif
-
-            @if($county)
-                <input type="hidden" name="county" value="{{ $county }}">
-            @endif
-
-            @if($selectedLetter)
-                <input type="hidden" name="letter" value="{{ $selectedLetter }}">
-            @endif
-
+            @foreach($filters as $key => $value)
+                @if($value)
+                    <input type="hidden" name="{{ $key }}" value="{{ $value }}">
+                @endif
+            @endforeach
             <button type="submit" class="btn btn-primary"><i class="bi bi-search"></i> Search</button>
         </div>
     </form>
