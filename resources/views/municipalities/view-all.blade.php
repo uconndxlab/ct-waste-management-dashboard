@@ -12,19 +12,36 @@
     <form action="{{ route('municipalities.all') }}" method="GET" class="mb-4 mt-3">
         <div class="input-group">
             <input type="text" name="search" class="form-control" placeholder="Search Municipality" value="{{ request('search') }}">
+
+            @if($regionType)
+                <input type="hidden" name="region_type" value="{{ $regionType }}">
+            @endif
+
+            @if($geographicalRegion)
+                <input type="hidden" name="geographical_region" value="{{ $geographicalRegion }}">
+            @endif
+
+            @if($county)
+                <input type="hidden" name="county" value="{{ $county }}">
+            @endif
+
+            @if($selectedLetter)
+                <input type="hidden" name="letter" value="{{ $selectedLetter }}">
+            @endif
+
             <button type="submit" class="btn btn-primary"><i class="bi bi-search"></i> Search</button>
         </div>
     </form>
 
     <div class="mb-3">
         <strong>Search by Letter: </strong>
-        <a href="{{ route('municipalities.all') }}" 
-           class="btn btn-sm {{ !$selectedLetter ? 'btn-primary' : 'btn-outline-primary' }}">
+        <a href="{{ route('municipalities.all', array_merge(request()->except('letter'), ['letter' => null])) }}" 
+        class="btn btn-sm {{ !$selectedLetter ? 'btn-primary' : 'btn-outline-primary' }}">
             All
         </a>
         @foreach($letters as $letter)
-            <a href="{{ route('municipalities.all', ['letter' => $letter]) }}" 
-               class="btn btn-sm {{ $selectedLetter == $letter ? 'btn-primary' : 'btn-outline-primary' }}">
+            <a href="{{ route('municipalities.all', array_merge(request()->except('letter'), ['letter' => $letter])) }}" 
+            class="btn btn-sm {{ $selectedLetter == $letter ? 'btn-primary' : 'btn-outline-primary' }}">
                 {{ $letter }}
             </a>
         @endforeach
@@ -36,47 +53,45 @@
                 <strong>Filter by Index: </strong>
                 <div class="dropdown">
                     <a class="btn btn-light dropdown-toggle border" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Region Type
+                        {{ $regionType ? $regionType : 'Region Type' }}
                     </a>
         
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#">Rural</a></li>
-                        <li><a class="dropdown-item" href="#">Urban</a></li>
+                        <li><a class="dropdown-item" href="{{ route('municipalities.all', array_merge(request()->except('region_type'), ['region_type' => null])) }}">All</a></li>
+                        @foreach ($regionTypes as $type)
+                            <li><a class="dropdown-item" href="{{ route( 'municipalities.all', array_merge(request()->except('region_type'), ['region_type' => $type])) }}"> {{ $type }}</a></li>  
+                        @endforeach
                     </ul>
                 </div>
                 <div class="dropdown">
                     <a class="btn btn-light dropdown-toggle border" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Geographical Region
+                        {{ $geographicalRegion ? $geographicalRegion : 'Geographical Region' }}
                     </a>
         
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#">Capitol</a></li>
-                        <li><a class="dropdown-item" href="#">Greater Bridgeport</a></li>
-                        <li><a class="dropdown-item" href="#">Lower Connecticut River Valley</a></li>
-                        <li><a class="dropdown-item" href="#">Naugatuck Valley</a></li>
-                        <li><a class="dropdown-item" href="#">Northeastern Connecticut</a></li>
-                        <li><a class="dropdown-item" href="#">Northwest Hills</a></li>
-                        <li><a class="dropdown-item" href="#">South Central Connecticut</a></li>
-                        <li><a class="dropdown-item" href="#">Southeastern Connecticut</a></li>
-                        <li><a class="dropdown-item" href="#">Western Connecticut</a></li>
+                        <li><a class="dropdown-item" href="{{ route('municipalities.all', array_merge(request()->except('geographical_region'), ['geographical_region' => null])) }}"> All </a></li>
+                        @foreach ($geographicalRegions as $region)
+                            <li><a class="dropdown-item" href="{{ route('municipalities.all', array_merge(request()->except('geographical_region'), ['geographical_region' => $region])) }}"> {{ $region }} </a></li>
+                        @endforeach
+
                     </ul>
                 </div>
                 <div class="dropdown">
                     <a class="btn btn-light dropdown-toggle border" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                         County
+                         {{ $county ? $county : 'County'  }}
                     </a>
         
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#">Fairfield</a></li>
-                        <li><a class="dropdown-item" href="#">Hartford</a></li>
-                        <li><a class="dropdown-item" href="#">Litchfield</a></li>
-                        <li><a class="dropdown-item" href="#">Middlesex</a></li>
-                        <li><a class="dropdown-item" href="#">New Haven</a></li>
-                        <li><a class="dropdown-item" href="#">New London</a></li>
-                        <li><a class="dropdown-item" href="#">Tolland</a></li>
-                        <li><a class="dropdown-item" href="#">Windham</a></li>
+                        <li><a class="dropdown-item" href="{{ route('municipalities.all', array_merge(request()->except('county'), ['county' => null])) }}"> All </a></li>
+                        @foreach ($counties as $c)
+                             <li><a class="dropdown-item" href="{{ route('municipalities.all', array_merge(request()->except('county'), ['county' => $c])) }}"> {{ $c }} </a></li>
+                        @endforeach
                     </ul>
                 </div>
+
+                @if ($regionType || $geographicalRegion || $county) 
+                    <a href="{{ route('municipalities.all', array_intersect_key(request()->all(), array_flip(['letter', 'search']))) }}" class="btn btn-outline-danger btn-sm">Clear Filters</a>
+                @endif
             </div>
         </div>
     </div>
