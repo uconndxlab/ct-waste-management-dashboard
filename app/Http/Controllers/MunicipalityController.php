@@ -19,8 +19,9 @@ class MunicipalityController extends Controller
             ->pluck('letter');
     
         $selectedLetter = $request->input('letter', null);
-    
         $search = $request->input('search', '');
+
+        // Get 'Filter by Index' parameters
     
         $query = Municipality::select('name')
             ->groupBy('name')

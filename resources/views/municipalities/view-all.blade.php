@@ -30,6 +30,57 @@
         @endforeach
     </div>
 
+    <div class="mb-3">
+        <div class="d-flex flex-row">
+            <div class="d-flex align-items-center gap-4 w-100">
+                <strong>Filter by Index: </strong>
+                <div class="dropdown">
+                    <a class="btn btn-light dropdown-toggle border" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Region Type
+                    </a>
+        
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#">Rural</a></li>
+                        <li><a class="dropdown-item" href="#">Urban</a></li>
+                    </ul>
+                </div>
+                <div class="dropdown">
+                    <a class="btn btn-light dropdown-toggle border" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Geographical Region
+                    </a>
+        
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#">Capitol</a></li>
+                        <li><a class="dropdown-item" href="#">Greater Bridgeport</a></li>
+                        <li><a class="dropdown-item" href="#">Lower Connecticut River Valley</a></li>
+                        <li><a class="dropdown-item" href="#">Naugatuck Valley</a></li>
+                        <li><a class="dropdown-item" href="#">Northeastern Connecticut</a></li>
+                        <li><a class="dropdown-item" href="#">Northwest Hills</a></li>
+                        <li><a class="dropdown-item" href="#">South Central Connecticut</a></li>
+                        <li><a class="dropdown-item" href="#">Southeastern Connecticut</a></li>
+                        <li><a class="dropdown-item" href="#">Western Connecticut</a></li>
+                    </ul>
+                </div>
+                <div class="dropdown">
+                    <a class="btn btn-light dropdown-toggle border" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                         County
+                    </a>
+        
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#">Fairfield</a></li>
+                        <li><a class="dropdown-item" href="#">Hartford</a></li>
+                        <li><a class="dropdown-item" href="#">Litchfield</a></li>
+                        <li><a class="dropdown-item" href="#">Middlesex</a></li>
+                        <li><a class="dropdown-item" href="#">New Haven</a></li>
+                        <li><a class="dropdown-item" href="#">New London</a></li>
+                        <li><a class="dropdown-item" href="#">Tolland</a></li>
+                        <li><a class="dropdown-item" href="#">Windham</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="list-group">
         @foreach($municipalities as $municipality)
             <a href="{{ route('municipalities.view', ['name' => $municipality->name]) }}" class="list-group-item list-group-item-action">
