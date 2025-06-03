@@ -18,6 +18,7 @@ class ImportAllData extends Command
         $townsFile = storage_path('app/towns.csv');
         $financialsFile = storage_path('app/financials.csv');
         $contactsFile = storage_path('app/contacts.csv');
+        $classificationsFile = storage_path('app/classifications.csv');
 
         // run the ImportTowns command
         if (file_exists($townsFile)) {
@@ -41,6 +42,14 @@ class ImportAllData extends Command
             $this->info(Artisan::output());
         } else {
             $this->error("File not found: $contactsFile");
+        }
+
+        // Run the ImportTownClassifications command
+        if (file_exists($classificationsFile)) {
+            Artisan::call('import:town-classifications', ['file' => $classificationsFile]);
+            $this->info(Artisan::output());
+        } else {
+            $this->error("File not found: $classificationsFile");
         }
 
         $this->info('All imports completed successfully.');
