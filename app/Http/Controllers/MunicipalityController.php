@@ -19,23 +19,58 @@ class MunicipalityController extends Controller
             ->pluck('letter');
     
         $selectedLetter = $request->input('letter', null);
-    
         $search = $request->input('search', '');
+
+        // Get 'Filter by Index' parameters
+        $regionType = $request->input('region_type');
+        $geographicalRegion = $request->input('geographical_region');
+        $county = $request->input('county');
     
-        $query = Municipality::select('name')
-            ->groupBy('name')
-            ->orderBy('name');
+        $query = Municipality::query() // Eloquent builder
+            ->select('municipalities.name')
+            ->leftJoin('town_classifications', 'municipalities.name', '=', 'town_classifications.municipality');
     
         if ($selectedLetter) {
-            $query->where('name', 'like', $selectedLetter . '%');
+            $query->where('municipalities.name', 'like', $selectedLetter . '%');
         }
     
         if ($search) {
-            $query->where('name', 'like', '%' . $search . '%');
+            $query->where('municipalities.name', 'like', '%' . $search . '%');
         }
+
+        if ($regionType) {
+            $query->where('town_classifications.region_type', $regionType);
+        }
+
+        if ($geographicalRegion) {
+            $query->where('town_classifications.geographical_region', $geographicalRegion);
+        }
+        if ($county) {
+            $query->where('town_classifications.county', $county);
+        }
+
+        $query->groupBy('municipalities.name')
+          ->orderBy('municipalities.name');
+
         $municipalities = $query->get();
+        
+        // Get unique values for dropdowns
+        $regionTypes = TownClassification::distinct()->orderBy('region_type')->pluck('region_type');
+        $geographicalRegions = TownClassification::distinct()->orderBy('geographical_region')->pluck('geographical_region');
+        $counties = TownClassification::distinct()->orderBy('county')->pluck('county');
     
-        return view('municipalities.view-all', compact('municipalities', 'letters', 'selectedLetter', 'search'));
+        return view('municipalities.view-all', compact(
+            'municipalities', 
+            'letters', 
+            'selectedLetter', 
+            'search',
+            'regionTypes',
+            'geographicalRegions',
+            'counties',
+            'regionType',
+            'geographicalRegion',
+            'county'
+        ));
     }
 
     public function showHome()
