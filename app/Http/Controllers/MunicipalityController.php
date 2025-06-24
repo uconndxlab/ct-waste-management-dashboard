@@ -81,18 +81,20 @@ class MunicipalityController extends Controller
 
     public function viewMunicipality($name)
     {
-        $reports = Municipality::where('name', $name)
-            ->orderBy('year')
-            ->get();
-    
+        $municipality = Municipality::where('name', $name)->firstOrFail();
+
+        $reports = Municipality::where('name', $name)->orderBy('year')->get();
+
         $townInfo = OverallTownInfo::where('municipality', $name)->first();
-
+        
         $townClassification = TownClassification::where('municipality', $name)->first();
-
+        
         $financials = MunicipalityFinancialData::where('municipality', $name)->get();
-    
-        return view('municipalities.view-municipality', compact('name', 'reports', 'townInfo', 'financials', 'townClassification'));
-    }    
+        
+        $financialData = MunicipalityFinancialData::where('municipality', $name)->firstOrFail();
+
+        return view('municipalities.view-municipality', compact('name', 'reports', 'townInfo', 'financials', 'financialData', 'townClassification', 'municipality'));
+    }
 
     public function viewReport($id)
     {
