@@ -119,6 +119,7 @@
      integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
      crossorigin=""></script>
     <script>
+        const municipalitiesData = @json($municipalities);
         document.addEventListener('DOMContentLoaded', function() {
             // Get data passed from controller (if you are passing any)
             // const municipalitiesData = @json($municipalitiesData ?? []); // Uncomment and use if needed
@@ -141,25 +142,12 @@
                     return response.json();
                 })
                 .then(data => {
-                    function getColor(value) { // Example: Color based on a hypothetical 'density' property
-                        // Replace 'density' and the logic with your actual data property and coloring scheme
-                        return value > 1000 ? '#800026' :
-                               value > 500  ? '#BD0026' :
-                               value > 200  ? '#E31A1C' :
-                               value > 100  ? '#FC4E2A' :
-                               value > 50   ? '#FD8D3C' :
-                               value > 20   ? '#FEB24C' :
-                               value > 10   ? '#FED976' :
-                                            '#FFEDA0';
-                    }
 
                     L.geoJSON(data, {
                         style: function(feature) {
-                            // Example: using a 'density' property from GeoJSON for styling
-                            // Replace 'density' with a relevant property from your GeoJSON
-                            const value = feature.properties.density || 0;
+                            const value = feature.properties.OBJECTID || 0;
                             return {
-                                fillColor: getColor(value),
+                                fillColor: '#3490dc',
                                 weight: 1,
                                 opacity: 1,
                                 color: 'white',
@@ -168,48 +156,23 @@
                         },
                         onEachFeature: function(feature, layer) {
                             // Adjust property name based on your GeoJSON (e.g., NAME, town, municipality_name)
-                            const municipalityName = feature.properties.NAME || feature.properties.town || "Unknown Municipality";
+                            const municipalityName = feature.properties.TOWN_NAME || "Unknown Municipality";
+
+                            const municipality = municipalitiesData.find(m => m.name === municipalityName);
+
+                            const municipalityHref = `/municipalities/${encodeURIComponent(municipalityName)}`;
 
                             let tooltipContent = `<strong>${municipalityName}</strong>`;
 
-                            // Example: Accessing data passed from controller if you set it up
-                            // const additionalData = municipalitiesData[municipalityName] || {};
-                            // if (additionalData.population) {
-                            //     tooltipContent += `<br/>Population: ${additionalData.population}`;
-                            // }
-                            // Add more data from your $municipalitiesData if needed
-
                             layer.bindTooltip(tooltipContent, { sticky: true });
 
-                            // Optional: Add a popup on click
-                            // let popupContent = `<h5>${municipalityName}</h5><p>More details here...</p>`;
-                            // layer.bindPopup(popupContent);
-
                             layer.on({
-                                mouseover: function(e) {
-                                    const currentLayer = e.target;
-                                    currentLayer.setStyle({
-                                        weight: 3,
-                                        color: '#666',
-                                        fillOpacity: 0.9
-                                    });
-                                    if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
-                                        currentLayer.bringToFront();
+                                click: function() {
+                                    if (municipalityName !== "Unknown Municipality") {
+                                        window.location.href = municipalityHref;
                                     }
                                 },
-                                mouseout: function(e) {
-                                    // Reset style - this requires the geojson layer reference or re-applying original style
-                                    // For simplicity, you might need to store the original style or re-evaluate it
-                                    // This is a simplified reset:
-                                    const originalValue = feature.properties.density || 0;
-                                     e.target.setStyle({
-                                        fillColor: getColor(originalValue),
-                                        weight: 1,
-                                        color: 'white',
-                                        fillOpacity: 0.7
-                                    });
-                                }
-                                // click: function(e) { map.fitBounds(e.target.getBounds()); } // Optional: zoom on click
+
                             });
                         }
                     }).addTo(map);
