@@ -24,9 +24,9 @@
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
     @endif
-    <div class="row w-100 align-items-stretch gx-4">
+    <div class="row w-100 align-items-stretch flex-column flex-lg-row gx-4">
 
-        <div class="accordian col-6" id="classificationAccordian">
+        <div class="accordian col-12 col-lg-6" id="classificationAccordian">
             <div class="card accordian-item mb-4">
                 <div class="card-header accordian-header bg-primary text-white">
                     <button class="accordian-button d-flex flex-start bg-transparent w-100 text-white border-0 fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo">
@@ -52,7 +52,7 @@
                 </div>
             </div>
         </div>
-        <div class="accordian col-6" id="townInfoAccordian">
+        <div class="accordian col-12 col-lg-6" id="townInfoAccordian">
             <div class="card accordian-item mb-4">
                 <div class="card-header accordian-header bg-primary text-white">
                     
@@ -146,12 +146,37 @@
     @if($reports->isEmpty())
         <p class="text-muted">No reports available.</p>
     @else
-        <div class="list-group mb-4">
+        <div class="list-group accordian mb-4" id="reportAccordian">
             @foreach($reports as $report)
-                <a href="{{ route('municipalities.report', ['id' => $report->id]) }}" 
-                class="list-group-item list-group-item-action">
-                    {{ $report->year !== '' ? 'Report for ' . $report->year : 'Report #' . $report->id . ': Year Not Specified' }}
-                </a>
+                <div class="accordian-item mb-2">
+                    <a 
+                        href="{{ route('municipalities.report', ['id' => $report->id]) }}" 
+                        class="list-group-item rounded accordian-header" 
+                        type="button" data-bs-toggle="collapse" 
+                        data-bs-target="#report{{ $report->id }}"
+                    >
+                        {{ $report->year !== '' ? 'Report for ' . $report->year : 'Report #' . $report->id . ': Year Not Specified' }}
+                    </a>
+                </div>
+                <div id="report{{ $report->id }}" class="accordian-collapse collapse" data-bs-parent="#reportAccordian">
+                    <table class="table table-striped mb-4">
+                        <tbody>
+                            <tr><th>Bulky Waste</th><td>{{ $municipality->bulky_waste !== '' ?  $municipality->bulky_waste : 'No data' }}</td></tr>
+                            <tr><th>Recycling</th><td>{{ $municipality->recycling !== '' ?  $municipality->recycling : 'No data' }}</td></tr>
+                            <tr><th>Tipping Fees</th><td>{{ $municipality->tipping_fees !== '' ?  $municipality->tipping_fees : 'No data' }}</td></tr>
+                            <tr><th>Admin Costs</th><td>{{ $municipality->admin_costs !== '' ?  $municipality->admin_costs : 'No data' }}</td></tr>
+                            <tr><th>Hazardous Waste</th><td>{{ $municipality->hazardous_waste !== '' ?  $municipality->hazardous_waste : 'No data' }}</td></tr>
+                            <tr><th>Contractual Services</th><td>{{ $municipality->contractual_services !== '' ?  $municipality->contractual_services : 'No data' }}</td></tr>
+                            <tr><th>Landfill Costs</th><td>{{ $municipality->landfill_costs !== '' ?  $municipality->landfill_costs : 'No data' }}</td></tr>
+                            <tr><th>Total Sanitation Refuse</th><td>{{ $municipality->total_sanitation_refuse !== '' ?  $municipality->total_sanitation_refuse : 'No data' }}</td></tr>
+                            <tr><th>Only Public Works</th><td>{{ $municipality->only_public_works !== '' ?  $municipality->only_public_works : 'No data' }}</td></tr>
+                            <tr><th>Transfer Station Wages</th><td>{{ $municipality->transfer_station_wages !== '' ?  $municipality->transfer_station_wages : 'No data' }}</td></tr>
+                            <tr><th>Hauling Fees</th><td>{{ $municipality->hauling_fees !== '' ?  $municipality->hauling_fees : 'No data' }}</td></tr>
+                            <tr><th>Curbside Pickup Fees</th><td>{{ $municipality->curbside_pickup_fees !== '' ?  $municipality->curbside_pickup_fees : 'No data' }}</td></tr>
+                            <tr><th>Waste Collection</th><td>{{ $municipality->waste_collection !== '' ?  $municipality->waste_collection : 'No data' }}</td></tr>
+                        </tbody>
+                    </table>
+                </div>
             @endforeach
         </div>
     @endif
@@ -162,12 +187,30 @@
     @if($financials->isEmpty()) 
         <p class="text-muted">No Financial Information Available.</p>
     @else
-        <div class="list-group mb-4">
+        <div class="list-group accordian mb-4" id="financialAccordian">
             @foreach($financials as $financial)
-                <a href="{{ route('municipalities.financials', ['municipality' => $name]) }}" class="list-group-item list-group-item-action">
-                    {{ $financial->time_period !== '' ? 'Financial Information for ' . $financial->time_period : 'Financial Info: Time Period Not Specified' }}
-                </a>
-            @endforeach
+                <div class="accordian-item mb-2">
+                    <a
+                        href="{{ route('municipalities.financials', ['municipality' => $name]) }}" 
+                        class="list-group-item rounded accordian-header"
+                        type="button" data-bs-toggle="collapse" 
+                        data-bs-target="#financial{{ $financial->id }}"
+                    >
+                        {{ $financial->time_period !== '' ? 'Financial Information for ' . $financial->time_period : 'Financial Info: Time Period Not Specified' }}
+                    </a>
+                </div>
+                <div id="financial{{ $financial->id }}" class="accordian-collapse collapse" data-bs-parent="financialAccordian">
+                    <table class="table table-striped">
+                        <tbody>
+                            <tr><th>Time Period</th><td>{{ $financialData->time_period == "" ? 'No data' : $financialData->time_period }}</td></tr>
+                            <tr><th>Town Population (2022)</th><td>{{ $financialData->population == "" ? 'No data' : number_format($financialData->population) }}</td></tr>
+                            <tr><th>Town Size (Square Miles, 2010)</th><td>{{ $financialData->size == "" ? 'No data' : $financialData->size }}</td></tr>
+                            <tr><th>Link to Town Budget</th><td><a href="{{ $financialData->link == "" ? '#' : $financialData->link }}" target="_blank">View Town Budget</a></td></tr>
+                            <tr><th>Notes</th><td>{{ $financialData->notes == "" ? 'No additional notes' : $financialData->notes }}</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                @endforeach
         </div>
     @endif
 
