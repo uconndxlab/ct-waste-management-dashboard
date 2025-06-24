@@ -13,19 +13,19 @@
 </head>
 <body>
 
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-5 position-relative">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="/">CT Waste Management Database</a>
-            <div class="collapse navbar-collapse">
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link text-light" href="/">Home</a>
-                    </li>
-                </ul>
-            </div>
+    <nav class="navbar navbar-expand-lg mb-3 position-relative">
+        <div class="container-fluid mt-3" style="width: 82.5vw;">
+            <a class="navbar-brand display-1 brand-title" href="/" >CT Waste Management Database</a>
+            <style>
+                .brand-title {
+                    font-size: 2rem;
+                    font-weight: 600;
+                    text-decoration: underline;
+                    text-decoration-color: #0d6efd;
+                    text-decoration-style: dotted;
+                }
+            </style>
         </div>
-    
-        <div class="w-100 blue-nav-line"></div>
     </nav>
     
 
