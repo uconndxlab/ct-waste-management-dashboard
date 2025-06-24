@@ -10,7 +10,7 @@
             margin-top: 20px;
             border: 1px solid #ddd;
             border-radius: 5px;
-            overflow: hidden; /* Good for containing the map */
+            overflow: hidden; 
         }
         #ctMap { 
             height: 500px; 
