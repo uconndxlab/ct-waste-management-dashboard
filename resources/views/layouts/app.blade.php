@@ -13,12 +13,12 @@
 </head>
 <body>
 
-    <nav class="navbar navbar-expand-lg mb-3 position-relative">
+    <nav class="navbar navbar-expand-lg mb-4 position-relative">
         <div class="container-fluid mt-3" style="width: 82.5vw;">
             <a class="navbar-brand display-1 brand-title" href="/" >CT Waste Management Database</a>
             <style>
                 .brand-title {
-                    font-size: 2rem;
+                    font-size: 2.5rem;
                     font-weight: 600;
                     text-decoration: underline;
                     text-decoration-color: #0d6efd;
@@ -30,12 +30,11 @@
     
 
     <main class="container">
-        {{-- <nav aria-label="breadcrumb">
+        <nav aria-label="breadcrumbb">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="/">Home</a></li>
-                @yield('breadcrumbs')
+                @yield('breadcrumbs', view('partials.breadcrumbs'))
             </ol>
-        </nav> --}}
+        </nav>
 
         @yield('content')
     </main>

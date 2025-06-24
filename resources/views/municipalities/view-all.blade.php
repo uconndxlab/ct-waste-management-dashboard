@@ -2,10 +2,6 @@
 
 @section('title', 'Municipalities')
 
-@section('breadcrumbs')
-    <li class="breadcrumb-item active" aria-current="page">Municipalities</li>
-@endsection
-
 @section('content')
     <h1 class="text-primary">All Municipalities</h1>
 

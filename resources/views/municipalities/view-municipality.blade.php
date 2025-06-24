@@ -2,25 +2,7 @@
 
 @section('title', $name . ' Overview')
 
-@section('breadcrumbs')
-    <li class="breadcrumb-item"><a href="{{ route('municipalities.all') }}">Municipalities</a></li>
-    <li class="breadcrumb-item active" aria-current="page">{{ $name }}</li>
-@endsection
-
 @section('content')
-    <nav aria-label="breadcrumb text-decoration-none">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="/" class="text-black h6 blue-underline">Home</a></li>
-            <li class="breadcrumb-item"><a href="{{ route('municipalities.all') }}" class="text-black h6 blue-underline">Municipalities</a></li>
-            <li class="breadcrumb-item"><a href="{{ route('municipalities.view', ['name' => $name]) }}"  class="text-black h6 blue-underline">{{ $name }}</a></li>
-        </ol>
-        <style>
-            .blue-underline {
-                text-decoration: underline;
-                text-decoration-color: blue;
-            }
-        </style>
-    </nav>
     <h1 class="text-primary">{{ $name }} Overview</h1>
     @if(!empty($townInfo->contact_1) || !empty($townInfo->title_1) || !empty($townInfo->phone_1) || !empty($townInfo->email_1) || !empty($townInfo->department) || !empty($townInfo->contact_2) || !empty($townInfo->title_2) || !empty($townInfo->phone_2) || !empty($townInfo->email_2) || !empty($townInfo->notes))
     
