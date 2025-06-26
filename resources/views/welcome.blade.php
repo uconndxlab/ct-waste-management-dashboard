@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" 
     integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
     <link rel="preload" as="image" href="https://a.tile.openstreetmap.org/8/76/95.png">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
     <style>
         .dashboard-map {
             margin-top: 20px;
@@ -56,37 +57,33 @@
                     </div>
                 </section>
 
-                <section class="col-lg-5 d-flex justify-content-center align-items-center flex-column">
+                <section class="col-lg-5 d-flex justify-content-center flex-column">
                     <!-- Contact Section -->
                     <div class="mb-4 w-100">
-                        <div class="p-3 rounded-lg shadow-sm bg-light">
-                            <h5 class="contact-header blue-fill">Contact Information</h5>
-                            <hr class="hr-margin"/>
-                            <div class="">
-                                <div class="mb-3">
-                                    <i class="bi bi-telephone blue-fill"></i>
-                                    <p>(123) 456-7890</p>
-                                </div>
-                                <div class=" mb-3">
-                                    <i class="bi bi-envelope blue-fill"></i>
-                                    <p>ctwaste@uconn.edu</p>
-                                </div>
-                                <div class="mb-3">
-                                    <i class="bi bi-geo-alt blue-fill"></i>
-                                    <p>Storrs, Connecticut, US</p>
-                                </div>
+                        <h5 class="fw-bold">Contact Information</h5>
+                        <div class="p-3 rounded-lg shadow-sm border bg-light">
+                            <div class="mb-3 d-flex align-items-center gap-2">
+                                <i class="bi bi-telephone blue-fill"></i>
+                                <p class="mb-0">(123) 456-7890</p>
+                            </div>
+                            <div class=" mb-3 d-flex align-items-center gap-2">
+                                <i class="bi bi-envelope blue-fill"></i>
+                                <p class="mb-0">ctwaste@uconn.edu</p>
+                            </div>
+                            <div class="mb-3 d-flex align-items-center gap-2">
+                                <i class="bi bi-geo-alt blue-fill"></i>
+                                <p class="mb-0">Storrs, Connecticut, US</p>
                             </div>
                         </div>
                     </div>
     
                     <!-- External Resources Section -->
-                    <div class="p-3 rounded-lg shadow-sm bg-light w-100">
-                        <h5 class="blue-fill">External Resources & Other Information</h5>
-                        <hr class="hr-margin"/>
-                        <div class="external-content">
-                            <p><a href="#">CT Department of Transportation →</a></p>
-                            <p><a href="#">CT Data Information →</a></p>
-                            <p><a href="#">Another Random Link →</a></p>
+                    <div class="w-100">
+                        <h5 class="fw-bold">External Resources & Other Information</h5>
+                        <div class="external-content p-3 rounded-lg shadow-sm bg-light">
+                            <p class="text-decoration-underline"><a href="#">CT Department of Transportation →</a></p>
+                            <p class="text-decoration-underline"><a href="#">CT Data Information →</a></p>
+                            <p class="text-decoration-underline"><a href="#">Another Random Link →</a></p>
                         </div>
                     </div>
                 </section>
