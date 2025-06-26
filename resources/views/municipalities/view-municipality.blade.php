@@ -53,8 +53,28 @@
                                     <tr><th>Hauling Fees</th><td>{{ $municipality->hauling_fees !== '' ?  $municipality->hauling_fees : 'No data' }}</td></tr>
                                     <tr><th>Curbside Pickup Fees</th><td>{{ $municipality->curbside_pickup_fees !== '' ?  $municipality->curbside_pickup_fees : 'No data' }}</td></tr>
                                     <tr><th>Waste Collection</th><td>{{ $municipality->waste_collection !== '' ?  $municipality->waste_collection : 'No data' }}</td></tr>
+                                    <tr>
+                                        <th></th>
+                                        <td>
+                                            <div class="d-flex justify-content-end">
+                                                <!-- Edit Button -->
+                                                <a href="{{ route('municipalities.report.edit', ['id' => $report->id]) }}" class="btn rounded-0 btn-primary">
+                                                    <i class="bi bi-pencil-square"></i> Edit
+                                                </a>
+                                                <!-- Delete Button -->
+                                                <form action="{{ route('municipalities.report.delete', ['name' => $name, 'reportId' => $report->id]) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this report?');">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="btn btn-danger rounded-0">
+                                                        <i class="bi bi-trash"></i> Delete Report
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        </td>
+                                    </tr>
                                 </tbody>
                             </table>
+
                         </div>
                     @endforeach
                 </div>
