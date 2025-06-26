@@ -33,9 +33,12 @@
                                 class="list-group-item rounded accordian-header" 
                                 type="button" data-bs-toggle="collapse" 
                                 data-bs-target="#report{{ $report->id }}"
+                                aria-expanded="false"
+                                aria-controls="report{{ $report->id }}"
                             >
-                                {{ $report->year !== '' ? 'Report for ' . $report->year : 'Report #' . $report->id . ': Year Not Specified' }}
-                            </a>
+                                <span>{{ $report->year !== '' ? 'Report for ' . $report->year : 'Report #' . $report->id . ': Year Not Specified' }}</span>
+                                <i class="bi bi-chevron-down toggle-icon"></i>
+                            </a> 
                         </div>
                         <div id="report{{ $report->id }}" class="accordian-collapse collapse" >
                             <table class="table table-striped mb-4">
