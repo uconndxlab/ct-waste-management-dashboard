@@ -15,14 +15,15 @@
 
     <nav class="navbar navbar-expand-lg mb-4 position-relative">
         <div class="container d-flex justify-content-start align-items-center text-start mt-3">
-            <a class="navbar-brand display-1 brand-title" href="/" >CT Waste Management Dashboard</a>
+            <a class="navbar-brand display-1 fw-bolder brand-title" href="/" >CT Waste Management Dashboard</a>
             <style>
                 .brand-title {
                     font-size: 2.5rem;
                     font-weight: 600;
                     text-decoration: underline;
-                    text-decoration-color: #0d6efd;
-                    text-decoration-style: dotted;
+                    text-decoration-color: #3490dc;
+                    text-decoration-style: underline;
+
                 }
             </style>
         </div>

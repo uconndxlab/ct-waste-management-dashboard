@@ -1,6 +1,6 @@
 .blue-nav-line {
     height: 6px; 
-    background-color: #0d6efd; 
+    background-color: #3490dc; 
     position: absolute; 
     bottom: -5px; 
     left: 0;
@@ -10,7 +10,7 @@
     height: 11em;
     width: 11em;
     padding: 1em;
-    background-color: #0d6efd;;
+    background-color: #3490dc;;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -45,7 +45,15 @@
 }
 
 .blue-fill {
-    color: #0d6efd;
+    color: #3490dc;
+}
+
+.text-primary {
+    color: #3490dc !important;
+}
+
+.bg-primary {
+    background-color: #3490dc !important; /* Replace #3490dc with your desired color */
 }
 
 .external-resources {
@@ -76,4 +84,15 @@
     height: 25em;
     border-radius: 8px;
     text-align: center;
+}
+
+.subtitle-blue {
+    text-decoration: underline;
+    text-decoration-color: #3490dc;
+    color: black;
+    font-size: 1.75rem;
+}
+
+.bg-gray {
+    background-color: #EEEEEE;
 }

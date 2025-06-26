@@ -45,7 +45,7 @@
         
                 </div>
             </form>
-            <button type="submit" class="btn btn-primary"><i class="bi bi-search"></i>View all municipalities</button>
+            <a  href="{{ route('municipalities.all') }}" class="btn btn-primary"><i class="bi bi-search"></i>View all municipalities</a>
         </div>
 
         <div class="container mt-4">
