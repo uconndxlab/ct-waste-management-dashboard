@@ -75,7 +75,8 @@ class MunicipalityController extends Controller
 
     public function showHome()
     {
-        return view('welcome');
+        $municipalities = Municipality::select('name', 'href')->get();
+        return view('welcome', compact('municipalities'));
     }
     
 

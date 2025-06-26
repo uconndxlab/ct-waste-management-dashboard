@@ -13,29 +13,29 @@
 </head>
 <body>
 
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-5 position-relative">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="/">CT Waste Management Database</a>
-            <div class="collapse navbar-collapse">
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link text-light" href="/">Home</a>
-                    </li>
-                </ul>
-            </div>
+    <nav class="navbar navbar-expand-lg mb-4 position-relative">
+        <div class="container d-flex justify-content-start align-items-center text-start mt-3">
+            <a class="navbar-brand display-1 fw-bolder brand-title" href="/" >CT Waste Management Dashboard</a>
+            <style>
+                .brand-title {
+                    font-size: 2.5rem;
+                    font-weight: 600;
+                    text-decoration: underline;
+                    text-decoration-color: #3490dc;
+                    text-decoration-style: underline;
+
+                }
+            </style>
         </div>
-    
-        <div class="w-100 blue-nav-line"></div>
     </nav>
     
 
     <main class="container">
-        {{-- <nav aria-label="breadcrumb">
+        <nav aria-label="breadcrumbb">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="/">Home</a></li>
-                @yield('breadcrumbs')
+                @yield('breadcrumbs', view('partials.breadcrumbs'))
             </ol>
-        </nav> --}}
+        </nav>
 
         @yield('content')
     </main>
