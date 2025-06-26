@@ -1,6 +1,6 @@
 .blue-nav-line {
     height: 6px; 
-    background-color: #2F42BF; 
+    background-color: #0d6efd; 
     position: absolute; 
     bottom: -5px; 
     left: 0;
@@ -10,7 +10,7 @@
     height: 11em;
     width: 11em;
     padding: 1em;
-    background-color: #2F42BF;
+    background-color: #0d6efd;;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -31,6 +31,7 @@
 .view-all-button-link {
     text-decoration: none;
     display: inline-block;
+    
 }
 
 .dashboard-section {
@@ -79,7 +80,7 @@
 }
 
 .blue-fill {
-    color: #2F42BF;
+    color: #0d6efd;
 }
 
 .external-resources {

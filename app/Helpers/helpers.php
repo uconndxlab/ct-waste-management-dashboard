@@ -6,7 +6,7 @@ function generateBreadcrumbs($url)
     $currentUrl = '';
 
     $customNames = [
-        '' => 'Home',
+        '' => 'Home /',
         'municipalities' => 'Municipalities',
     ];
 

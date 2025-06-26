@@ -14,8 +14,8 @@
 <body>
 
     <nav class="navbar navbar-expand-lg mb-4 position-relative">
-        <div class="container-fluid mt-3" style="width: 82.5vw;">
-            <a class="navbar-brand display-1 brand-title" href="/" >CT Waste Management Database</a>
+        <div class="container d-flex justify-content-start align-items-center text-start mt-3">
+            <a class="navbar-brand display-1 brand-title" href="/" >CT Waste Management Dashboard</a>
             <style>
                 .brand-title {
                     font-size: 2.5rem;

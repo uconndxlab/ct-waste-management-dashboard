@@ -5,6 +5,7 @@
 @push('styles')
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" 
     integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    <link rel="preload" as="image" href="https://a.tile.openstreetmap.org/8/76/95.png">
     <style>
         .dashboard-map {
             margin-top: 20px;
@@ -36,6 +37,15 @@
     <body class="">
 
         {{-- <a href="/municipalities" class="mb-4">View All Municipalities</a> --}}
+        <div class="d-flex align-items-center justifiy-content-between w-100">
+                        <form action="{{ route('municipalities.all') }}" method="GET" class="flex-grow-1 me-3">
+                <div class="input-group">
+                    <input type="text" name="search" class="form-control" placeholder="Search municipalities..." value="{{ request('search') }}">
+        
+                </div>
+            </form>
+            <button type="submit" class="btn btn-primary"><i class="bi bi-search"></i>View all municipalities</button>
+        </div>
 
         <main class="dashboard-home">
 
@@ -104,7 +114,7 @@
                 </div>
             </div>
 
-            <div class="dashboard-map">
+            <div class="dashboard-map rounded-lg">
                 <div id="ctMap" style="height: 500px; width: 100%;"></div>
             </div>
         </section>
