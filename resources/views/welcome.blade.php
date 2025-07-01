@@ -125,8 +125,8 @@
                 "Naugatuck Valley": "#e377c2",
             },
             type: {
-                "Rural": "#1f77b4",
-                "Suburban": "#ff7f0e", 
+                "Rural": "#2ca02c",
+                "Urban": "#1f77b4", 
             }
         };
         
