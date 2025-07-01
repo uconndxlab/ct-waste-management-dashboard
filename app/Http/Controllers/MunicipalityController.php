@@ -76,7 +76,9 @@ class MunicipalityController extends Controller
     public function showHome()
     {
         $municipalities = Municipality::select('name', 'href')->get();
-        return view('welcome', compact('municipalities'));
+        $townClassifications = TownClassification::all()->keyBy('municipality');
+
+        return view('welcome', compact('municipalities', 'townClassifications'));
     }
     
 

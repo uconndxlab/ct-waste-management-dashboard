@@ -100,66 +100,263 @@
      crossorigin=""></script>
     <script>
         const municipalitiesData = @json($municipalities);
+        const townClassifications = @json($townClassifications ?? []);
+        
+        const colorPalettes = {
+            county: {
+                "Fairfield": "#1f77b4",
+                "Hartford": "#ff7f0e",
+                "Litchfield": "#2ca02c",
+                "Middlesex": "#d62728",
+                "New Haven": "#9467bd",
+                "New London": "#8c564b",
+                "Tolland": "#e377c2",
+                "Windham": "#7f7f7f"
+            },
+            region: {
+                "Northwest Hills": "#2ca02c",
+                "Capitol": "#ff7f0e",
+                "Western Connecticut": "#1f77b4",
+                "South Central Connecticut": "#9467bd",
+                "Lower Connecticut River Valley": "#d62728",
+                "Southeastern Connecticut": "#8c564b",
+                "Northeastern Connecticut": "#7f7f7f",
+                "Greater Bridgeport": "#FFB302",
+                "Naugatuck Valley": "#e377c2",
+            },
+            type: {
+                "Rural": "#1f77b4",
+                "Suburban": "#ff7f0e", 
+            }
+        };
+        
+        let geoJSONLayer;
+        let currentView = 'default';
+        let legendControl;
+        
         document.addEventListener('DOMContentLoaded', function() {
-            // Get data passed from controller (if you are passing any)
-            // const municipalitiesData = @json($municipalitiesData ?? []); // Uncomment and use if needed
-
             // Initialize the map centered on Connecticut
-            const map = L.map('ctMap').setView([41.390, -72.700], 8); // arbitary, can tweak if you want
+            const map = L.map('ctMap').setView([41.390, -72.700], 8); 
 
             // Add OpenStreetMap tiles
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             }).addTo(map);
-
-            // Load GeoJSON data
-            fetch("{{ asset('maps/ct-towns.geojson') }}") // Use asset() helper for correct path
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error(`HTTP error! status: ${response.status}`);
-                    }
-                    return response.json();
-                })
-                .then(data => {
-
-                    L.geoJSON(data, {
-                        style: function(feature) {
-                            const value = feature.properties.OBJECTID || 0;
-                            return {
-                                fillColor: '#3490dc',
-                                weight: 1,
-                                opacity: 1,
-                                color: 'white',
-                                fillOpacity: 0.7
-                            };
-                        },
-                        onEachFeature: function(feature, layer) {
-                            // Adjust property name based on your GeoJSON (e.g., NAME, town, municipality_name)
-                            const municipalityName = feature.properties.TOWN_NAME || "Unknown Municipality";
-
-                            const municipality = municipalitiesData.find(m => m.name === municipalityName);
-
-                            const municipalityHref = `/municipalities/${encodeURIComponent(municipalityName)}`;
-
-                            let tooltipContent = `<strong>${municipalityName}</strong>`;
-
-                            layer.bindTooltip(tooltipContent, { sticky: true });
-
-                            layer.on({
-                                click: function() {
-                                    if (municipalityName !== "Unknown Municipality") {
-                                        window.location.href = municipalityHref;
-                                    }
-                                },
-
-                            });
+            
+            // Create view selector control
+            L.Control.ViewSelector = L.Control.extend({
+                onAdd: function(map) {
+                    // Create control container
+                    const container = L.DomUtil.create('div', 'leaflet-bar leaflet-control view-selector-control');
+                    container.style.backgroundColor = 'white';
+                    container.style.padding = '5px';
+                    container.style.cursor = 'auto';
+                    
+                    // Create select element
+                    const select = L.DomUtil.create('select', 'form-select form-select-sm', container);
+                    select.id = 'viewSelector';
+                    select.style.minWidth = '200px';
+                    
+                    // Add options
+                    const options = [
+                        { value: 'default', text: 'Default View' },
+                        { value: 'county', text: 'View by County' },
+                        { value: 'region', text: 'View by Planning Region' },
+                        { value: 'type', text: 'View by Rural/Urban Classification' }
+                    ];
+                    
+                    options.forEach(opt => {
+                        const option = L.DomUtil.create('option', '', select);
+                        option.value = opt.value;
+                        option.innerText = opt.text;
+                    });
+                    
+                    // Handle events
+                    L.DomEvent.disableClickPropagation(container);
+                    L.DomEvent.disableScrollPropagation(container);
+                    
+                    L.DomEvent.on(select, 'change', function(e) {
+                        currentView = e.target.value;
+                        updateMap();
+                    });
+                    
+                    return container;
+                }
+            });
+            
+            // Create legend control
+            L.Control.Legend = L.Control.extend({
+                onAdd: function(map) {
+                    const container = L.DomUtil.create('div', 'leaflet-control legend-control');
+                    container.id = 'mapLegend';
+                    container.style.display = 'none';
+                    container.style.backgroundColor = 'white';
+                    container.style.padding = '8px';
+                    container.style.maxWidth = '200px';
+                    container.style.borderRadius = '4px';
+                    container.style.boxShadow = '0 1px 5px rgba(0,0,0,0.4)';
+                    
+                    const title = L.DomUtil.create('h6', '', container);
+                    title.innerText = 'Legend';
+                    title.style.margin = '0 0 5px 0';
+                    title.style.fontWeight = 'bold';
+                    
+                    const items = L.DomUtil.create('div', '', container);
+                    items.id = 'legendItems';
+                    
+                    L.DomEvent.disableClickPropagation(container);
+                    
+                    return container;
+                }
+            });
+            
+            // Add controls to map
+            new L.Control.ViewSelector({ position: 'topright' }).addTo(map);
+            legendControl = new L.Control.Legend({ position: 'bottomright' }).addTo(map);
+            
+            // Function to update the map view
+            function updateMap() {
+                if (geoJSONLayer) {
+                    map.removeLayer(geoJSONLayer);
+                }
+                
+                fetch("{{ asset('maps/ct-towns.geojson') }}")
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error(`HTTP error! status: ${response.status}`);
                         }
-                    }).addTo(map);
-                })
-                .catch(error => {
-                    console.error('Error loading or parsing GeoJSON:', error);
-                    document.getElementById('ctMap').innerHTML = '<div class="alert alert-danger" role="alert">Could not load map data. Please check the console for errors.</div>';
+                        return response.json();
+                    })
+                    .then(data => {
+                        geoJSONLayer = L.geoJSON(data, {
+                            style: styleFeature,
+                            onEachFeature: bindFeatureEvents
+                        }).addTo(map);
+                        
+                        updateLegend();
+                    })
+                    .catch(error => {
+                        console.error('Error loading or parsing GeoJSON:', error);
+                        document.getElementById('ctMap').innerHTML = '<div class="alert alert-danger">Could not load map data. Please check the console for errors.</div>';
+                    });
+            }
+            
+            // Style features based on current view
+            function styleFeature(feature) {
+                const municipalityName = feature.properties.TOWN_NAME || "Unknown";
+                const townData = townClassifications[municipalityName];
+                
+                let fillColor = '#3490dc'; // Default color
+                
+                if (currentView !== 'default' && townData) {
+                    let category;
+                    
+                    switch(currentView) {
+                        case 'county':
+                            category = townData.county;
+                            break;
+                        case 'region':
+                            category = townData.geographical_region;
+                            break;
+                        case 'type':
+                            category = townData.region_type;
+                            break;
+                    }
+                    
+                    if (category && colorPalettes[currentView][category]) {
+                        fillColor = colorPalettes[currentView][category];
+                    }
+                }
+                
+                return {
+                    fillColor: fillColor,
+                    weight: 1,
+                    opacity: 1,
+                    color: 'white',
+                    fillOpacity: 0.7
+                };
+            }
+            
+            // Bind events to features
+            function bindFeatureEvents(feature, layer) {
+                const municipalityName = feature.properties.TOWN_NAME || "Unknown Municipality";
+                const municipalityHref = `/municipalities/${encodeURIComponent(municipalityName)}`;
+                const townData = townClassifications[municipalityName];
+                
+                let tooltipContent = `<strong>${municipalityName}</strong>`;
+                
+                if (currentView !== 'default' && townData) {
+                    let categoryLabel, categoryValue;
+                    
+                    switch(currentView) {
+                        case 'county':
+                            categoryLabel = 'County';
+                            categoryValue = townData.county;
+                            break;
+                        case 'region':
+                            categoryLabel = 'Planning Region';
+                            categoryValue = townData.geographical_region;
+                            break;
+                        case 'type':
+                            categoryLabel = 'Classification';
+                            categoryValue = townData.region_type;
+                            break;
+                    }
+                    
+                    if (categoryValue) {
+                        tooltipContent += `<br>${categoryLabel}: ${categoryValue}`;
+                    }
+                }
+                
+                layer.bindTooltip(tooltipContent, { sticky: true });
+                
+                layer.on('click', function() {
+                    if (municipalityName !== "Unknown Municipality") {
+                        window.location.href = municipalityHref;
+                    }
                 });
+            }
+            
+            function updateLegend() {
+                const legendElement = document.getElementById('mapLegend');
+                const legendItems = document.getElementById('legendItems');
+                
+                legendItems.innerHTML = '';
+                
+                if (currentView === 'default') {
+                    legendElement.style.display = 'none';
+                    return;
+                }
+                
+                legendElement.style.display = 'block';
+                
+                const categories = colorPalettes[currentView];
+                
+                for (const [category, color] of Object.entries(categories)) {
+                    const item = document.createElement('div');
+                    item.style.display = 'flex';
+                    item.style.alignItems = 'center';
+                    item.style.marginBottom = '3px';
+                    
+                    const colorBox = document.createElement('span');
+                    colorBox.style.backgroundColor = color;
+                    colorBox.style.width = '15px';
+                    colorBox.style.height = '15px';
+                    colorBox.style.display = 'inline-block';
+                    colorBox.style.marginRight = '5px';
+                    
+                    const label = document.createElement('span');
+                    label.innerText = category;
+                    label.style.fontSize = '12px';
+                    
+                    item.appendChild(colorBox);
+                    item.appendChild(label);
+                    legendItems.appendChild(item);
+                }
+            }
+            
+            // Initial load
+            updateMap();
         });
     </script>
 @endpush
