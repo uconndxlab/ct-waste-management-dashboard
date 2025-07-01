@@ -25,11 +25,22 @@
             color: #3490dc; 
         }
         .leaflet-tooltip {
-            background-color: rgba(255, 255, 255, 0.9);
+            background-color: rgba(255, 255, 255, 0.95);
             border: 1px solid #3490dc;
             border-radius: 4px;
-            padding: 5px 10px;
+            padding: 8px 12px;
             box-shadow: 0 1px 3px rgba(0,0,0,0.4);
+            min-width: 200px;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        .leaflet-tooltip strong {
+            display: block;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 3px;
+            margin-bottom: 3px;
+            color: #3490dc;
         }
     </style>
 @endpush
@@ -51,13 +62,13 @@
         <div class="container mt-4">
             <div class="row align-items-stretch">
                 <!-- Map Section -->
-                <section class="col-lg-7 mb-4">
+                <section class="col-lg-8 mb-4">
                     <div class="dashboard-map rounded-lg shadow-sm w-100">
                         <div id="ctMap" style="height: 500px; width: 100%;"></div>
                     </div>
                 </section>
 
-                <section class="col-lg-5 d-flex justify-content-center flex-column">
+                <section class="col-lg-3 d-flex justify-content-center flex-column">
                     <!-- Contact Section -->
                     <div class="mb-4 w-100">
                         <h5 class="fw-bold">Contact Information</h5>
@@ -90,6 +101,46 @@
             </div>
         </div>
 
+        <!-- Debug
+
+        @if(isset($countyTotals) && count($countyTotals) > 0)
+            <div class="alert alert-info">
+                County data available: {{ count($countyTotals) }} counties
+            </div>
+        @else
+            <div class="alert alert-warning">
+                No county data available
+            </div>
+        @endif
+
+
+
+        <div class="alert alert-info">
+            <p>Test data (first 10 records):</p>
+            <ul>
+                @foreach($test as $t)
+                    <li>{{ $t->name }} - {{ $t->county ?? 'No county' }} - {{ $t->total_sanitation_refuse ?? 'No refuse data' }}</li>
+                @endforeach
+            </ul>
+        </div>
+
+        <div class="alert alert-info">
+            <p>County Totals Debug:</p>
+            <ul>
+                @foreach($countyTotals as $county => $data)
+                    <li>{{ $county }}: ${{ number_format($data->total_refuse) }} 
+                        ({{ $data->municipalities_with_data }}/{{ $data->total_municipalities }} municipalities with data)</li>
+                @endforeach
+            </ul>
+        </div>
+
+        <div class="alert alert-info">
+            <p>GeoJSON vs Database Municipality Names:</p>
+            <ul id="nameComparisonList">
+            </ul>
+        </div>
+
+    -->
 
     </body>
 @endsection
@@ -101,6 +152,9 @@
     <script>
         const municipalitiesData = @json($municipalities);
         const townClassifications = @json($townClassifications ?? []);
+        const countyTotals = @json($countyTotals ?? []);
+        const regionTotals = @json($regionTotals ?? []);
+        const typeTotals = @json($typeTotals ?? []);
         
         const colorPalettes = {
             county: {
@@ -152,7 +206,6 @@
                     container.style.padding = '5px';
                     container.style.cursor = 'auto';
                     
-                    // Create select element
                     const select = L.DomUtil.create('select', 'form-select form-select-sm', container);
                     select.id = 'viewSelector';
                     select.style.minWidth = '200px';
@@ -171,7 +224,6 @@
                         option.innerText = opt.text;
                     });
                     
-                    // Handle events
                     L.DomEvent.disableClickPropagation(container);
                     L.DomEvent.disableScrollPropagation(container);
                     
@@ -210,15 +262,23 @@
                 }
             });
             
-            // Add controls to map
             new L.Control.ViewSelector({ position: 'topright' }).addTo(map);
-            legendControl = new L.Control.Legend({ position: 'bottomright' }).addTo(map);
+            legendControl = new L.Control.Legend({ position: 'bottomleft' }).addTo(map);
             
-            // Function to update the map view
             function updateMap() {
                 if (geoJSONLayer) {
                     map.removeLayer(geoJSONLayer);
                 }
+
+                const loadingDiv = document.createElement('div');
+                loadingDiv.id = 'mapLoading';
+                loadingDiv.innerHTML = '<div class="spinner-border text-primary" role="status"><span class="visually-hidden">Loading...</span></div>';
+                loadingDiv.style.position = 'absolute';
+                loadingDiv.style.top = '50%';
+                loadingDiv.style.left = '50%';
+                loadingDiv.style.transform = 'translate(-50%, -50%)';
+                loadingDiv.style.zIndex = '1000';
+                document.getElementById('ctMap').appendChild(loadingDiv);
                 
                 fetch("{{ asset('maps/ct-towns.geojson') }}")
                     .then(response => {
@@ -239,14 +299,14 @@
                         console.error('Error loading or parsing GeoJSON:', error);
                         document.getElementById('ctMap').innerHTML = '<div class="alert alert-danger">Could not load map data. Please check the console for errors.</div>';
                     });
+                document.getElementById('mapLoading')?.remove();
             }
             
-            // Style features based on current view
             function styleFeature(feature) {
                 const municipalityName = feature.properties.TOWN_NAME || "Unknown";
                 const townData = townClassifications[municipalityName];
                 
-                let fillColor = '#3490dc'; // Default color
+                let fillColor = '#3490dc'; 
                 
                 if (currentView !== 'default' && townData) {
                     let category;
@@ -280,39 +340,84 @@
             // Bind events to features
             function bindFeatureEvents(feature, layer) {
                 const municipalityName = feature.properties.TOWN_NAME || "Unknown Municipality";
-                const municipalityHref = `/municipalities/${encodeURIComponent(municipalityName)}`;
+                const municipality = municipalitiesData.find(m => m.name === municipalityName);
                 const townData = townClassifications[municipalityName];
                 
                 let tooltipContent = `<strong>${municipalityName}</strong>`;
                 
                 if (currentView !== 'default' && townData) {
-                    let categoryLabel, categoryValue;
+                    let categoryValue, totalRefuse = 0;
+                    let categoryLabel = '';
                     
                     switch(currentView) {
                         case 'county':
-                            categoryLabel = 'County';
                             categoryValue = townData.county;
+                            categoryLabel = 'County';
+                            if (countyTotals[categoryValue]) {
+                                totalRefuse = countyTotals[categoryValue].total_refuse;
+                                console.log(`County ${categoryValue} total: ${totalRefuse}`);  // Debug output
+                            }
                             break;
                         case 'region':
-                            categoryLabel = 'Planning Region';
                             categoryValue = townData.geographical_region;
+                            categoryLabel = 'Planning Region';
+                            if (regionTotals[categoryValue]) {
+                                totalRefuse = regionTotals[categoryValue].total_refuse;
+                            }
                             break;
                         case 'type':
-                            categoryLabel = 'Classification';
                             categoryValue = townData.region_type;
+                            categoryLabel = 'Classification';
+                            if (typeTotals[categoryValue]) {
+                                totalRefuse = typeTotals[categoryValue].total_refuse;
+                            }
                             break;
                     }
                     
-                    if (categoryValue) {
-                        tooltipContent += `<br>${categoryLabel}: ${categoryValue}`;
+                    tooltipContent += `<br>${categoryLabel}: ${categoryValue}`;
+                    
+                    // Ensure we're working with a number
+                    totalRefuse = parseFloat(totalRefuse);
+                    
+                    // Format the total value
+                    if (!isNaN(totalRefuse) && totalRefuse > 0) {
+                        const formattedTotal = new Intl.NumberFormat('en-US', { 
+                            style: 'currency', 
+                            currency: 'USD',
+                            maximumFractionDigits: 0
+                        }).format(totalRefuse);
+                        
+                        tooltipContent += `<br>Regional Total Sanitation Refuse: ${formattedTotal}`;
+                    } else {
+                        tooltipContent += `<br>Regional Total Sanitation Refuse: $0`;
                     }
+                }
+                
+                if (municipality && municipality.total_sanitation_refuse) {
+                    const refuseString = municipality.total_sanitation_refuse.toString();
+                    const cleanValue = refuseString.replace(/[\$,]/g, '');
+                    const refuseValue = parseFloat(cleanValue);
+                    
+                    if (!isNaN(refuseValue) && refuseValue > 0) {
+                        const municipalityRefuse = new Intl.NumberFormat('en-US', { 
+                            style: 'currency', 
+                            currency: 'USD',
+                            maximumFractionDigits: 0
+                        }).format(refuseValue);
+                        
+                        tooltipContent += `<br>Municipality Refuse: ${municipalityRefuse}`;
+                    } else {
+                        tooltipContent += `<br>Municipality Refuse: No data available`;
+                    }
+                } else {
+                    tooltipContent += `<br>Municipality Refuse: No data available`;
                 }
                 
                 layer.bindTooltip(tooltipContent, { sticky: true });
                 
                 layer.on('click', function() {
                     if (municipalityName !== "Unknown Municipality") {
-                        window.location.href = municipalityHref;
+                        window.location.href = `/municipalities/${encodeURIComponent(municipalityName)}`;
                     }
                 });
             }
@@ -329,6 +434,7 @@
                 }
                 
                 legendElement.style.display = 'block';
+                legendElement.style.marginBottom = '110px'
                 
                 const categories = colorPalettes[currentView];
                 
@@ -347,7 +453,7 @@
                     
                     const label = document.createElement('span');
                     label.innerText = category;
-                    label.style.fontSize = '12px';
+                    label.style.fontSize = '11.5px';
                     
                     item.appendChild(colorBox);
                     item.appendChild(label);
@@ -359,4 +465,22 @@
             updateMap();
         });
     </script>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        fetch("{{ asset('maps/ct-towns.geojson') }}")
+            .then(response => response.json())
+            .then(data => {
+                const comparisonList = document.getElementById('nameComparisonList');
+                const geoJsonNames = data.features.map(f => f.properties.TOWN_NAME).slice(0, 10);
+                
+                geoJsonNames.forEach(name => {
+                    const found = municipalitiesData.find(m => m.name === name);
+                    const li = document.createElement('li');
+                    li.textContent = `${name}: ${found ? 'Found in database' : 'NOT FOUND IN DATABASE'}`;
+                    comparisonList.appendChild(li);
+                });
+            });
+    });
+</script>
 @endpush

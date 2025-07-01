@@ -75,10 +75,59 @@ class MunicipalityController extends Controller
 
     public function showHome()
     {
-        $municipalities = Municipality::select('name', 'href')->get();
+        // Get unique municipalities with their latest/maximum refuse value
+        $municipalities = Municipality::select('name', 'href')
+            ->selectRaw('MAX(total_sanitation_refuse) as total_sanitation_refuse')
+            ->groupBy('name', 'href')
+            ->get();
+            
         $townClassifications = TownClassification::all()->keyBy('municipality');
 
-        return view('welcome', compact('municipalities', 'townClassifications'));
+        // Dealing with money to num
+
+        $countyTotals = Municipality::leftJoin('town_classifications', 'municipalities.name', '=', 'town_classifications.municipality')
+            ->selectRaw("
+                town_classifications.county, 
+                SUM(CAST(REPLACE(REPLACE(COALESCE(municipalities.total_sanitation_refuse, '0'), '$', ''), ',', '') AS DECIMAL(15,2))) as total_refuse, 
+                COUNT(DISTINCT municipalities.name) as total_municipalities, 
+                COUNT(DISTINCT CASE WHEN municipalities.total_sanitation_refuse IS NOT NULL THEN municipalities.name END) as municipalities_with_data
+            ")
+            ->whereNotNull('town_classifications.county') 
+            ->groupBy('town_classifications.county')
+            ->get()
+            ->keyBy('county');
+        
+        $regionTotals = Municipality::leftJoin('town_classifications', 'municipalities.name', '=', 'town_classifications.municipality')
+            ->selectRaw("
+                town_classifications.geographical_region, 
+                SUM(CAST(REPLACE(REPLACE(COALESCE(municipalities.total_sanitation_refuse, '0'), '$', ''), ',', '') AS DECIMAL(15,2))) as total_refuse, 
+                COUNT(DISTINCT municipalities.name) as total_municipalities, 
+                COUNT(DISTINCT CASE WHEN municipalities.total_sanitation_refuse IS NOT NULL THEN municipalities.name END) as municipalities_with_data
+            ")
+            ->whereNotNull('town_classifications.geographical_region') 
+            ->groupBy('town_classifications.geographical_region')
+            ->get()
+            ->keyBy('geographical_region');
+        
+        $typeTotals = Municipality::leftJoin('town_classifications', 'municipalities.name', '=', 'town_classifications.municipality')
+            ->selectRaw("
+                town_classifications.region_type, 
+                SUM(CAST(REPLACE(REPLACE(COALESCE(municipalities.total_sanitation_refuse, '0'), '$', ''), ',', '') AS DECIMAL(15,2))) as total_refuse, 
+                COUNT(DISTINCT municipalities.name) as total_municipalities, 
+                COUNT(DISTINCT CASE WHEN municipalities.total_sanitation_refuse IS NOT NULL THEN municipalities.name END) as municipalities_with_data
+            ")
+            ->whereNotNull('town_classifications.region_type') 
+            ->groupBy('town_classifications.region_type')
+            ->get()
+            ->keyBy('region_type');
+
+        // Keep the test query for debugging
+        $test = Municipality::join('town_classifications', 'municipalities.name', '=', 'town_classifications.municipality')
+            ->select('municipalities.name', 'municipalities.total_sanitation_refuse', 'town_classifications.county', 'town_classifications.geographical_region', 'town_classifications.region_type')
+            ->limit(10)
+            ->get();
+
+        return view('welcome', compact('municipalities', 'townClassifications', 'countyTotals', 'regionTotals', 'typeTotals', 'test'));
     }
     
 
