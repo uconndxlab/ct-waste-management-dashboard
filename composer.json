@@ -10,7 +10,8 @@
         "laravel/framework": "^12.0",
         "laravel/tinker": "^2.10.1",
         "league/commonmark": "^2.7",
-        "league/csv": "^9.22"
+        "league/csv": "^9.22",
+        "twbs/bootstrap-icons": "^1.13"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.15",

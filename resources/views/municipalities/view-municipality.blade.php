@@ -30,14 +30,14 @@
                         <div class="accordian-item mb-2">
                             <a 
                                 href="{{ route('municipalities.report', ['id' => $report->id]) }}" 
-                                class="list-group-item rounded accordian-header" 
+                                class="list-group-item rounded accordian-header d-flex justify-content-between" 
                                 type="button" data-bs-toggle="collapse" 
                                 data-bs-target="#report{{ $report->id }}"
                                 aria-expanded="false"
                                 aria-controls="report{{ $report->id }}"
                             >
                                 <span>{{ $report->year !== '' ? 'Report for ' . $report->year : 'Report #' . $report->id . ': Year Not Specified' }}</span>
-                                <i class="bi bi-chevron-down toggle-icon"></i>
+                                <i class="bi bi-chevron-down toggle-icon ml-auto"></i>
                             </a> 
                         </div>
                         <div id="report{{ $report->id }}" class="accordian-collapse collapse" >
@@ -93,11 +93,12 @@
                             <div class="accordian-item mb-2">
                                 <a
                                     href="{{ route('municipalities.financials', ['municipality' => $name]) }}" 
-                                    class="list-group-item rounded accordian-header"
+                                    class="list-group-item rounded accordian-header d-flex justify-content-between"
                                     type="button" data-bs-toggle="collapse" 
                                     data-bs-target="#financial{{ $financial->id }}"
                                 >
                                     {{ $financial->time_period !== '' ? 'Financial Information for ' . $financial->time_period : 'Financial Info: Time Period Not Specified' }}
+                                    <i class="bi bi-chevron-down toggle-icon ml-auto"></i>
                                 </a>
                             </div>
                             <div id="financial{{ $financial->id }}" class="accordian-collapse collapse" >
