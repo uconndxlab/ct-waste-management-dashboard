@@ -113,7 +113,6 @@
             }).addTo(map);
 
             // Load GeoJSON data
-            // Ensure 'connecticut-municipalities.geojson' is in your public/geojson/ directory
             fetch("{{ asset('maps/ct-towns.geojson') }}") // Use asset() helper for correct path
                 .then(response => {
                     if (!response.ok) {
