@@ -2,6 +2,35 @@
 
 @section('title', $name . ' Overview')
 
+@section('scripts')
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl);
+        });
+    });
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const accordionHeaders = document.querySelectorAll('[data-bs-toggle="collapse"]');
+
+        accordionHeaders.forEach(header => {
+            const targetId = header.getAttribute('data-bs-target');
+            const targetElement = document.querySelector(targetId);
+            const icon = header.querySelector('.toggle-icon');
+
+            targetElement.addEventListener('show.bs.collapse', function () {
+                icon.classList.replace('bi-chevron-down', 'bi-chevron-up');
+            });
+
+            targetElement.addEventListener('hide.bs.collapse', function () {
+                icon.classList.replace('bi-chevron-up', 'bi-chevron-down');
+            });
+        });
+    });
+</script>
+@endsection
+
 @section('content')
     <h1 class="text-primary fw-bolder">{{ $name }} Overview</h1>
     @if(!empty($townInfo->contact_1) || !empty($townInfo->title_1) || !empty($townInfo->phone_1) || !empty($townInfo->email_1) || !empty($townInfo->department) || !empty($townInfo->contact_2) || !empty($townInfo->title_2) || !empty($townInfo->phone_2) || !empty($townInfo->email_2) || !empty($townInfo->notes))
@@ -43,19 +72,97 @@
                         <div id="report{{ $report->id }}" class="accordian-collapse collapse" >
                             <table class="table table-striped mb-4">
                                 <tbody>
-                                    <tr><th>Bulky Waste</th><td>{{ $municipality->bulky_waste !== '' ?  $municipality->bulky_waste : 'No data' }}</td></tr>
-                                    <tr><th>Recycling</th><td>{{ $municipality->recycling !== '' ?  $municipality->recycling : 'No data' }}</td></tr>
-                                    <tr><th>Tipping Fees</th><td>{{ $municipality->tipping_fees !== '' ?  $municipality->tipping_fees : 'No data' }}</td></tr>
-                                    <tr><th>Admin Costs</th><td>{{ $municipality->admin_costs !== '' ?  $municipality->admin_costs : 'No data' }}</td></tr>
-                                    <tr><th>Hazardous Waste</th><td>{{ $municipality->hazardous_waste !== '' ?  $municipality->hazardous_waste : 'No data' }}</td></tr>
-                                    <tr><th>Contractual Services</th><td>{{ $municipality->contractual_services !== '' ?  $municipality->contractual_services : 'No data' }}</td></tr>
-                                    <tr><th>Landfill Costs</th><td>{{ $municipality->landfill_costs !== '' ?  $municipality->landfill_costs : 'No data' }}</td></tr>
-                                    <tr><th>Total Sanitation Refuse</th><td>{{ $municipality->total_sanitation_refuse !== '' ?  $municipality->total_sanitation_refuse : 'No data' }}</td></tr>
-                                    <tr><th>Only Public Works</th><td>{{ $municipality->only_public_works !== '' ?  $municipality->only_public_works : 'No data' }}</td></tr>
-                                    <tr><th>Transfer Station Wages</th><td>{{ $municipality->transfer_station_wages !== '' ?  $municipality->transfer_station_wages : 'No data' }}</td></tr>
-                                    <tr><th>Hauling Fees</th><td>{{ $municipality->hauling_fees !== '' ?  $municipality->hauling_fees : 'No data' }}</td></tr>
-                                    <tr><th>Curbside Pickup Fees</th><td>{{ $municipality->curbside_pickup_fees !== '' ?  $municipality->curbside_pickup_fees : 'No data' }}</td></tr>
-                                    <tr><th>Waste Collection</th><td>{{ $municipality->waste_collection !== '' ?  $municipality->waste_collection : 'No data' }}</td></tr>
+                                    <tr>
+                                        <th>
+                                            Bulky Waste 
+                                            <i class="bi bi-info-circle text-primary" data-bs-toggle="tooltip" data-bs-placement="right" title="Costs associated with the collection and disposal of large items that are too large to be accepted by the regular waste collection."></i>
+                                        </th>
+                                        <td>{{ $municipality->bulky_waste !== '' ? $municipality->bulky_waste : 'No data' }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>
+                                            Recycling 
+                                            <i class="bi bi-info-circle text-primary" data-bs-toggle="tooltip" data-bs-placement="right" title="Fees incurred for the collection, processing, and reuse of recyclable materials (e.g., paper, plastic)."></i>
+                                        </th>
+                                        <td>{{ $municipality->recycling !== '' ? $municipality->recycling : 'No data' }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>
+                                            Tipping Fees 
+                                        <i class="bi bi-info-circle text-primary" data-bs-toggle="tooltip" data-bs-placement="right" title="Charges paid by waste haulers to dispose of waste at a landfill or waste processing facility."></i>
+                                        </th>
+                                        <td>{{ $municipality->tipping_fees !== '' ? $municipality->tipping_fees : 'No data' }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>
+                                            Admin Costs 
+                                            <i class="bi bi-info-circle text-primary" data-bs-toggle="tooltip" data-bs-placement="right" title="Administrative expenses related to managing waste services, including salaries of staff, office supplies, and overhead."></i>
+                                        </th>
+                                        <td>{{ $municipality->admin_costs !== '' ? $municipality->admin_costs : 'No data' }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>
+                                            Hazardous Waste 
+                                            <i class="bi bi-info-circle text-primary" data-bs-toggle="tooltip" data-bs-placement="right" title="Costs for the handling, transport, and disposal of waste materials that pose environmental or health risks."></i>
+                                        </th>
+                                        <td>{{ $municipality->hazardous_waste !== '' ? $municipality->hazardous_waste : 'No data' }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>
+                                            Contractual Services 
+                                            <i class="bi bi-info-circle text-primary" data-bs-toggle="tooltip" data-bs-placement="right" title="Payments made to private vendors for outsourced waste services such as collection, hauling, processing, or disposal."></i>
+                                        </th>
+                                        <td>{{ $municipality->contractual_services !== '' ? $municipality->contractual_services : 'No data' }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>
+                                            Landfill Costs 
+                                            <i class="bi bi-info-circle text-primary" data-bs-toggle="tooltip" data-bs-placement="right" title="Expenses related to the operation, maintenance, and regulatory compliance of landfills."></i>
+                                        </th>
+                                        <td>{{ $municipality->landfill_costs !== '' ? $municipality->landfill_costs : 'No data' }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>
+                                            Total Sanitation Refuse 
+                                            <i class="bi bi-info-circle text-primary" data-bs-toggle="tooltip" data-bs-placement="right" title="The total volume or cost of refuse (trash, recyclables, organics, etc.) collected and managed by the sanitation department."></i>
+                                        </th>
+                                        <td>{{ $municipality->total_sanitation_refuse !== '' ? $municipality->total_sanitation_refuse : 'No data' }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>
+                                            Only Public Works 
+                                            <i class="bi bi-info-circle text-primary" data-bs-toggle="tooltip" data-bs-placement="right" title="Waste management costs for the town's public works department. (In some municipalities, costs are not broken down into more detailed categories.)"></i>
+                                        </th>
+                                        <td>{{ $municipality->only_public_works !== '' ? $municipality->only_public_works : 'No data' }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>
+                                            Transfer Station Wages 
+                                            <i class="bi bi-info-circle text-primary" data-bs-toggle="tooltip" data-bs-placement="right" title="Costs to manage transfer station where waste is temporarily held before being transported to final disposal facilities."></i>
+                                        </th>
+                                        <td>{{ $municipality->transfer_station_wages !== '' ? $municipality->transfer_station_wages : 'No data' }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>
+                                            Hauling Fees 
+                                            <i class="bi bi-info-circle text-primary" data-bs-toggle="tooltip" data-bs-placement="right" title="Charges for transporting waste from one location to another, such as from curbside to transfer station or landfill."></i>
+                                        </th>
+                                        <td>{{ $municipality->hauling_fees !== '' ? $municipality->hauling_fees : 'No data' }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>
+                                            Curbside Pickup Fees 
+                                            <i class="bi bi-info-circle text-primary" data-bs-toggle="tooltip" data-bs-placement="right" title="Costs associated with collecting waste and recyclables directly from residents' curbsides.."></i>
+                                        </th>
+                                        <td>{{ $municipality->curbside_pickup_fees !== '' ? $municipality->curbside_pickup_fees : 'No data' }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>
+                                            Waste Collection 
+                                            <i class="bi bi-info-circle text-primary" data-bs-toggle="tooltip" data-bs-placement="right" title="Total costs for collecting waste from residential, commercial, or industrial locations."></i>
+                                        </th>
+                                        <td>{{ $municipality->waste_collection !== '' ? $municipality->waste_collection : 'No data' }}</td>
+                                    </tr>
                                     <tr>
                                         <th></th>
                                         <td>
