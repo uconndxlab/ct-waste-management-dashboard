@@ -2,7 +2,7 @@
 
 @section('title', $name . ' Overview')
 
-@section('scripts')
+@push('scripts')
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
@@ -29,7 +29,7 @@
         });
     });
 </script>
-@endsection
+@endpush
 
 @section('content')
     <h1 class="text-primary fw-bolder">{{ $name }} Overview</h1>
