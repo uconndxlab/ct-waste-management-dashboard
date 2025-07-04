@@ -346,7 +346,7 @@
                 let tooltipContent = `<strong>${municipalityName}</strong>`;
                 
                 if (currentView !== 'default' && townData) {
-                    let categoryValue, totalRefuse = 0;
+                    let categoryValue, totalRefuse = 0, totalAdmin = 0;
                     let categoryLabel = '';
                     
                     switch(currentView) {
@@ -355,7 +355,7 @@
                             categoryLabel = 'County';
                             if (countyTotals[categoryValue]) {
                                 totalRefuse = countyTotals[categoryValue].total_refuse;
-                                console.log(`County ${categoryValue} total: ${totalRefuse}`);  // Debug output
+                                totalAdmin = countyTotals[categoryValue].total_admin;
                             }
                             break;
                         case 'region':
@@ -363,6 +363,7 @@
                             categoryLabel = 'Planning Region';
                             if (regionTotals[categoryValue]) {
                                 totalRefuse = regionTotals[categoryValue].total_refuse;
+                                totalAdmin = regionTotals[categoryValue].total_admin;
                             }
                             break;
                         case 'type':
@@ -370,26 +371,37 @@
                             categoryLabel = 'Classification';
                             if (typeTotals[categoryValue]) {
                                 totalRefuse = typeTotals[categoryValue].total_refuse;
+                                totalAdmin = typeTotals[categoryValue].total_admin;
                             }
                             break;
                     }
                     
                     tooltipContent += `<br>${categoryLabel}: ${categoryValue}`;
                     
-                    // Ensure we're working with a number
+                    // Format and add the refuse total
                     totalRefuse = parseFloat(totalRefuse);
-                    
-                    // Format the total value
                     if (!isNaN(totalRefuse) && totalRefuse > 0) {
                         const formattedTotal = new Intl.NumberFormat('en-US', { 
                             style: 'currency', 
                             currency: 'USD',
                             maximumFractionDigits: 0
                         }).format(totalRefuse);
-                        
                         tooltipContent += `<br>Regional Total Sanitation Refuse: ${formattedTotal}`;
                     } else {
                         tooltipContent += `<br>Regional Total Sanitation Refuse: $0`;
+                    }
+                    
+                    // Format and add the admin costs total
+                    totalAdmin = parseFloat(totalAdmin);
+                    if (!isNaN(totalAdmin) && totalAdmin > 0) {
+                        const formattedAdminTotal = new Intl.NumberFormat('en-US', { 
+                            style: 'currency', 
+                            currency: 'USD',
+                            maximumFractionDigits: 0
+                        }).format(totalAdmin);
+                        tooltipContent += `<br>Regional Total Admin Costs: ${formattedAdminTotal}`;
+                    } else {
+                        tooltipContent += `<br>Regional Total Admin Costs: $0`;
                     }
                 }
                 
@@ -411,6 +423,27 @@
                     }
                 } else {
                     tooltipContent += `<br>Municipality Refuse: No data available`;
+                }
+                
+                // Then also add municipality admin costs to individual tooltips
+                if (municipality && municipality.admin_costs) {
+                    const adminString = municipality.admin_costs.toString();
+                    const cleanAdminValue = adminString.replace(/[\$,]/g, '');
+                    const adminValue = parseFloat(cleanAdminValue);
+                    
+                    if (!isNaN(adminValue) && adminValue > 0) {
+                        const municipalityAdmin = new Intl.NumberFormat('en-US', { 
+                            style: 'currency', 
+                            currency: 'USD',
+                            maximumFractionDigits: 0
+                        }).format(adminValue);
+                        
+                        tooltipContent += `<br>Municipality Admin Costs: ${municipalityAdmin}`;
+                    } else {
+                        tooltipContent += `<br>Municipality Admin Costs: No data available`;
+                    }
+                } else {
+                    tooltipContent += `<br>Municipality Admin Costs: No data available`;
                 }
                 
                 layer.bindTooltip(tooltipContent, { sticky: true });

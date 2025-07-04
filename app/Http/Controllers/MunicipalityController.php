@@ -89,6 +89,7 @@ class MunicipalityController extends Controller
             ->selectRaw("
                 town_classifications.county, 
                 SUM(CAST(REPLACE(REPLACE(COALESCE(municipalities.total_sanitation_refuse, '0'), '$', ''), ',', '') AS DECIMAL(15,2))) as total_refuse, 
+                SUM(CAST(REPLACE(REPLACE(COALESCE(municipalities.admin_costs, '0'), '$', ''), ',', '') AS DECIMAL(15,2))) as total_admin,
                 COUNT(DISTINCT municipalities.name) as total_municipalities, 
                 COUNT(DISTINCT CASE WHEN municipalities.total_sanitation_refuse IS NOT NULL THEN municipalities.name END) as municipalities_with_data
             ")
@@ -129,6 +130,16 @@ class MunicipalityController extends Controller
 
         return view('welcome', compact('municipalities', 'townClassifications', 'countyTotals', 'regionTotals', 'typeTotals', 'test'));
     }
+
+    private function currencyToNumeric($currencyString)
+    {
+        if (empty($currencyString)) {
+            return null;
+        }
+        
+        $numeric = preg_replace('/[^\d.-]/', '', $currencyString);
+        return is_numeric($numeric) ? (float)$numeric : null;
+    }
     
 
     public function viewMunicipality($name)
@@ -145,7 +156,24 @@ class MunicipalityController extends Controller
         
         $financialData = MunicipalityFinancialData::where('municipality', $name)->firstOrFail();
 
-        return view('municipalities.view-municipality', compact('name', 'reports', 'townInfo', 'financials', 'financialData', 'townClassification', 'municipality'));
+        // Getting population for per capita calculations
+        $population = $financialData ? $financialData->population : null;
+
+        if ($population && $population > 0) {
+            foreach($reports as $report) {
+                $recycling = $this->currencyToNumeric($report->recycling);
+                $tippingFees = $this->currencyToNumeric($report->tipping_fees);
+                $transferStationWages = $this->currencyToNumeric($report->transfer_station_wages);
+
+                $report->recycling_per_capita = $recycling ? number_format($recycling / $population, 2) : null;
+                $report->tipping_fees_per_capita = $tippingFees ? number_format($tippingFees / $population, 2) : null;
+                $report->tipping_fees_per_capita = $tippingFees ? number_format($tippingFees / $population, 2) : null;
+            }
+        }
+
+        return view('municipalities.view-municipality', compact(
+            'name', 'reports', 'townInfo', 'financials', 'financialData',
+             'townClassification', 'municipality', 'population'));
     }
 
     public function viewReport($id)
