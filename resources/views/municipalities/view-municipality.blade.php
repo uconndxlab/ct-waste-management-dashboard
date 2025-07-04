@@ -33,8 +33,7 @@
 
 @section('content')
     <h1 class="text-primary fw-bolder">{{ $name }} Overview</h1>
-    @if(!empty($townInfo->contact_1) || !empty($townInfo->title_1) || !empty($townInfo->phone_1) || !empty($townInfo->email_1) || !empty($townInfo->department) || !empty($townInfo->contact_2) || !empty($townInfo->title_2) || !empty($townInfo->phone_2) || !empty($townInfo->email_2) || !empty($townInfo->notes))
-    
+
     @if(session('success'))
     <div class="alert alert-success alert-dismissible fade show" role="alert">
         <p style="margin-bottom: 0;"> {{ session('success') }}</p>
@@ -304,6 +303,5 @@
       </svg>  Back to All Municipalities</a>
 
     <br/><br/>
-@endif
 
 @endsection
