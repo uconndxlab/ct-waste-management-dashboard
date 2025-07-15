@@ -205,6 +205,19 @@ class MunicipalityController extends Controller
     
         return redirect()->route('municipalities.view', ['name' => $name])->with('success', 'Report Deleted Successfully.');
     }
+
+    public function compareMunicipalities(Request $request)
+    {
+        $request->validate([
+            'municipalities' => 'required|array|size:2',
+        ], [
+            'municipalities.size' => 'You must select exactly two municipalities for comparison.',
+        ]);
+
+        $municipalities = Municipality::whereIn('name', $request->municipalities)->get();
+
+        return view('municipalities.compare', compact('municipalities'));
+    }
     
     
     

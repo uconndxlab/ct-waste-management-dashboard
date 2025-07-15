@@ -97,6 +97,31 @@
         </div>
     </div>
 
+    <form action="{{ route('municipalities.compare') }}" method="POST">
+        @csrf
+        <div class="list-group">
+            @foreach($municipalities as $municipality)
+                <div class="list-group-item d-flex justify-content-between align-items-center">
+                    <span>{{ $municipality->name }}</span>
+                    <input type="checkbox" name="municipalities[]" value="{{ $municipality->name }}" class="municipality-checkbox">
+                </div>
+            @endforeach
+        </div>
+        <button type="submit" class="btn btn-primary mt-3" id="compare-button" disabled>Compare</button>
+    </form>
+
+    <script>
+        const checkboxes = document.querySelectorAll('.municipality-checkbox');
+        const compareButton = document.getElementById('compare-button');
+
+        checkboxes.forEach(checkbox => {
+            checkbox.addEventListener('change', () => {
+                const selectedCount = Array.from(checkboxes).filter(cb => cb.checked).length;
+                compareButton.disabled = selectedCount !== 2; // Enable only if exactly 2 are selected
+            });
+        });
+    </script>
+
     <div class="list-group">
         @foreach($municipalities as $municipality)
             <a href="{{ route('municipalities.view', ['name' => $municipality->name]) }}" class="list-group-item list-group-item-action">

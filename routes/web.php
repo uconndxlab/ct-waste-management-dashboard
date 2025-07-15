@@ -18,4 +18,5 @@ Route::put('/municipalities/{name}', [MunicipalityController::class, 'updateCont
 Route::get('/municipalities/{name}/reports/create', [MunicipalityController::class, 'createReport'])->name('municipalities.report.create');
 Route::post('/municipalities/{name}/reports', [MunicipalityController::class, 'storeReport'])->name('municipalities.report.store');
 Route::delete('/municipalities/{name}/reports/{reportId}', [MunicipalityController::class, 'deleteReport'])->name('municipalities.report.delete');
+Route::post('/municipalities/compare', [MunicipalityController::class, 'compareMunicipalities'])->name('municipalities.compare');
 
