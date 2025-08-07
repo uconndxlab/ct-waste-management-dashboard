@@ -214,7 +214,17 @@ class MunicipalityController extends Controller
             'municipalities.size' => 'You must select exactly two municipalities for comparison.',
         ]);
 
-        $municipalities = Municipality::whereIn('name', $request->municipalities)->get();
+        // Get the most recent record for each municipality
+        $municipalities = collect($request->municipalities)->map(function ($name) {
+            return Municipality::where('name', $name)
+                ->orderBy('year', 'desc')
+                ->first();
+        })->filter(); // Remove any null results
+
+        // Ensure we have exactly 2 municipalities
+        if ($municipalities->count() !== 2) {
+            return back()->withErrors(['municipalities' => 'Could not find data for the selected municipalities.']);
+        }
 
         return view('municipalities.compare', compact('municipalities'));
     }
