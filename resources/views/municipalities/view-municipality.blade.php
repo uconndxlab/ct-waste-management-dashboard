@@ -64,107 +64,166 @@
                                 aria-expanded="false"
                                 aria-controls="report{{ $report->id }}"
                             >
-                                <span>{{ $report->year !== '' ? 'Report for ' . $report->year : 'Report #' . $report->id . ': Year Not Specified' }}</span>
+                                <span>
+                                    {{ $report->year !== '' ? 'Report for ' . $report->year : 'Report #' . $report->id . ': Year Not Specified' }}
+                                    @if($report->population_year_used)
+                                        <small class="text-muted ms-2">(Pop: {{ number_format($report->report_population) }} from {{ $report->population_year_used }})</small>
+                                    @endif
+                                </span>
                                 <i class="bi bi-chevron-down toggle-icon ml-auto"></i>
                             </a> 
                         </div>
                         <div id="report{{ $report->id }}" class="accordian-collapse collapse" >
                             <table class="table table-striped mb-4">
+                                <thead>
+                                    <tr>
+                                        <th>Category</th>
+                                        <th>Total Cost</th>
+                                        @if($hasAnyPopulationData)
+                                        <th>Per Capita</th>
+                                        @endif
+                                    </tr>
+                                </thead>
                                 <tbody>
                                     <tr>
                                         <th>
                                             Bulky Waste 
                                             <i class="bi bi-info-circle text-primary" data-bs-toggle="tooltip" data-bs-placement="right" title="Costs associated with the collection and disposal of large items that are too large to be accepted by the regular waste collection."></i>
                                         </th>
-                                        <td>{{ $municipality->bulky_waste !== '' ? $municipality->bulky_waste : 'No data' }}</td>
+                                        <td>{{ $report->bulky_waste !== '' ? $report->bulky_waste : 'No data' }}</td>
+                                        @if($hasAnyPopulationData)
+                                        <td>{{ $report->has_population_data ? ($report->bulky_waste_per_capita ? '$' . $report->bulky_waste_per_capita : 'No data') : 'No pop data' }}</td>
+                                        @endif
                                     </tr>
                                     <tr>
                                         <th>
                                             Recycling 
                                             <i class="bi bi-info-circle text-primary" data-bs-toggle="tooltip" data-bs-placement="right" title="Fees incurred for the collection, processing, and reuse of recyclable materials (e.g., paper, plastic)."></i>
                                         </th>
-                                        <td>{{ $municipality->recycling !== '' ? $municipality->recycling : 'No data' }}</td>
+                                        <td>{{ $report->recycling !== '' ? $report->recycling : 'No data' }}</td>
+                                        @if($hasAnyPopulationData)
+                                        <td>{{ $report->has_population_data ? ($report->recycling_per_capita ? '$' . $report->recycling_per_capita : 'No data') : 'No pop data' }}</td>
+                                        @endif
                                     </tr>
                                     <tr>
                                         <th>
                                             Tipping Fees 
                                         <i class="bi bi-info-circle text-primary" data-bs-toggle="tooltip" data-bs-placement="right" title="Charges paid by waste haulers to dispose of waste at a landfill or waste processing facility."></i>
                                         </th>
-                                        <td>{{ $municipality->tipping_fees !== '' ? $municipality->tipping_fees : 'No data' }}</td>
+                                        <td>{{ $report->tipping_fees !== '' ? $report->tipping_fees : 'No data' }}</td>
+                                        @if($hasAnyPopulationData)
+                                        <td>{{ $report->has_population_data ? ($report->tipping_fees_per_capita ? '$' . $report->tipping_fees_per_capita : 'No data') : 'No pop data' }}</td>
+                                        @endif
                                     </tr>
                                     <tr>
                                         <th>
                                             Admin Costs 
                                             <i class="bi bi-info-circle text-primary" data-bs-toggle="tooltip" data-bs-placement="right" title="Administrative expenses related to managing waste services, including salaries of staff, office supplies, and overhead."></i>
                                         </th>
-                                        <td>{{ $municipality->admin_costs !== '' ? $municipality->admin_costs : 'No data' }}</td>
+                                        <td>{{ $report->admin_costs !== '' ? $report->admin_costs : 'No data' }}</td>
+                                        @if($hasAnyPopulationData)
+                                        <td>{{ $report->has_population_data ? ($report->admin_costs_per_capita ? '$' . $report->admin_costs_per_capita : 'No data') : 'No pop data' }}</td>
+                                        @endif
                                     </tr>
                                     <tr>
                                         <th>
                                             Hazardous Waste 
                                             <i class="bi bi-info-circle text-primary" data-bs-toggle="tooltip" data-bs-placement="right" title="Costs for the handling, transport, and disposal of waste materials that pose environmental or health risks."></i>
                                         </th>
-                                        <td>{{ $municipality->hazardous_waste !== '' ? $municipality->hazardous_waste : 'No data' }}</td>
+                                        <td>{{ $report->hazardous_waste !== '' ? $report->hazardous_waste : 'No data' }}</td>
+                                        @if($hasAnyPopulationData)
+                                        <td>{{ $report->has_population_data ? ($report->hazardous_waste_per_capita ? '$' . $report->hazardous_waste_per_capita : 'No data') : 'No pop data' }}</td>
+                                        @endif
                                     </tr>
                                     <tr>
                                         <th>
                                             Contractual Services 
                                             <i class="bi bi-info-circle text-primary" data-bs-toggle="tooltip" data-bs-placement="right" title="Payments made to private vendors for outsourced waste services such as collection, hauling, processing, or disposal."></i>
                                         </th>
-                                        <td>{{ $municipality->contractual_services !== '' ? $municipality->contractual_services : 'No data' }}</td>
+                                        <td>{{ $report->contractual_services !== '' ? $report->contractual_services : 'No data' }}</td>
+                                        @if($hasAnyPopulationData)
+                                        <td>{{ $report->has_population_data ? ($report->contractual_services_per_capita ? '$' . $report->contractual_services_per_capita : 'No data') : 'No pop data' }}</td>
+                                        @endif
                                     </tr>
                                     <tr>
                                         <th>
                                             Landfill Costs 
                                             <i class="bi bi-info-circle text-primary" data-bs-toggle="tooltip" data-bs-placement="right" title="Expenses related to the operation, maintenance, and regulatory compliance of landfills."></i>
                                         </th>
-                                        <td>{{ $municipality->landfill_costs !== '' ? $municipality->landfill_costs : 'No data' }}</td>
+                                        <td>{{ $report->landfill_costs !== '' ? $report->landfill_costs : 'No data' }}</td>
+                                        @if($hasAnyPopulationData)
+                                        <td>{{ $report->has_population_data ? ($report->landfill_costs_per_capita ? '$' . $report->landfill_costs_per_capita : 'No data') : 'No pop data' }}</td>
+                                        @endif
                                     </tr>
                                     <tr>
                                         <th>
                                             Total Sanitation Refuse 
                                             <i class="bi bi-info-circle text-primary" data-bs-toggle="tooltip" data-bs-placement="right" title="The total volume or cost of refuse (trash, recyclables, organics, etc.) collected and managed by the sanitation department."></i>
                                         </th>
-                                        <td>{{ $municipality->total_sanitation_refuse !== '' ? $municipality->total_sanitation_refuse : 'No data' }}</td>
+                                        <td>{{ $report->total_sanitation_refuse !== '' ? $report->total_sanitation_refuse : 'No data' }}</td>
+                                        @if($hasAnyPopulationData)
+                                        <td>{{ $report->has_population_data ? ($report->total_sanitation_refuse_per_capita ? '$' . $report->total_sanitation_refuse_per_capita : 'No data') : 'No pop data' }}</td>
+                                        @endif
                                     </tr>
                                     <tr>
                                         <th>
                                             Only Public Works 
                                             <i class="bi bi-info-circle text-primary" data-bs-toggle="tooltip" data-bs-placement="right" title="Waste management costs for the town's public works department. (In some municipalities, costs are not broken down into more detailed categories.)"></i>
                                         </th>
-                                        <td>{{ $municipality->only_public_works !== '' ? $municipality->only_public_works : 'No data' }}</td>
+                                        <td>{{ $report->only_public_works !== '' ? $report->only_public_works : 'No data' }}</td>
+                                        @if($hasAnyPopulationData)
+                                        <td>{{ $report->has_population_data ? ($report->only_public_works_per_capita ? '$' . $report->only_public_works_per_capita : 'No data') : 'No pop data' }}</td>
+                                        @endif
                                     </tr>
                                     <tr>
                                         <th>
                                             Transfer Station Wages 
                                             <i class="bi bi-info-circle text-primary" data-bs-toggle="tooltip" data-bs-placement="right" title="Costs to manage transfer station where waste is temporarily held before being transported to final disposal facilities."></i>
                                         </th>
-                                        <td>{{ $municipality->transfer_station_wages !== '' ? $municipality->transfer_station_wages : 'No data' }}</td>
+                                        <td>{{ $report->transfer_station_wages !== '' ? $report->transfer_station_wages : 'No data' }}</td>
+                                        @if($hasAnyPopulationData)
+                                        <td>{{ $report->has_population_data ? ($report->transfer_station_wages_per_capita ? '$' . $report->transfer_station_wages_per_capita : 'No data') : 'No pop data' }}</td>
+                                        @endif
                                     </tr>
                                     <tr>
                                         <th>
                                             Hauling Fees 
                                             <i class="bi bi-info-circle text-primary" data-bs-toggle="tooltip" data-bs-placement="right" title="Charges for transporting waste from one location to another, such as from curbside to transfer station or landfill."></i>
                                         </th>
-                                        <td>{{ $municipality->hauling_fees !== '' ? $municipality->hauling_fees : 'No data' }}</td>
+                                        <td>{{ $report->hauling_fees !== '' ? $report->hauling_fees : 'No data' }}</td>
+                                        @if($hasAnyPopulationData)
+                                        <td>{{ $report->has_population_data ? ($report->hauling_fees_per_capita ? '$' . $report->hauling_fees_per_capita : 'No data') : 'No pop data' }}</td>
+                                        @endif
                                     </tr>
                                     <tr>
                                         <th>
                                             Curbside Pickup Fees 
                                             <i class="bi bi-info-circle text-primary" data-bs-toggle="tooltip" data-bs-placement="right" title="Costs associated with collecting waste and recyclables directly from residents' curbsides.."></i>
                                         </th>
-                                        <td>{{ $municipality->curbside_pickup_fees !== '' ? $municipality->curbside_pickup_fees : 'No data' }}</td>
+                                        <td>{{ $report->curbside_pickup_fees !== '' ? $report->curbside_pickup_fees : 'No data' }}</td>
+                                        @if($hasAnyPopulationData)
+                                        <td>{{ $report->has_population_data ? ($report->curbside_pickup_fees_per_capita ? '$' . $report->curbside_pickup_fees_per_capita : 'No data') : 'No pop data' }}</td>
+                                        @endif
                                     </tr>
                                     <tr>
                                         <th>
                                             Waste Collection 
                                             <i class="bi bi-info-circle text-primary" data-bs-toggle="tooltip" data-bs-placement="right" title="Total costs for collecting waste from residential, commercial, or industrial locations."></i>
                                         </th>
-                                        <td>{{ $municipality->waste_collection !== '' ? $municipality->waste_collection : 'No data' }}</td>
+                                        <td>{{ $report->waste_collection !== '' ? $report->waste_collection : 'No data' }}</td>
+                                        @if($hasAnyPopulationData)
+                                        <td>{{ $report->has_population_data ? ($report->waste_collection_per_capita ? '$' . $report->waste_collection_per_capita : 'No data') : 'No pop data' }}</td>
+                                        @endif
                                     </tr>
                                     <tr>
                                         <th></th>
                                         <td>
+                                            @if($hasAnyPopulationData && str_contains($report->population_year_used ?? '', '*'))
+                                            <small class="text-muted mb-2 d-block">
+                                                <i class="bi bi-info-circle"></i> * Population data from 2020 used as approximation for pre-2020 reports
+                                            </small>
+                                            @endif
+                                            
                                             <div class="d-flex justify-content-end">
                                                 <!-- Edit Button -->
                                                 <a href="{{ route('municipalities.report.edit', ['id' => $report->id]) }}" class="btn rounded-0 btn-primary">

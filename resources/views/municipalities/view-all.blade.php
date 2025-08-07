@@ -41,17 +41,20 @@
         @endforeach
     </div>
 
-    <div class="d-flex justify-content-start mb-3">
-        <button class="btn btn-outline-primary" type="button" data-bs-toggle="collapse" data-bs-target="#filterCollapseContent" aria-expanded="false" aria-controls="filterCollapseContent">
-            Filter Options <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16">
-                <path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"/>
-            </svg>
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <button class="btn btn-outline-secondary" type="button" data-bs-toggle="collapse" data-bs-target="#filterCollapseContent" aria-expanded="false" aria-controls="filterCollapseContent">
+            <i class="bi bi-funnel me-2"></i>Filter Options
         </button>
 
-        <form id="compare-form" action="{{ route('municipalities.compare') }}" method="POST" class="d-inline">
-            @csrf
-            <button type="submit" id="compare-button" class="btn btn-primary ms-3" disabled>Compare</button>
-        </form>
+        <div class="d-flex align-items-center">
+            <small class="text-muted me-3" id="selection-info">Select 2 municipalities to compare</small>
+            <form id="compare-form" action="{{ route('municipalities.compare') }}" method="POST" class="d-inline">
+                @csrf
+                <button type="submit" id="compare-button" class="btn btn-success" disabled>
+                    <i class="bi bi-arrow-left-right me-2"></i>Compare
+                </button>
+            </form>
+        </div>
     </div>
 
     <div class="collapse mb-3" id="filterCollapseContent">
@@ -108,19 +111,30 @@
     <form id="compare-form" action="{{ route('municipalities.compare') }}" method="POST">
         @csrf
 
-        <div class="list-group">
+        <div class="list-group shadow-sm">
             @foreach($municipalities as $municipality)
-                <div class="list-group-item list-group-item-action municipality-item" data-name="{{ $municipality->name }}">
-                    {{ $municipality->name }}
+                <div class="list-group-item list-group-item-action d-flex justify-content-between align-items-center py-3 municipality-row">
+                    <div class="d-flex align-items-center">
+                        <i class="bi bi-geo-alt text-primary me-3"></i>
+                        <a href="{{ route('municipalities.view', ['name' => $municipality->name]) }}" class="text-decoration-none text-dark fw-medium municipality-link">
+                            {{ $municipality->name }}
+                        </a>
+                    </div>
+                    <div class="form-check form-switch">
+                        <input class="form-check-input municipality-checkbox" type="checkbox" value="{{ $municipality->name }}" data-name="{{ $municipality->name }}" id="check-{{ $loop->index }}">
+                        <label class="form-check-label text-muted small ms-2" for="check-{{ $loop->index }}">
+                            Compare
+                        </label>
+                    </div>
                 </div>
             @endforeach
         </div>
     </form>
 
     <script>
-        const items = document.querySelectorAll('.municipality-item');
+        const checkboxes = document.querySelectorAll('.municipality-checkbox');
         const compareButton = document.getElementById('compare-button');
-        const compareForm   = document.getElementById('compare-form');
+        const compareForm = document.getElementById('compare-form');
         let selected = [];
 
         function rebuildHiddenInputs() {
@@ -129,37 +143,97 @@
             // add one hidden input per selected municipality
             selected.forEach(name => {
                 const inp = document.createElement('input');
-                inp.type  = 'hidden';
-                inp.name  = 'municipalities[]';
+                inp.type = 'hidden';
+                inp.name = 'municipalities[]';
                 inp.value = name;
                 compareForm.appendChild(inp);
             });
         }
 
-        items.forEach(item => {
-            item.addEventListener('click', () => {
-                const name = item.dataset.name;
-                if (selected.includes(name)) {
+        checkboxes.forEach(checkbox => {
+            checkbox.addEventListener('change', () => {
+                const name = checkbox.dataset.name;
+                if (checkbox.checked) {
+                    if (selected.length < 2) {
+                        selected.push(name);
+                    } else {
+                        // If already 2 selected, uncheck this one
+                        checkbox.checked = false;
+                        return;
+                    }
+                } else {
                     selected = selected.filter(n => n !== name);
-                    item.classList.remove('active');
-                } else if (selected.length < 2) {
-                    selected.push(name);
-                    item.classList.add('active');
                 }
 
                 rebuildHiddenInputs();
                 compareButton.disabled = selected.length !== 2;
+                
+                // Update button text and info
+                const selectionInfo = document.getElementById('selection-info');
+                if (selected.length === 0) {
+                    compareButton.innerHTML = '<i class="bi bi-arrow-left-right me-2"></i>Compare';
+                    selectionInfo.textContent = 'Select 2 municipalities to compare';
+                    selectionInfo.className = 'text-muted me-3';
+                } else if (selected.length === 1) {
+                    compareButton.innerHTML = `<i class="bi bi-arrow-left-right me-2"></i>Compare (${selected.length}/2)`;
+                    selectionInfo.textContent = `${selected[0]} selected - choose 1 more`;
+                    selectionInfo.className = 'text-info me-3';
+                } else {
+                    compareButton.innerHTML = '<i class="bi bi-arrow-left-right me-2"></i>Compare Selected';
+                    selectionInfo.textContent = `Ready to compare: ${selected[0]} vs ${selected[1]}`;
+                    selectionInfo.className = 'text-success me-3';
+                }
             });
         });
     </script>
 
     <style>
-        .municipality-item {
-            cursor: pointer;
+        .municipality-row {
+            border-left: 4px solid transparent;
+            transition: all 0.2s ease;
         }
-        .municipality-item.active {
-            background-color: #007bff;
-            color: white;
+        
+        .municipality-row:hover {
+            border-left-color: #007bff;
+            background-color: #f8f9fa;
+        }
+        
+        .municipality-link:hover {
+            color: #007bff !important;
+            text-decoration: none;
+        }
+        
+        .form-check-input:checked {
+            background-color: #198754;
+            border-color: #198754;
+        }
+        
+        .form-switch .form-check-input {
+            width: 2.5em;
+            height: 1.25em;
+        }
+        
+        .list-group {
+            border-radius: 0.5rem;
+        }
+        
+        .list-group-item:first-child {
+            border-top-left-radius: 0.5rem;
+            border-top-right-radius: 0.5rem;
+        }
+        
+        .list-group-item:last-child {
+            border-bottom-left-radius: 0.5rem;
+            border-bottom-right-radius: 0.5rem;
+        }
+        
+        #compare-button:disabled {
+            opacity: 0.6;
+        }
+        
+        #selection-info {
+            font-size: 0.875rem;
+            font-weight: 500;
         }
     </style>
 

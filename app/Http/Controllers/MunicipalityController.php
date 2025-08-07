@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\OverallTownInfo;
 use App\Models\MunicipalityFinancialData;
 use App\Models\Municipality;
+use App\Models\Population;
 use App\Models\TownClassification;
 use Illuminate\Http\Request;
 
@@ -140,6 +141,40 @@ class MunicipalityController extends Controller
         $numeric = preg_replace('/[^\d.-]/', '', $currencyString);
         return is_numeric($numeric) ? (float)$numeric : null;
     }
+
+    private function extractPopulationYear($fiscalYear)
+    {
+        // Handle various year formats and return the most appropriate population year
+        
+        // Handle empty or invalid data
+        if (empty($fiscalYear) || $fiscalYear === 'No Budget Info') {
+            return null; // Return null for invalid data
+        }
+        
+        // Clean the input - remove extra spaces
+        $fiscalYear = trim($fiscalYear);
+        
+        // Handle FY formats: "FY 2019", "FY2019" -> 2019
+        if (preg_match('/FY\s*(\d{4})/', $fiscalYear, $matches)) {
+            return (int) $matches[1];
+        }
+        
+        // Handle fiscal year ranges: "2019-2020" -> use the later year (2020)
+        if (strpos($fiscalYear, '-') !== false) {
+            $parts = explode('-', $fiscalYear);
+            if (count($parts) >= 2 && is_numeric($parts[1])) {
+                return (int) $parts[1];
+            }
+        }
+        
+        // Handle regular years: "2019" -> 2019
+        if (is_numeric($fiscalYear)) {
+            return (int) $fiscalYear;
+        }
+        
+        // If we can't parse it, return null
+        return null;
+    }
     
 
     public function viewMunicipality($name)
@@ -156,24 +191,117 @@ class MunicipalityController extends Controller
         
         $financialData = MunicipalityFinancialData::where('municipality', $name)->firstOrFail();
 
-        // Getting population for per capita calculations
-        $population = $financialData ? $financialData->population : null;
+        // Check if we have population data for any of the reports
+        $hasAnyPopulationData = false;
+        $population = null;
+        
+        // Check each report to see if we have population data
+        foreach($reports as $report) {
+            $reportPopulationYear = $this->extractPopulationYear($report->year);
+            if ($reportPopulationYear) { // Only query if we have a valid year
+                $reportPopulation = Population::where('municipality', $name)
+                    ->where('year', $reportPopulationYear)
+                    ->first();
+                
+                // If no exact match and year is before 2020, use 2020 as closest approximation
+                if (!$reportPopulation && $reportPopulationYear < 2020) {
+                    $reportPopulation = Population::where('municipality', $name)
+                        ->where('year', 2020)
+                        ->first();
+                }
+                
+                if ($reportPopulation) {
+                    $hasAnyPopulationData = true;
+                    if (!$population) {
+                        $population = $reportPopulation->population; // Use first found population for header display
+                    }
+                }
+            }
+        }
 
-        if ($population && $population > 0) {
+        if ($hasAnyPopulationData) {
             foreach($reports as $report) {
+                // Get the correct population for each report's year
+                $reportPopulationYear = $this->extractPopulationYear($report->year);
+                $reportPopulation = null;
+                $reportPopulationCount = null;
+                
+                $actualPopulationYear = null;
+                if ($reportPopulationYear) { // Only query if we have a valid year
+                    $reportPopulation = Population::where('municipality', $name)
+                        ->where('year', $reportPopulationYear)
+                        ->first();
+                    
+                    if ($reportPopulation) {
+                        $actualPopulationYear = $reportPopulationYear;
+                    } else if ($reportPopulationYear < 2020) {
+                        // If no exact match and year is before 2020, use 2020 as closest approximation
+                        $reportPopulation = Population::where('municipality', $name)
+                            ->where('year', 2020)
+                            ->first();
+                        $actualPopulationYear = $reportPopulation ? '2020*' : null;
+                    }
+                    
+                    $reportPopulationCount = $reportPopulation ? $reportPopulation->population : null;
+                }
+
                 $recycling = $this->currencyToNumeric($report->recycling);
                 $tippingFees = $this->currencyToNumeric($report->tipping_fees);
                 $transferStationWages = $this->currencyToNumeric($report->transfer_station_wages);
+                $totalSanitation = $this->currencyToNumeric($report->total_sanitation_refuse);
 
-                $report->recycling_per_capita = $recycling ? number_format($recycling / $population, 2) : null;
-                $report->tipping_fees_per_capita = $tippingFees ? number_format($tippingFees / $population, 2) : null;
-                $report->tipping_fees_per_capita = $tippingFees ? number_format($tippingFees / $population, 2) : null;
+                // Calculate per capita for all financial fields
+                $bulkyWaste = $this->currencyToNumeric($report->bulky_waste);
+                $adminCosts = $this->currencyToNumeric($report->admin_costs);
+                $hazardousWaste = $this->currencyToNumeric($report->hazardous_waste);
+                $contractualServices = $this->currencyToNumeric($report->contractual_services);
+                $landfillCosts = $this->currencyToNumeric($report->landfill_costs);
+                $onlyPublicWorks = $this->currencyToNumeric($report->only_public_works);
+                $haulingFees = $this->currencyToNumeric($report->hauling_fees);
+                $curbsidePickupFees = $this->currencyToNumeric($report->curbside_pickup_fees);
+                $wasteCollection = $this->currencyToNumeric($report->waste_collection);
+
+                // Check if we have population data for this specific report
+                $report->has_population_data = $reportPopulation ? true : false;
+                $report->report_population = $reportPopulation ? $reportPopulation->population : null;
+                $report->population_year_used = $actualPopulationYear;
+                
+                if ($reportPopulation && $reportPopulationCount > 0) {
+                    $report->bulky_waste_per_capita = $bulkyWaste ? number_format($bulkyWaste / $reportPopulationCount, 2) : null;
+                    $report->recycling_per_capita = $recycling ? number_format($recycling / $reportPopulationCount, 2) : null;
+                    $report->tipping_fees_per_capita = $tippingFees ? number_format($tippingFees / $reportPopulationCount, 2) : null;
+                    $report->admin_costs_per_capita = $adminCosts ? number_format($adminCosts / $reportPopulationCount, 2) : null;
+                    $report->hazardous_waste_per_capita = $hazardousWaste ? number_format($hazardousWaste / $reportPopulationCount, 2) : null;
+                    $report->contractual_services_per_capita = $contractualServices ? number_format($contractualServices / $reportPopulationCount, 2) : null;
+                    $report->landfill_costs_per_capita = $landfillCosts ? number_format($landfillCosts / $reportPopulationCount, 2) : null;
+                    $report->total_sanitation_refuse_per_capita = $totalSanitation ? number_format($totalSanitation / $reportPopulationCount, 2) : null;
+                    $report->only_public_works_per_capita = $onlyPublicWorks ? number_format($onlyPublicWorks / $reportPopulationCount, 2) : null;
+                    $report->transfer_station_wages_per_capita = $transferStationWages ? number_format($transferStationWages / $reportPopulationCount, 2) : null;
+                    $report->hauling_fees_per_capita = $haulingFees ? number_format($haulingFees / $reportPopulationCount, 2) : null;
+                    $report->curbside_pickup_fees_per_capita = $curbsidePickupFees ? number_format($curbsidePickupFees / $reportPopulationCount, 2) : null;
+                    $report->waste_collection_per_capita = $wasteCollection ? number_format($wasteCollection / $reportPopulationCount, 2) : null;
+                } else {
+                    // Set all per capita values to null when no population data
+                    $report->bulky_waste_per_capita = null;
+                    $report->recycling_per_capita = null;
+                    $report->tipping_fees_per_capita = null;
+                    $report->admin_costs_per_capita = null;
+                    $report->hazardous_waste_per_capita = null;
+                    $report->contractual_services_per_capita = null;
+                    $report->landfill_costs_per_capita = null;
+                    $report->total_sanitation_refuse_per_capita = null;
+                    $report->only_public_works_per_capita = null;
+                    $report->transfer_station_wages_per_capita = null;
+                    $report->hauling_fees_per_capita = null;
+                    $report->curbside_pickup_fees_per_capita = null;
+                    $report->waste_collection_per_capita = null;
+                }
             }
         }
 
         return view('municipalities.view-municipality', compact(
             'name', 'reports', 'townInfo', 'financials', 'financialData',
-             'townClassification', 'municipality', 'population'));
+             'townClassification', 'municipality', 'population', 'hasAnyPopulationData'));
     }
 
     public function viewReport($id)
@@ -295,9 +423,45 @@ class MunicipalityController extends Controller
 
         // Get the most recent record for each municipality
         $municipalities = collect($request->municipalities)->map(function ($name) {
-            return Municipality::where('name', $name)
+            $municipality = Municipality::where('name', $name)
                 ->orderBy('year', 'desc')
                 ->first();
+                
+            if ($municipality) {
+                // Get latest population for per capita calculations
+                $latestPopulation = Population::where('municipality', $name)
+                    ->orderBy('year', 'desc')
+                    ->first();
+                    
+                $municipality->latest_population = $latestPopulation ? $latestPopulation->population : null;
+                
+                // Calculate per capita values using the correct population year
+                $populationYear = $this->extractPopulationYear($municipality->year);
+                $correctPopulation = null;
+                
+                if ($populationYear) { // Only query if we have a valid year
+                    $correctPopulation = Population::where('municipality', $name)
+                        ->where('year', $populationYear)
+                        ->first();
+                    
+                    // If no exact match and year is before 2020, use 2020 as closest approximation
+                    if (!$correctPopulation && $populationYear < 2020) {
+                        $correctPopulation = Population::where('municipality', $name)
+                            ->where('year', 2020)
+                            ->first();
+                    }
+                }
+                
+                if ($correctPopulation && $correctPopulation->population > 0) {
+                    $municipality->latest_population = $correctPopulation->population;
+                    $municipality->recycling_per_capita = $this->currencyToNumeric($municipality->recycling) / $correctPopulation->population;
+                    $municipality->tipping_fees_per_capita = $this->currencyToNumeric($municipality->tipping_fees) / $correctPopulation->population;
+                    $municipality->transfer_station_wages_per_capita = $this->currencyToNumeric($municipality->transfer_station_wages) / $correctPopulation->population;
+                    $municipality->total_sanitation_refuse_per_capita = $this->currencyToNumeric($municipality->total_sanitation_refuse) / $correctPopulation->population;
+                }
+            }
+            
+            return $municipality;
         })->filter(); // Remove any null results
 
         // Ensure we have exactly 2 municipalities
@@ -305,7 +469,122 @@ class MunicipalityController extends Controller
             return back()->withErrors(['municipalities' => 'Could not find data for the selected municipalities.']);
         }
 
-        return view('municipalities.compare', compact('municipalities'));
+        // Get year-over-year data for both municipalities
+        $municipality1Name = $municipalities[0]->name;
+        $municipality2Name = $municipalities[1]->name;
+        
+        // Get all years both municipalities have data for
+        $municipality1Years = Municipality::where('name', $municipality1Name)
+            ->pluck('year')
+            ->toArray();
+        $municipality2Years = Municipality::where('name', $municipality2Name)
+            ->pluck('year')
+            ->toArray();
+        $commonYears = array_intersect($municipality1Years, $municipality2Years);
+        sort($commonYears);
+        
+        // Get historical data for common years
+        $municipality1Historical = Municipality::where('name', $municipality1Name)
+            ->whereIn('year', $commonYears)
+            ->orderBy('year')
+            ->get();
+        $municipality2Historical = Municipality::where('name', $municipality2Name)
+            ->whereIn('year', $commonYears)
+            ->orderBy('year')
+            ->get();
+            
+        // Get population data for per capita historical calculations
+        $municipality1Populations = Population::where('municipality', $municipality1Name)
+            ->whereIn('year', $commonYears)
+            ->orderBy('year')
+            ->get()
+            ->keyBy('year');
+        $municipality2Populations = Population::where('municipality', $municipality2Name)
+            ->whereIn('year', $commonYears)
+            ->orderBy('year')
+            ->get()
+            ->keyBy('year');
+
+        // Prepare trend data for charts - calculate all key metrics
+        $municipality1TrendData = [
+            'recycling' => [],
+            'tipping_fees' => [],
+            'transfer_station_wages' => [],
+            'total_sanitation_refuse' => []
+        ];
+        $municipality2TrendData = [
+            'recycling' => [],
+            'tipping_fees' => [],
+            'transfer_station_wages' => [],
+            'total_sanitation_refuse' => []
+        ];
+        
+        foreach($municipality1Historical as $record) {
+            // Handle fiscal year format (e.g., "2020-2021" -> use 2021 population)
+            $populationYear = $this->extractPopulationYear($record->year);
+            $population = null;
+            $populationCount = 1; // Default to 1 to avoid division by zero
+            
+            if ($populationYear) { // Only query if we have a valid year
+                $population = Population::where('municipality', $municipality1Name)
+                    ->where('year', $populationYear)
+                    ->first();
+                
+                // If no exact match and year is before 2020, use 2020 as closest approximation
+                if (!$population && $populationYear < 2020) {
+                    $population = Population::where('municipality', $municipality1Name)
+                        ->where('year', 2020)
+                        ->first();
+                }
+                
+                $populationCount = $population ? $population->population : 1;
+            }
+            
+            // Calculate per capita for all key metrics
+            $municipality1TrendData['recycling'][] = round($this->currencyToNumeric($record->recycling) / $populationCount, 2);
+            $municipality1TrendData['tipping_fees'][] = round($this->currencyToNumeric($record->tipping_fees) / $populationCount, 2);
+            $municipality1TrendData['transfer_station_wages'][] = round($this->currencyToNumeric($record->transfer_station_wages) / $populationCount, 2);
+            $municipality1TrendData['total_sanitation_refuse'][] = round($this->currencyToNumeric($record->total_sanitation_refuse) / $populationCount, 2);
+        }
+        
+        foreach($municipality2Historical as $record) {
+            // Handle fiscal year format (e.g., "2020-2021" -> use 2021 population)
+            $populationYear = $this->extractPopulationYear($record->year);
+            $population = null;
+            $populationCount = 1; // Default to 1 to avoid division by zero
+            
+            if ($populationYear) { // Only query if we have a valid year
+                $population = Population::where('municipality', $municipality2Name)
+                    ->where('year', $populationYear)
+                    ->first();
+                
+                // If no exact match and year is before 2020, use 2020 as closest approximation
+                if (!$population && $populationYear < 2020) {
+                    $population = Population::where('municipality', $municipality2Name)
+                        ->where('year', 2020)
+                        ->first();
+                }
+                
+                $populationCount = $population ? $population->population : 1;
+            }
+            
+            // Calculate per capita for all key metrics
+            $municipality2TrendData['recycling'][] = round($this->currencyToNumeric($record->recycling) / $populationCount, 2);
+            $municipality2TrendData['tipping_fees'][] = round($this->currencyToNumeric($record->tipping_fees) / $populationCount, 2);
+            $municipality2TrendData['transfer_station_wages'][] = round($this->currencyToNumeric($record->transfer_station_wages) / $populationCount, 2);
+            $municipality2TrendData['total_sanitation_refuse'][] = round($this->currencyToNumeric($record->total_sanitation_refuse) / $populationCount, 2);
+        }
+
+        return view('municipalities.compare', compact(
+            'municipalities', 
+            'commonYears', 
+            'municipality1Historical', 
+            'municipality2Historical',
+            'municipality1Populations',
+            'municipality2Populations',
+            'municipality1TrendData',
+            'municipality2TrendData'
+        ));
     }
     
     
