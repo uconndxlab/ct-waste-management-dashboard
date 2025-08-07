@@ -27,4 +27,15 @@ class Municipality extends Model
         'waste_collection',
         'notes',
     ];
+
+    public function populations()
+    {
+        return $this->hasMany(Population::class, 'municipality', 'name');
+    }
+
+    public function latestPopulation()
+    {
+        return $this->hasOne(Population::class, 'municipality', 'name')
+                    ->orderBy('year', 'desc');
+    }
 }
