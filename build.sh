@@ -8,10 +8,9 @@ composer install --no-dev --optimize-autoloader
 
 # Create SQLite database file
 echo "🗄️ Setting up SQLite database..."
-mkdir -p database
 touch database/database.sqlite
 
-# Generate app key if not set
+# Generate app key
 echo "🔑 Generating application key..."
 php artisan key:generate --force
 
@@ -23,15 +22,10 @@ php artisan migrate --force
 echo "📥 Importing application data..."
 php artisan import:all-data
 
-# Cache configuration for production
+# Cache configuration
 echo "⚡ Optimizing application..."
 php artisan config:cache
 php artisan route:cache
 php artisan view:cache
-
-# Set proper permissions
-echo "🔒 Setting permissions..."
-chmod -R 755 storage
-chmod -R 755 bootstrap/cache
 
 echo "✅ Build completed successfully!"
