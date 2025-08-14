@@ -49,14 +49,52 @@
     <body class="">
 
         {{-- <a href="/municipalities" class="mb-4">View All Municipalities</a> --}}
-        <div class="d-flex align-items-center justifiy-content-between w-100">
-                        <form action="{{ route('municipalities.all') }}" method="GET" class="flex-grow-1 me-3">
+        <div class="d-flex align-items-center justify-content-between w-100 mb-4">
+            <form action="{{ route('municipalities.all') }}" method="GET" class="flex-grow-1 me-3">
                 <div class="input-group">
                     <input type="text" name="search" class="form-control" placeholder="Search municipalities..." value="{{ request('search') }}">
-        
                 </div>
             </form>
-            <a  href="{{ route('municipalities.all') }}" class="btn btn-primary"><i class="bi bi-search"></i>View all municipalities</a>
+            <a href="{{ route('municipalities.all') }}" class="btn btn-primary">
+                <i class="bi bi-search"></i> View all municipalities
+            </a>
+        </div>
+
+        <!-- Regional Analysis Navigation -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title mb-3">
+                            <i class="bi bi-bar-chart-line text-primary me-2"></i>
+                            Regional Analysis
+                        </h5>
+                        <p class="card-text text-muted mb-3">
+                            Compare waste management data across different regional groupings
+                        </p>
+                        <div class="row g-2">
+                            <div class="col-md-4">
+                                <a href="{{ route('regions.list', ['type' => 'county']) }}" class="btn btn-outline-primary w-100">
+                                    <i class="bi bi-geo-alt me-2"></i>
+                                    Counties
+                                </a>
+                            </div>
+                            <div class="col-md-4">
+                                <a href="{{ route('regions.list', ['type' => 'planning-region']) }}" class="btn btn-outline-primary w-100">
+                                    <i class="bi bi-map me-2"></i>
+                                    Planning Regions
+                                </a>
+                            </div>
+                            <div class="col-md-4">
+                                <a href="{{ route('regions.list', ['type' => 'classification']) }}" class="btn btn-outline-primary w-100">
+                                    <i class="bi bi-building me-2"></i>
+                                    Classifications
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <div class="container mt-4">

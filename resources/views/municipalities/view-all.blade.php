@@ -3,7 +3,25 @@
 @section('title', 'Municipalities')
 
 @section('content')
-    <h1 class="text-primary">All Municipalities</h1>
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="text-primary">All Municipalities</h1>
+        <div class="dropdown">
+            <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="bi bi-bar-chart-line me-2"></i>Regional Analysis
+            </button>
+            <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="{{ route('regions.list', ['type' => 'county']) }}">
+                    <i class="bi bi-geo-alt me-2"></i>Counties
+                </a></li>
+                <li><a class="dropdown-item" href="{{ route('regions.list', ['type' => 'planning-region']) }}">
+                    <i class="bi bi-map me-2"></i>Planning Regions
+                </a></li>
+                <li><a class="dropdown-item" href="{{ route('regions.list', ['type' => 'classification']) }}">
+                    <i class="bi bi-building me-2"></i>Classifications
+                </a></li>
+            </ul>
+        </div>
+    </div>
 
     <form action="{{ route('municipalities.all') }}" method="GET" class="mb-4 mt-3">
         <div class="input-group">

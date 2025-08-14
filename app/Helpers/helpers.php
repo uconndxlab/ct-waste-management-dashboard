@@ -8,6 +8,11 @@ function generateBreadcrumbs($url)
     $customNames = [
         '' => 'Home /',
         'municipalities' => 'Municipalities',
+        'regions' => 'Regional Analysis',
+        'county' => 'Counties',
+        'planning-region' => 'Planning Regions',
+        'classification' => 'Classifications',
+        'compare' => 'Comparison',
     ];
 
     foreach ($segments as $segment) {

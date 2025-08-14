@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\MunicipalityController;
+use App\Http\Controllers\RegionalController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MunicipalityFinancialController;
 
@@ -19,4 +20,12 @@ Route::get('/municipalities/{name}/reports/create', [MunicipalityController::cla
 Route::post('/municipalities/{name}/reports', [MunicipalityController::class, 'storeReport'])->name('municipalities.report.store');
 Route::delete('/municipalities/{name}/reports/{reportId}', [MunicipalityController::class, 'deleteReport'])->name('municipalities.report.delete');
 Route::post('/municipalities/compare', [MunicipalityController::class, 'compareMunicipalities'])->name('municipalities.compare');
+
+// Regional routes - specific routes must come before generic ones
+Route::get('/regions/counties', [RegionalController::class, 'listCounties'])->name('regions.counties');
+Route::get('/regions/planning-regions', [RegionalController::class, 'listPlanningRegions'])->name('regions.planning-regions');
+Route::get('/regions/classifications', [RegionalController::class, 'listClassifications'])->name('regions.classifications');
+Route::post('/regions/compare', [RegionalController::class, 'compareRegions'])->name('regions.compare');
+Route::get('/regions/{type}', [RegionalController::class, 'listRegions'])->name('regions.list');
+Route::get('/regions/{regionType}/{regionName}', [RegionalController::class, 'viewRegion'])->name('regions.view');
 
