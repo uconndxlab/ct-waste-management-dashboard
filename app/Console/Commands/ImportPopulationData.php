@@ -27,7 +27,7 @@ class ImportPopulationData extends Command
      */
     public function handle()
     {
-        $csvFile = base_path('populations.csv');
+        $csvFile = storage_path('app/populations.csv');
         
         if (!file_exists($csvFile)) {
             $this->error('populations.csv file not found in project root');
