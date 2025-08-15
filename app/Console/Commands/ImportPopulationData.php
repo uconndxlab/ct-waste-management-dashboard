@@ -46,7 +46,17 @@ class ImportPopulationData extends Command
         $imported = 0;
 
         while (($row = fgetcsv($handle)) !== false) {
-            $municipality = $row[0];
+            $csvMunicipality = $row[0];
+            
+            // Find the correct municipality name from the database (case-insensitive)
+            $municipality = DB::table('town_classifications')
+                ->whereRaw('LOWER(municipality) = ?', [strtolower($csvMunicipality)])
+                ->value('municipality');
+            
+            if (!$municipality) {
+                $this->warn("Municipality not found: {$csvMunicipality}");
+                continue;
+            }
             
             // Process each year's population data
             for ($i = 1; $i < count($row); $i++) {
