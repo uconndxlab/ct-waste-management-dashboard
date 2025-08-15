@@ -1,0 +1,641 @@
+Municipality,Year,Bulky Waste,Recycling,Tipping Fees,Admin Costs,Hazardous Waste,Contractual Services,Landfill Costs,Total Sanitation/refuse,Only Public Works,Transfer station/Recycling Center wages,Hauling fees,Curbside Pickup fees (town),Waste Collection,notes/ other broken down variables
+Andover,2020-2021,"$29,000.00",,"$43,000.00",,,,,"$149,100.00",,"$20,600.00","$38,000.00",,,"town also includes: 
+  - brush pile removal
+  -maintenance fees
+  -electricity
+  - trash compactor lease"
+Andover,2021-2022,"$30,160.00",,"$44,720.00",,,,,"$153,661.00",,"$21,218.00","$39,520.00",,,
+Ansonia,2020-2021,,"$300,000.00",,,,,"$38,000.00","$1,595,577.00",,included in break down but blank,"$800,000.00","$495,577.00",,
+Ansonia,2021-2022,,"$310,500.00",,,,,"$30,000.00","$1,676,700.00",,,"$828,000.00","$538,200.00",,
+Ansonia,2022-2023,,"$350,000.00",,,,,"$30,000.00","$2,025,000.00",,,"$900,000.00","$775,000.00",,
+Ashford,2021-2022,,,,,,,,,,,,,,
+Ashford,2022-2023,,"$240,000.00",,,,,,,,,,,,
+Avon,2020-2021,,,,,,,,,"$7,550,869.00",,,,,- town does not break down anything to do with waste
+Avon,2021-2022,,,,,,,,,"$6,927,349.00",,,,,
+Avon,2022-2023,,,,,,,,,"$5,786,646.00",,,,,
+Barkhamsted,,,,,,,,,,,,,,,
+Beacon Falls,2020-2021,"$30,086.00","$80,792.00",,,"$6,570.00",,,"$375,222.00",,,,"$257,775.00",,
+Beacon Falls,2021-2022,"$55,000.00","$85,100.00",,,"$15,000.00",,,"$420,100.00",,,,"$265,000.00",,
+Beacon Falls,2022-2023,"$50,000.00","$117,000.00",,,"$10,000.00",,,"$457,000.00",,,,"$280,000.00",,
+Berlin,2021-2022,,,,,,,,"$1,673,740.00",,,,,,- town only generalizes 'refuse' under public works
+Berlin,2022,,,,,,,,"$1,850,000.00",,,,,,
+Berlin,,,,,,,,,"$1,850,000.00",,,,,,
+Bethany,2020-2021,"$28,000.00","$25,000.00","$110,000.00",,,,,"$402,101.00",,,,"$164,430.00",,"- town also includes: 
+  -salaries
+  -rentals
+  - tires/ oil
+  -miscellaneous"
+Bethany,2022-2023,"$28,000.00","$45,000.00","$110,000.00",,,,,"$512,070.00",,,,"$223,570.00",,
+Bethel,2020-2021,,,,"$1,000.00",,"$60,000.00",,,,"$134,596.00",,,,
+Bethel,2021-2022,,,,"$1,000.00",,"$60,000.00",,,,"$141,751.00",,,,
+Bethel,2022-2023,,,,"$1,000.00",,"$60,000.00",,,,"$141,751.00",,,,
+Bethlehem,2021-2022,,,,,,,,,,,,,,"- town only expenses ""refuse disposal"" as a genralized charge"
+Bloomfield,2019,"$8,300.00",,,,,,,,,,,,,- town only shows expenses for bulky waste
+Bloomfield,2020,"$17,500.00",,,,,,,,,,,,,
+Bloomfield,2021,"$17,500.00",,,,,,,,,,,,,
+Bolton,2020,,,,,,,,"$533,076.00",,,,,,"- town generalized ""refuse services"""
+Bolton,2021,,,,,,,,"$510,982.00",,,,,,
+Bolton,2022,,,,,,,,"$522,604.00",,,,,,
+Bozrah,2019-2020,"$12,500.00",,"$13,200.00",,,,,"$72,956.00",,,"$8,500.00",,,"town also includes:
+  - attendant cost 
+  - equiptment rental 
+  - SCRRRA/ Saftey-Kleen
+  - Site improvements 
+  - Portable toilet 
+  -electric/ telephone 
+  -PAYT Bags"
+Bozrah,2020-2021,"$12,750.00",,"$13,500.00",,,,,"$74,556.00",,,"$8,500.00",,,
+Bozrah,2022-2023,"$12,750.00",,"$13,500.00",,,,,"$80,300.00",,,"$8,500.00",,,
+Branford,2020-2021,,,,,,,"$29,400.00","$3,381,686.00",,"$306,279.00",,"$1,078,000.00",,"Town also includes: 
+  - bonuses/ overtime for worker wages 
+  - associated utilities 
+  - fuel costs
+  - material handling 
+  - advertising 
+  - equiptment 
+  - state fees/ testing 
+  -repairs and maintenance"
+Branford,2021-2022,,,,,,,"$29,400.00","$3,509,783.00",,"$306,506.00",,"$1,100,320.00",,
+Bridgeport,,,,,,,,,,,,,,,
+Bridgewater,2022,,,,,,,,"$43,908.00",,,,,,
+Bristol,2022,,,,,,,,"$1,243,420.00",,,,,,
+Brookfield,2021-2022,,,,,"$20,700.00",,,"$53,300.00",,,,,,
+Brooklyn,2021-2022,,,,,"$10,000.00","$180,000.00",,"$349,103.00",,"$33,052.00",,,,"town also includes: 
+  - bag fee
+  - permits 
+  - rentals"
+Burlington,2021-2022,,,,,,,"$2,500.00","$1,193,170.00",,,,,,
+Canaan,,,,,,,,,,,,,,,
+Canterbury,2020-2021,,,,,,,,"$2,016,060.00",,,,,,
+Canton,2022-2023,,,,,,,,,,,,,,"- town only shows expenses for the transfer station, and it seems like it was a new expenditure for the 2022-2023 FY"
+Chaplin,,,,,,,,,,,,,,,
+Cheshire,2021-2022,,"$93,000.00","$765,000.00",,"$37,000.00",,,,,,,"$976,000.00",,"Town also includes: 
+  - illegal dumping fees 
+  - mileage to waterbury fee 
+  - new homes fee"
+Chester,,,,,,,,,,,,,,,
+Clinton,2020-2021,,,,,,,"$113,754.00",,,,,,,
+Colchester,2021-2022,,,,,,,,"$15,000.00",,,,,,
+Colebrook,,,,,,,,,,,,,,,
+Columbia,2021-2022,,,,,,,,"$238,741.00",,,,,,
+Cornwall,,,,,,,,,,,,,,,
+Coventry,,,,,,,,,,,,,,,
+Cromwell,,,,,,,,,,,,,,,
+Danbury,2021-2022,,,,,,,,"$267,500.00",,,,,,
+Darien,2021-2022,,,,,"$8,186.00","$1,103,717.00",,,,,,,,
+Deep River,2021-2022,"$105,800.00","$11,196.00","$109,000.00",,,,,,,,,,,- household hazardous waste facility
+Derby,2021-2022,,"$127,969.00",,,"$6,500.00",,"$4,000.00","$1,306,146.00",,,,,,"Town also includes: 
+  - supplies fees 
+  - permit fees 
+  - bin fees 
+  -"
+Durham,2020-2021,,,,,"$7,052.00",,,,,,,,,
+East Granby,2022,,,,,,,,"$806,717.00",,,,,,
+East Haddam,2021,,,,,,,,,,,,,,
+East Hampton,2020-2021,,,,,,,,,,,,,,
+East Hartford,2022,,"$423,479.00",,,,"$19,253.00",,"$1,152,679.00",,,,,,
+East Haven,2021-2022,,,,,,"$4,000.00",,"$2,484,201.00",,,,,,"Town includes: 
+  - two forms of waste collection, the trashmaster and the disposal fees
+  - environmental disposal services 
+  - hazewaste central?"
+East Lyme,,,,,,,,,,,,,,,"- town breaks down waste charges as only sanitation/ public works, does not"
+East Windsor,2021-2022,,,"$240,870.00",,- not done yearly,,,"$957,460.00",,,,,"$716,590.00",
+Eastford,2020-2021,,,"$61,400.00",,"$1,045.00",,,"$82,082.00",,"$16,000.00",,,,"Town also includes: 
+  - education 
+  - supplies 
+  - equipt maintenance 
+  - MidNEROC
+  -DEP fees"
+Easton,2020-2021,,"$248,441.00",,,,,,,,,,,,
+Ellington,2021-2022,"$627,300.00","$384,744.00",,,"$16,501.00",,"$576,400.00",,,,,,,
+Enfield,,,,,,,,,,,,,,,
+Essex,2021,"$15,000.00",,,,,,,,,,,,,
+Fairfield,2021,,,,,,"$916,841.00",,"$4,340,707.00",,,,,,
+Farmington,2022,,,,,,,,"$1,958,080.00",,,,,,
+Franklin,,,,,,,,,,,,,,,
+Glastonbury,2021,,,"$257,273.00",,,,,"$948,368.00",,,,,,
+Goshen,2020-2021,,,,,,,,,,,,,,
+Granby,2020-2021,,"$131,000.00","$318,500.00",,,,,"$894,100.00",,,,,,
+Greenwich,,,,,,,,,,,,,,,
+Griswold,,,,,,,,,,,,,,,
+Groton,2021,,,,,,,,,,,,,,- tipping fee is $58/ ton
+Guilford,,,,,,,,,,,,,,,**Only 2023-2024 is currently available. Additionally. Alyssa specifies that she has information--11/07; SL
+Haddam,2019-2020,"$80,016.00","$9,887.00","$104,153.00","$4,667.00","$16,036.00",,"$13,925.00",,,"$97,837.00",,,,"Other classifications of waste disposal cost in the budgets include:
+  1. Brush Disposal.
+  2. Maintenance of Site--11/07; SL
+ **The costs of Brush Disposal and Maintenance of Site are 14,715 and 15,440 respectively.
+  **The cost included under Admin is the cost of Electric.
+  **I included Overtime under Transfer Station Wages.
+  **I included MSW Disposal fee under Tipping fees. 
+  Any opinions, comments or suggestions in this regard are welcome."
+Haddam,2020-2021,"$80,000.00","$8,500.00","$125,000.00","$5,000.00","$20,000.00",,"$15,000.00",,,"$64,260.00",,,,"Other classifications of waste disposal cost in the budgets include:
+  1. Brush Disposal.
+  2. Maintenance of Site--11/07; SL
+ **The costs of Brush Disposal and Maintenance of Site are 17,000 and 7,000 respectively.
+  **The cost included under Admin is the cost of Electric.
+  **I included Overtime under Transfer Station Wages.
+  **I included MSW Disposal fee under Tipping fees."
+Haddam,2021-2022,"$80,000.00","$12,000.00","$150,000.00","$5,000.00","$25,000.00",,"$15,000.00",,,"$69,630.00",,,,"Other classifications of waste disposal cost in the budgets include:
+  1. Brush Disposal.
+  2. Maintenance of Site--11/07; SL
+ **There was an overhead cost, Overtime, which I added to the Transfer station wages. 
+  **The cost included under Admin is the cost of Electric.
+  **The costs of Brush Disposal and Maintenance of Site are 10,000 and 20,000 respectively."
+Haddam,2022-2023,"$85,000.00","$15,000.00","$180,000.00","$5,000.00","$25,000.00",,"$7,500.00",,,"$62,360.00",,,,"Other classifications of waste disposal cost in the budgets include:
+  1. Brush Disposal.
+  2. Maintenance of Site--11/07; SL
+ **The cost included under Admin is the cost of Electric.
+  **The costs of Brush Disposal and Maintenance of Site are 25,000 and 12,500 respectively"
+Hamden,2019-2020,,,"$1,100,000.00",,,"$1,543,203.00",,,,,,,,
+Hamden,2020-2021,,,"$1,550,000.00",,,"$1,974,286.00",,,,,,,,"I would like to point out here that the town of Hamden has a transfer station. Hence, I believe that the cost included under the Transfer station category
+  and as included in the budgets should include the salaries or wages that are paid to the custodian or employees that work in the transfer station.
+ **The cost included under the Solid Waste category is a cost item included in the budgets as Waste Removal-Condos."
+Hamden,2021-2022,,,"$1,975,000.00",,,"$2,431,714.00",,,,,,,,"I would like to point out here that the town of Hamden has a transfer station. Hence, I believe that the cost included under the Transfer station category
+  and as included in the budgets should include the salaries or wages that are paid to the custodian or employees that work in the transfer station.
+ **The cost included under the Solid Waste category is a cost item included in the budgets as Waste Removal-Condos."
+Hamden,2022-2023,"$250,000.00",,"$2,150,000.00",,,"$2,398,886.00",,,,,,,,"I would like to point out here that the town of Hamden has a transfer station. Hence, I believe that the cost included under the Transfer station category
+  and as included in the budgets should include the salaries or wages that are paid to the custodian or employees that work in the transfer station.
+ **The cost included under the Solid Waste category is a cost item included in the budgets as Waste Removal-Condos."
+Hampton,2019-2020,,,"$49,500.00",,"$1,553.00",,,,,"$28,927.00",,,,"Other waste disposal cost classifications included in the budgets are:
+  1. DEP Permit fees--11/07; SL
+ **I include the cost of Transfer Station Lease under the Transfer Station category.
+  **I include the cost of Trucking under the Solid Waste category. Opinions, comments and/or suggestions on this are welcome.
+  **The DEP Permit fee is 800.
+  ** The cost of Hazardous waste is included in the budgets as Sanitation MidNEROC."
+Hampton,2020-2021,,,"$51,975.00",,"$1,553.00",,,,,"$29,389.00",,,,"Other waste disposal cost classifications included in the budgets are:
+  1. DEP Permit fees--11/07; SL
+ **I include the cost of Transfer Station Lease under the Transfer Station category.
+  **I include the cost of Trucking under the Solid Waste category. 
+  **The DEP Permit fee is 2,700.
+  ** The cost of Hazardous waste is included in the budgets as Sanitation MidNEROC."
+Hampton,2021-2022,,,"$54,575.00",,"$2,071.00",,,,,"$29,977.00",,,,"**I include the cost of Transfer Station Lease under the Transfer Station category.
+  **I include the cost of Trucking under the Solid Waste category. 
+  **The DEP Permit fee is 2,700.
+  ** The cost of Hazardous waste is included in the budgets as Sanitation MidNEROC."
+Hartford,2019,,,,,,,,,,,,,,"There is no breakdown of the Waste and Recycling Cost in the budgets--11/07; SL
+ **The cost of Waste and Recycling is 2,555,464"
+Hartford,2020,,,,,,,,,,,,,,"There is no breakdown of the Waste and Recycling Cost in the budgets--11/07; SL
+ **The cost of Waste and Recycling is 2,450,172"
+Hartford,2021,,,,,,,,,,,,,,"There is no breakdown of the Waste and Recycling Cost in the budgets--11/07; SL
+ **The cost of Waste & Recycling is 2,130,951"
+Hartford,2022,,,,,,,,,,,,,,"There is no breakdown of the Waste and Recycling Cost in the budgets--11/07; SL
+ **The cost of Waste & Recycling is 2,623,095"
+Hartland,2019-2020,,,,,,,,,,,,,,"The only cost item included in the budgets for waste disposal is Waste Disposal and Recycling.
+  However, there is no breakdown of this cost item in the budgets--11/07; SL
+ **The cost of Waste Disposal and Recycling is 120,872."
+Hartland,2020-2021,,,,,,,,,,,,,,"The only cost item included in the budgets for waste disposal is Waste Disposal and Recycling.
+  However, there is no breakdown of this cost item in the budgets--11/07; SL
+ **The cost of Waste Disposal and Recycling is 123,574. Note that this is the from the Proposed budget. 
+  There is no information on the Adopted budget amounts for this fiscal year."
+Hartland,2021-2022,,,,,,,,,,,,,,"The only cost item included in the budgets for waste disposal is Waste Disposal and Recycling.
+  However, there is no breakdown of this cost item in the budgets--11/07; SL
+ **The cost of Waste Disposal and Recycling is 124,707."
+Hartland,2022-2023,,,,,,,,,,,,,,"The only cost item included in the budgets for waste disposal is Waste Disposal and Recycling.
+  However, there is no breakdown of this cost item in the budgets--11/07; SL
+ **The cost of Waste Disposal and Recycling is 123,117."
+Harwinton,,,,,,,,,,,,,,,"The only budget information available is for the 2016-2017 and 2017-2018 fiscal years.
+  There is, however, available budget information for the 2018-2019 fiscal year. But that is the proposed budget and not the adopted budget.
+  1. The per-ton tip fee for the 2019-2020 fiscal year was $ 83.00"
+Hebron,2018-2019,,,,,,,,,,,,,,"Waste Disposal is only included in the budgets as Solid/Bulky Waste Recycling. I am stumped as to which of the categories to classify this
+  under. Opinions and suggestions are welcome-11/07; SL
+ **The cost of Solid/Bulky Waste Recycling is 182,435."
+Hebron,2019-2020,,,,,,,,,,,,,,"Waste Disposal is only included in the budgets as Solid/Bulky Waste Recycling. I am stumped as to which of the categories to classify this
+  under. Opinions and suggestions are welcome-11/07; SL
+ **The cost of Solid/Bulky Waste Recycling is 182,530."
+Kent,2018-2019,"$10,000.00",,"$4,500.00","$8,154.00","$2,000.00",,,,,"$31,431.00",,,,"The town has other cost classifications under Sanitation and Transfer station including:
+  1. Container Rent and Tran.
+  2. Testing.
+  3. Permitting.
+  I am unsure under which of the categories these costs should be classified so I list them out--11/07; SL
+ ** The cost of Container Rent and Tran, Testing, and Permitting are 23,700, 1,200 and 950 respectively."
+Kent,2019-2020,"$10,000.00",,"$3,000.00","$7,923.00","$2,000.00",,,,,"$50,622.00",,,,"The town has other cost classifications under Sanitation and Transfer station including:
+  1. Container Rent and Tran.
+  2. Testing.
+  3. Permitting.
+  I am unsure under which of the categories these costs should be classified so I list them out--11/07; SL
+ ** The cost of Container Rent and Tran, Testing, and Permitting are 23000, 1200 and 950 respectively."
+Killingly,2019-2020,,,,,,,,,,,,,,"The only cost item in the budgets that relates to waste disposal is Solid Waste Disposal Fund Subsidy. 
+  There is, however, no breakdown of this cost item--11/07; SL
+ **The amount of the Solid Waste Disposal Fund Subsidy is 321,191."
+Killingly,2020-2021,,,,,,,,,,,,,,"The only cost item in the budgets that relates to waste disposal is Solid Waste Disposal Fund Subsidy. 
+  There is, however, no breakdown of this cost item--11/07; SL
+ **The amount of the Solid Waste Disposal Fund Subsidy is 234,801."
+Killingly,2021-2022,,,,,,,,,,,,,,"The only cost item in the budgets that relates to waste disposal is Solid Waste Disposal Fund Subsidy. 
+  There is, however, no breakdown of this cost item--11/07; SL
+ **The amount of the Solid Waste Disposal Fund Subsidy is 234,801."
+Killingly,2022-2023,,,,,,,,,,,,,,"The only cost item in the budgets that relates to waste disposal is Solid Waste Disposal Fund Subsidy. 
+  There is, however, no breakdown of this cost item--11/07; SL
+ **The amount of the Solid Waste Disposal Fund Subsidy is 234,801."
+Killingworth,2019-2020,"$76,500.00",,,"$2,356.00","$13,000.00",,,,,,,,,"The waste disposal cost for this town is provided under Sanitation and Health. I include only costs I think are associated with waste disposal and 
+  exclude health-related costs. Apart from the costs I have grouped under the various classifications, there are two other costs I am unsure as to what category they should
+  be classified under. These are:
+  1. Carting and Disposal Expense and 
+  2. Sanitarian-Expenses
+  I classify Carting and Disposal Expense under Solid Waste and Sanitarian-Expenses under Admin Costs. Opinions and suggestions regarding the 
+  appropriate cost category are welcome--11/07; SL"
+Killingworth,2020-2021,"$76,500.00",,,"$2,356.00","$11,600.00",,,,,,,,,"The waste disposal cost for this town is provided under Sanitation and Health. I include only costs I think are associated with waste disposal and 
+  exclude health-related costs. Apart from the costs I have grouped under the various classifications, there are two other costs I am unsure as to what category they should
+  be classified under. These are:
+  1. Carting and Disposal Expense and 
+  2. Sanitarian-Expenses
+  I classify Carting and Disposal Expense under Solid Waste and Sanitarian-Expenses under Admin Costs. Opinions and suggestions regarding the 
+  appropriate cost category are welcome--11/07; SL"
+Killingworth,2021-2022,"$81,000.00",,,"$1,700.00","$12,400.00",,,,,,,,,"The waste disposal cost for this town is provided under Sanitation and Health. I include only costs I think are associated with waste disposal and 
+  exclude health-related costs. Apart from the costs I have grouped under the various classifications, there are two other costs I am unsure as to what category they should
+  be classified under. These are:
+  1. Carting and Disposal Expense and 
+  2. Sanitarian-Expenses
+  I classify Carting and Disposal Expense under Solid Waste and Sanitarian-Expenses under Admin Costs. Opinions and suggestions regarding the 
+  appropriate cost category are welcome--11/07; SL"
+Killingworth,2022-2023,"$90,500.00",,,,"$12,400.00",,,,,,,,,"The waste disposal cost for this town is provided under Sanitation and Health. I include only costs I think are associated with waste disposal and 
+  exclude health-related costs. Apart from the costs I have grouped under the various classifications, there are two other costs I am unsure as to what category they should
+  be classified under. These are:
+  1. Carting and Disposal Expense and 
+  2. Sanitarian-Expenses
+  I classify Carting and Disposal Expense under Solid Waste and Sanitarian-Expenses under Admin Costs. Opinions and suggestions regarding the 
+  appropriate cost category are welcome--11/07; SL"
+Lebanon,2019-2020,,,,,,,,,,,,,,"The only cost item associated with waste management or disposal in the budgets is Solid Waste Facility. 
+  However, there is no breakdown of this cost item in the budgets--11/07; SL
+ **The cost amount related to Solid Waste Facility is 190,000."
+Lebanon,2020-2021,,,,,,,,,,,,,,"The only cost item associated with waste management or disposal in the budgets is Solid Waste Facility. 
+  However, there is no breakdown of this cost item in the budgets--11/07; SL
+ **The cost amount related to Solid Waste Facility is 190,000."
+Lebanon,2021-2022,,,,,,,,,,,,,,"The only cost item associated with waste management or disposal in the budgets is Solid Waste Facility. 
+  However, there is no breakdown of this cost item in the budgets--11/07; SL
+ **The cost amount related to Solid Waste Facility is 190,000."
+Lebanon,2022-2023,,,,,,,,,,,,,,"The only cost item associated with waste management or disposal in the budgets is Solid Waste Facility. 
+  However, there is no breakdown of this cost item in the budgets--11/07; SL
+ **The cost amount related to Solid Waste Facility is 206,371"
+Ledyard,2019,"$50,000.00",,"$365,400.00","$5,000.00",,,,,"$5,000.00",,,,,"1. I categorize a cost item, Disposal Service, under Solid Waste. This is based on my own discretion. 
+  Any opinions or suggestions on this classification are welcome.
+  2. There is a new cost item included under Sanitation called Contingency/Miscellaneous. I list this cost item rather than classify it into one of the categories
+  It could well be that this cost item is the cost of contractual trash pick up because the town provides curbside trash pickup--11/07; SL"
+Ledyard,2020,"$55,000.00",,*362500,"$5,000.00",,,,,"$5,000.00",,,,,
+Ledyard,2021,,,"$365,400.00","$5,000.00",,,,,"$2,000.00",,,,,"**The amount budgeted for Miscellaneous/Contingency is 65,000."
+Ledyard,2022,,,"$371,200.00","$5,000.00",,,,,"$2,000.00",,,,,"**The amount budgeted for Miscellaneous/Contingency is 65,000."
+Lisbon,2019-2020,,"$55,830.00",,,,,,,,,,,,"The cost item that relates to waste disposal in the budgets is Recycling and broken down into:
+  1. Purchased Services
+  2. Supplies and Expenses.
+  I put the entire cost under Recycling. Contrary opinions or suggestions in this regard are welcome--11/08; SL"
+Lisbon,2020-2021,,"$55,830.00",,,,,,,,,,,,"The cost item that relates to waste disposal in the budgets is Recycling and broken down into:
+  1. Purchased Services
+  2. Supplies and Expenses.
+  I put the entire cost under Recycling. Contrary opinions or suggestions in this regard are welcome--11/08; SL"
+Lisbon,2021-2022,,"$55,830.00",,,,,,,,,,,,"The cost item that relates to waste disposal in the budgets is Recycling and broken down into:
+  1. Purchased Services
+  2. Supplies and Expenses.
+  I put the entire cost under Recycling. Contrary opinions or suggestions in this regard are welcome--11/08; SL"
+Lisbon,2022-2023,,"$56,329.00",,,,,,,,,,,,"The cost item that relates to waste disposal in the budgets is Recycling and broken down into:
+  1. Purchased Services
+  2. Supplies and Expenses.
+  I put the entire cost under Recycling. Contrary opinions or suggestions in this regard are welcome--11/08; SL"
+Litchfield,2019-2020,,,,,,,,,,,,,,"The only cost item in the budgets that pertains to waste diposal is Solid Waste & Recycling. However, this cost is not broken down.
+  I put this cost under Solid Waste.
+  1. The tip fee per ton is $110.00 (this is information I gleaned from the website. However, I am unsure what year(s) this amount applies to, as that is not
+  indicated."
+Litchfield,2020-2021,,,,,,,,,,,,,,"The only cost item in the budgets that pertains to waste diposal is Solid Waste & Recycling. However, this cost is not broken down.
+  I put this cost under Solid Waste.
+  1. The tip fee per ton is $110.00 (this is information I gleaned from the website. However, I am unsure what year(s) this amount applies to, as that is not
+  indicated."
+Litchfield,2021-2022,,,,,,,,,,,,,,"The only cost item in the budgets that pertains to waste diposal is Solid Waste & Recycling. However, this cost is not broken down.
+  I put this cost under Solid Waste.
+  1. The tip fee per ton is $110.00 (this is information I gleaned from the website. However, I am unsure what year(s) this amount applies to, as that is not
+  indicated."
+Litchfield,2022-2023,,,,,,,,,,,,,,"The only cost item in the budgets that pertains to waste diposal is Solid Waste & Recycling. However, this cost is not broken down.
+  I put this cost under Solid Waste.
+  1. The tip fee per ton is $110.00 (this is information I gleaned from the website. However, I am unsure what year(s) this amount applies to, as that is not
+  indicated."
+Lyme,2019-2020,,"$24,216.00",,,"$9,048.00",,,,,,,,,I do not include the amounts for the fiscal year 2021-2022 because what is available is the proposed budget information--11/08; SL
+Lyme,2020-2021,,"$21,523.00",,,"$9,201.00",,,,,,,,,I do not include the amounts for the fiscal year 2021-2022 because what is available is the proposed budget information--11/08; SL
+Madison,2020,,"$118,695.97",,,,,,,,,,,,"The only waste management/disposal cost item in the budgets is Disposal/Recycling. There is no breakdown of this cost item
+  For the purpose of classification, I put this amount under Recycling. I would also like to point out here that the town does not have a transfer station-11/08; SL"
+Madison,2021,,"$157,912.00",,,,,,,,,,,,"The only waste management/disposal cost item in the budgets is Disposal/Recycling. There is no breakdown of this cost item
+  For the purpose of classification, I put this amount under Recycling. I would also like to point out here that the town does not have a transfer station-11/08; SL"
+Madison,2022,,"$142,300.00",,,,,,,,,,,,"The only waste management/disposal cost item in the budgets is Disposal/Recycling. There is no breakdown of this cost item
+  For the purpose of classification, I put this amount under Recycling. I would also like to point out here that the town does not have a transfer station-11/08; SL"
+Manchester,2019-2020,,,,"$681,223.00","$75,000.00",,"$1,780,433.00",,,,,"$3,529,139.00",,"Other cost items included in the budgets that relate to waste disposal are:
+  1. Bottle Bill Program Costs.
+  2. Sanitation Contingency.
+  3. Sanitation Interfund Transfers.
+  4. Organics & Aggregates
+  I list out the amounts of these cost items under notes for the associated periods.
+ **The cost of Organics & Aggregates is 541,536"
+Manchester,2020-2021,,"$421,790.46",,"$384,711.48","$66,331.44",,"$1,287,075.70",,,,,"$3,603,050.95",,"Other cost items included in the budgets that relate to waste disposal are:
+  1. Bottle Bill Program Costs.
+  2. Sanitation Contingency.
+  3. Sanitation Interfund Transfers.
+  4. Organics & Aggregates
+  I list out the amounts of these cost items under notes for the associated periods.
+ **Sanitation Interfund Transfers are 380,279"
+Manchester,2021-2022,,"$423,784.15",,##########,"$54,786.05",,"$1,557,754.78",,,,,"$3,859,728.74",,"Other cost items included in the budgets that relate to waste disposal are:
+  1. Bottle Bill Program Costs.
+  2. Sanitation Contingency.
+  3. Sanitation Interfund Transfers.
+  4. Organics & Aggregates
+  I list out the amounts of these cost items under notes for the associated periods.
+ **The cost item categorized under Admin Costs is highlighted in the budgets as Sanitation Administration.
+  **Sanitation Interfund Transfers are 1,390,335.00."
+Manchester,2022-2023,,"$531,553.00",,"$1,038,541.00","$65,000.00",,"$1,615,530.00",,,,,"$3,981,232.00",,"Other cost items included in the budgets that relate to waste disposal are:
+  1. Bottle Bill Program Costs.
+  2. Sanitation Contingency.
+  3. Sanitation Interfund Transfers.
+  4. Organics & Aggregates
+  I list out the amounts of these cost items under notes for the associated periods.
+ **Bottle Bill Program Costs and Sanitation Interfund Transfers are 75000 and 1430612 respectively."
+Mansfield,,,,,,,,,,,,,,,"In the town of Mansfield, waste management/disposal is under Public Works. However, in the budgets there is no explicit cost of waste disposal--11/08; SL"
+Marlborough,,,,,,,,,,,,,,,There is no available budget information for this town--11/08
+Meriden,2019,"$128,603.00",,,,,,,,,,,,"$1,451,614.00",
+Meriden,2020,"$103,246.00",,,,,,,,,,,,"$1,390,944.00",
+Meriden,2021,"$103,200.00",,,,,,,,,,,,"$1,790,784.00",
+Meriden,2022,"$109,360.00",,,,,,,,,,,,"$1,790,000.00",
+Middlebury,2021,,,"$250,000.00","$15,000.00",,,,,,"$131,233.00",,,,"The cost item classified under Transfer Station wages includes Salaries, Temporary Salaries and Part-Time Salaries. These costs are not explicitly included as Transfer
+  Station wages/salaries. Their classification under the Transfer Station category as done here is based on my discretion. 
+  The town has a transfer station. Hence, I felt that the salaries as included should be classified under Transfer Station wages. 
+  Contrary opinions or suggestions are welcome
+  #There is another cost included in the budgets that is associated with waste disposal, Machine/Equipment Maintenance. 
+  I classify this cost under Admin Costs--11/08; SL"
+Middlebury,2022,,,"$280,677.00","$15,000.00",,,,,,"$133,952.00",,,,"The cost item classified under Transfer Station wages includes Salaries, Temporary Salaries and Part-Time Salaries. These costs are not explicitly included as Transfer
+  Station wages/salaries. Their classification under the Transfer Station category as done here is based on my discretion. 
+  The town has a transfer station. Hence, I felt that the salaries as included should be classified under Transfer Station wages. 
+  Contrary opinions or suggestions are welcome
+  #There is another cost included in the budgets that is associated with waste disposal, Machine/Equipment Maintenance. 
+  I classify this cost under Admin Costs--11/08; SL"
+Middlebury,2023,,,"$320,310.00","$15,000.00",,,,,,"$140,967.00",,,,"The cost item classified under Transfer Station wages includes Salaries, Temporary Salaries and Part-Time Salaries. These costs are not explicitly included as Transfer
+  Station wages/salaries. Their classification under the Transfer Station category as done here is based on my discretion. 
+  The town has a transfer station. Hence, I felt that the salaries as included should be classified under Transfer Station wages. 
+  Contrary opinions or suggestions are welcome
+  #There is another cost included in the budgets that is associated with waste disposal, Machine/Equipment Maintenance. 
+  I classify this cost under Admin Costs--11/08; SL"
+Middlefield,,,,,,,,,,,,,,,There is no explicit cost of waste disposal included in the budgets--11/10; SL
+Middletown,2020,,,,"$2,882.00",,"$96,843.00",,,,"$73,388.00",,,,"1. Printing is included as a separate cost item in the budgets. I add this cost item to General Administrative Costs and
+  classify both cost items under Admin Costs here.
+  2. Contractual services as included in the budgets include:
+  a. Miscellaneous Recycling
+  b. Mixed Recycling Violations.
+  c. Composting leaves
+  d. Household Hazardous Waste.
+  e. Waste Oil Collection/Anti-freeze
+  f. Recycling Fluorescent Bulbs
+  g. Recycling Center DEP Permit
+  h. Refrigerent Recovery
+  i. Single Stream Recycling.
+  **I include the sum of all these costs under Contractual Services here as done in the budgets.
+  3. The cost of overtime is included in the amount of wages included here--11/10; SL"
+Middletown,2021,,,,"$2,882.00",,"$97,843.00",,,,"$75,227.00",,,,"1. Printing is included as a separate cost item in the budgets. I add this cost item to General Administrative Costs and
+  classify both cost items under Admin Costs here.
+  2. Contractual services as included in the budgets include:
+  a. Miscellaneous Recycling
+  b. Mixed Recycling Violations.
+  c. Composting leaves
+  d. Household Hazardous Waste.
+  e. Waste Oil Collection/Anti-freeze
+  f. Recycling Fluorescent Bulbs
+  g. Recycling Center DEP Permit
+  h. Refrigerent Recovery
+  i. Single Stream Recycling.
+  **I include the sum of all these costs under Contractual Services here as done in the budgets.
+  3. The cost of overtime is included in the amount of wages included here--11/10; SL"
+Middletown,2022,,,,"$2,882.00",,"$96,843.00",,,,"$82,728.00",,,,"1. Printing is included as a separate cost item in the budgets. I add this cost item to General Administrative Costs and
+  classify both cost items under Admin Costs here.
+  2. Contractual services as included in the budgets include:
+  a. Miscellaneous Recycling
+  b. Mixed Recycling Violations.
+  c. Composting leaves
+  d. Household Hazardous Waste.
+  e. Waste Oil Collection/Anti-freeze
+  f. Recycling Fluorescent Bulbs
+  g. Recycling Center DEP Permit
+  h. Refrigerent Recovery
+  i. Single Stream Recycling.
+  **I include the sum of all these costs under Contractual Services here as done in the budgets.
+  3. The cost of overtime is included in the amount of wages included here--11/10; SL"
+Milford,2021-2022,,,,,"$3,000.00",,,,,,,,,
+Milford,2020-2021,,,,,"$3,000.00",,,,,,,,,
+Milford,2019-2020,,,,,"$1,060.00",,,,,,,,,
+Monroe,2021-2022,,"$441,358.00",,,,"$404,758.00",,,,,,,,
+Monroe,2020-2021,,"$427,651.00",,,,"$386,551.00",,,,,,,,
+Monroe,2019-2020,,"$408,952.00",,,,"$383,112.00",,,,,,,,
+Montville,2021-2022,,"$218,500.00","$75,000.00",,,,"$126,500.00",,,,,,,
+Montville,2020-2021,,"$218,500.00","$75,000.00",,,,"$124,000.00",,,,,,,
+Montville,2019-2020,,"$214,643.00","$83,636.00",,,,"$125,493.00",,,,,,,
+Morris,No Budget Info,,,,,,,,,,,,,,
+Naugatuck,2021-2022,,,,,,,,,,,,,,
+Naugatuck,2020-2021,,,,,,,,,,,,,,
+Naugatuck,2019-2020,,,,,,,,,,,,,,
+Newington,2021-2022,,"$421,708.00",,,,,,,,,,,,
+Newington,2020-2021,,"$412,449.00",,,,,,,,,,,,
+Newington,2019-2020,,"$391,383.00",,,,,,,,,,,,
+Newtown,2021-2022,,,,,,,,,,,,,,
+Newtown,2020-2021,,,,,,,,,,,,,,
+Newtown,2019-2020,,,,,,,,,,,,,,
+New Britain,2021-2022,,,,,,,,,,,,,,
+New Britain,2021,,,,,,,,,,,,,,
+New Britain,2020,,,,,,,,,,,,,,
+New Britain,2019,,,,,,,,,,,,,,
+New Britain,2018,,,,,,,,,,,,,,
+New Britain,2017,,,,,,,,,,,,,,
+New Canaan,2021-2022,,,,,,,,,,,,,,
+New Canaan,2020-2021,"$61,590.00","$15,883.00",,,"$1,394.00",,,"$312,715.00",,,,,,
+New Canaan,2019-2020,,,,,,,,,,,,,,
+New Fairfield,2021,,,,,,,,,"$3,836,626.00",,,,,
+New Fairfield,2020,,,,,,,,,"$3,623,057.00",,,,,
+New Hartford,2021-2022,,,,,,,,"$195,820.00",,,,,,
+New Haven,2021-2022,,,,,,,,"$200,000.00",,,,,,
+New Haven,2020-2021,,,,,,,,"$200,000.00",,,,,,
+New Haven,2019-2020,,,,,,,,"$200,000.00",,,,,,
+New London,2021-2022,,,,,,,,,"$7,920,456.00",,,,,
+New London,2020-2021,,,,,,,,,"$7,440,690.00",,,,,
+New Milford,2021-2022,,,,,"$10,000.00",,,,,,,,,
+New Milford,2020-2021,,,,,"$22,300.00",,,,,,,,,
+New Milford,2020,,,,,"$30,070.00",,,,,,,,,
+New Milford,2019,,,,,"$21,666.00",,,,,,,,,
+New Milford,2018,,,,,,,,,,,,,,
+Norfolk,No Budget Info,,,,,,,,,,,,,,
+North Branford,2021-2022,,,,,,,,,,,,,,
+North Branford,2020-2021,,,,,,,,,,,,,,
+North Canaan,2021-2022,"$59,594.00","$16,560.00",,,$325.00,,,"$341,492.00",,"$71,023.00",,,,
+North Canaan,2020-2021,"$61,590.00","$15,883.00",,,"$1,394.00",,,"$312,715.00",,"$67,022.00",,,,
+North Haven,2021-2022,,,"$925,000.00",,,,,"$1,823,463.00",,,,,,
+North Haven,2020-2021,,,"$675,000.00",,,,,"$1,489,719.00",,,,,,
+North Haven,2019-2020,,,"$660,350.00",,,,,"$1,409,993.00",,,,,,
+North Stonington,2021-2022,,,,,-,"$18,185.00",,,,,,,,
+North Stonington,2020-2021,,,,,$500.00,"$22,000.00",,,,,,,,
+North Stonington,2019-2020,,,,,$500.00,"$22,000.00",,,,,,,,
+Norwalk,2021-2022,,,,,,"$7,083,048.00",,,,,,,,
+Norwalk,2020-2021,,,,,,"$6,688,184.00",,,,,,,,
+Norwalk,2019-2020,,,,,,"$6,241,138.00",,,,,,,,
+Norwalk,2018-2019,,,,,,"$6,319,606.00",,,,,,,,
+Norwich,2021-2022,"$152,000.00","$2,740,484.00",,,,"$57,066.00","$14,000.00",,,,,,,
+Norwich,2020-2021,"$152,000.00","$2,682,902.00",,,,"$55,539.00","$14,000.00",,,,,,,
+Norwich,2019-2020,,"$2,593,030.00",,,,,,,,,,,,
+Norwich,2018-2019,,"$2,638,573.00",,,,,,,,,,,,
+Old Lyme,2023-2024,,"$21,460.00",,,,,,"$1,346,096.00",,,,,,
+Old Lyme,2022-2023,,"$25,700.00",,,,,,"$1,247,784.00",,,,,,
+Old Lyme,2021-2022,,"$10,428.00",,,,,,"$1,200,440.00",,,,,,"346,500"
+Old Lyme,2020-2021,,"$41,800.00",,,,,,"$1,136,574.00",,,,,,"300,300"
+Old Lyme,2019-2020,,"$10,295.00",,,,,,"$1,075,782.00",,,,,,"251,221"
+Old Saybrook,2019,,,,,,,,,,,,,"$26,231.00",
+Old Saybrook,2020,,,,,,,,,,,,,"$28,713.00",
+Old Saybrook,2021,,,,,,,,,,,,,"$31,935.00",
+Old Saybrook,2022,,,,,,,,,,,,,"$32,500.00",
+Old Saybrook,2023,,,,,,,,,,,,,"$34,000.00",
+Orange,2023-2024,,,,,,,,,"$18,900.00",,,,,
+Orange,2022-2023,,,,,,,,,"$17,900.00",,,,,
+Orange,2021-2022,,,,,,,,,"$24,995.00",,,,,
+Orange,2020-2021,,,,,,,,,"$12,470.00",,,,,
+Orange,2019-2020,,,,,,,,,"$16,284.00",,,,,
+Orange,2018-2019,,,,,,,,,"$7,956.00",,,,,
+Orange,2017-2018,,,,,,,,,"$17,677.00",,,,,
+Orange,2016-2017,,,,,,,,,"$17,893.00",,,,,
+Orange,2015-2016,,,,,,,,,"$6,088.00",,,,,
+Oxford,2023-2024,,,,,,,,,,,,,,
+Oxford,2022-2023,,,,,,,,,,,,,,
+Oxford,2021-2022,,,,,,,,,,,,,,
+Plainfield,,,,,,,,,,,,,,,
+Plainfield,,,,,,,,,,,,,,,
+Plainfield,,,,,,,,,,,,,,,
+Plainfield,,,,,,,,,,,,,,,
+Plainville,FY 2021,,,,,,,,,"$4,237,405.00",,,,,
+Plainville,FY2020,,,,,,,,,"$4,134,131.00",,,,,
+Plainville,FY 2019,,,,,,,,,"$4,140,078.00",,,,,
+Plainville,FY 2018,,,,,,,,,"$4,110,158.00",,,,,
+Plymouth,2021,,,,,,,,,,,,,,
+Pomfret,2021-2022,"$26,000.00",,,,"$8,000.00",,,,,,,,,
+Pomfret,2020-2021,"$24,000.00",,,,$0.00,,,,,,,,,
+Pomfret,2019-2020,"$30,400.00",,,,"$5,707.00",,,,,,,,,
+Portland,,,,,,,,,,,,,,,Nothing clearly listed
+Preston,2021-2022,,,"$57,000.00",,,,,,,"$49,300.00","$51,200.00",,,"(landfill personnel) They also have transfer station: equipment maint., maint. replacement, electricity, DEP fees, phone, cleaning)"
+Prospect,2021-2022,,"$95,000.00",,,"$10,000.00",,,,,,,,,"Recycling is included in total solid waste, (it is specifically recycling pickup)"
+Prospect,2020-2021,,"$95,000.00",,,"$10,000.00",,,,,,,,,
+Prospect,2019-2020,,"$95,000.00",,,"$7,509.00",,,,,,,,,
+Prospect,2018-2019,,"$95,000.00",,,"$2,000.00",,,,,,,,,
+Putnam,2021-2022,,,,,,,,,,,,,,Phrased as waste collection includes refuse removal
+Putnam,2020-2021,,,,,,,,,,,,,,
+Putnam,2019-2020,,,,,,,,,,,,,,
+Redding,2021-2022,,"$16,000.00","$12,000.00",,,,,,,"$159,691.00",,,,"Transfer station includes recycling and tipping fee, but not wages."
+Redding,2020-2021,,"$20,000.00","$14,000.00",,,,,,,"$154,369.00",,,,
+Ridgefield,FY 2019,,,,,,,,,,,,,,"they don't actually say transfer station, they said solid waste facility"
+Rocky Hill,2021-2022,,,,"$190,268.00",,,"$4,753,134.00",,,,,,,Total sanitation does not include salaries. Tipping fee for solid waste = 105 per ton and for bulky waste= 120 per ton. They also have it broken down into solid waste disposal (714750 and solid waste collection 746640)
+Rocky Hill,2020-2021,,,,"$176,074.00",,,"$4,664,839.00",,,,,,,
+Rocky Hill,2019-2020,,,,"$171,375.00",,,"$4,369,726.00",,,,,,,
+Roxbury,2021-2022,,,,,,,,,,,,,,
+Roxbury,2020-2021,,,,,,,,,,,,,,
+Salem,2021-2022,,"$28,000.00","$32,000.00",,"$4,900.00",,,,,,"$8,000.00",,,"transfer station includes total, the rest is just broken down from there (tipping fees- trash tipping by CRRA) Recycling= recyclable hauling, hazardous waste = toxic waste"
+Salem,2020-2021,,"$13,842.00","$30,000.00",,"$4,900.00",,,,,,"$8,000.00",,,
+Salem,2019-2020,,"$24,518.00","$30,484.00",,"$3,963.00",,,,,,"$8,208.00",,,
+Salem,2018-2019,,"$17,647.00","$26,888.00",,"$4,115.00",,,,,,"$7,194.00",,,
+Salisbury,2021-2022,,"$3,000.00",,,,,,,,,,,,recycling = recycling coordinator
+Salisbury,2020-2021,,$480.00,,,,,,,,,,,,
+Scotland,FY 2021,,,,,,,,,,,,,,
+Scotland,FY 2020,,,,,,,,,,,,,,
+Scotland,FY 2019,,,,,,,,,,,,,,
+Seymour,2021-2022,,,,,,,,"$1,168,652.00",,,,,"$373,176.00","The waste collection column = utility service collection of refuse. Total sanitation= total waste collection which includes transportation cost, the other columns etc,"
+Seymour,2020-2021,,,,,,,,"$1,195,275.00",,,,,"$356,940.00",
+Seymour,2019-2020,,,,,,,,"$1,064,067.00",,,,,"$344,219.00",
+Seymour,2018-2019,,,,,,,,"$1,115,102.00",,,,,"$336,984.00",
+Sharon,2022,,,,,,,,,"$266,518.00",,,,,(municipal waste)
+Shelton,FY 2022,,"$36,702.00",,,"$28,000.00",,,"$2,837,953.00",,"$206,364.00",,,"$1,114,294.00",hazardous waste is included witih recycling. The rest is under sanitation (which includes disposal fees as well- 1517095)
+Sherman,2021-2022,,,,,,,,,,,,,"$36,791.00",listed as collections/ recycling
+Sherman,2020-2021,,,,,,,,,,,,,"$32,820.00",
+Sherman,2019-2020,,,,,,,,,,,,,"$32,196.00",
+Simsbury,2021-2022,,,,,,,,,,,,,,
+Simsbury,2020-2021,,,,,,,,,,,,,,
+Somers,2021-2022,,,,,,,,,,,,,,waste disposal is counting for most of it
+Somers,2020-2021,,,,,,,,,,,,,,
+South Windsor,2021-2022,,,,,,,,,,,,,"$2,350,000.00",called refuse disposal
+South Windsor,2020-2021,,,,,,,,,,,,,"$2,245,349.00",
+Southbury,2021-2022,,"$201,153.00",,,,,,,,"$198,242.00","$486,548.00",,,solid waste and transfer station are the same budget. Recycling = recycling hauling
+Southbury,2020-2021,,"$230,144.00",,,,,,,,"$178,999.00","$479,423.00",,,
+Southington,2021-2022,"$289,000.00",,,,,,,,,,,,,
+Southington,2020-2021,"$300,878.00",,,,,,,,,,,,,
+Southington,2019-2020,"$260,076.00",,,,,,,,,,,,,
+Sprague,2021-2022,,,,,,,,"$70,000.00",,,,,"$63,000.00",sanitation = sanitation and waste removal; waste collection = waste management
+Sprague,2020-2021,,,,,,,,"$70,000.00",,,,,"$63,000.00",
+Sprague,2019-2020,,,,,,,,"$77,830.00",,,,,"$50,431.00",
+Stafford,2020-2021,,,,,,,,,,,,,,
+Stamford,2021-2022,,"$1,229,131.00",,"$4,776,841.00",,,,,,"$1,093,630.00","$6,145,640.00",,"$3,241,346.00","This city has it broken down really well (these are all the expenditures, but they also have the revenues) Salary = full time + other salary + overtime"
+Stamford,2020-2021,,"$1,166,778.00",,"$4,687,521.00",,,,,,"$1,074,837.00","$5,726,000.00",,"$3,170,600.00","admin costs are listed under solid waste operations, rather than under transfer station"
+Stamford,2019-2020,,"$1,388,022.00",,"$4,663,498.00",,,,,,"$1,005,632.00","$5,373,537.00",,"$3,330,789.00",
+Sterling,2021-2022,,,,,,,,,,,,,,"They also have insurance for it seperated out, it is 2400 (not included in prior number)"
+Stonington,2021-2022,,,58 per ton,,,,,,,"$583,513.00",,,,* this city is also well broken down; salary is counted seperate from solid waste
+Stonington,2020-2021,,,,,,,,,,"$564,039.00",,,,
+Stonington,2019-2020,,,,,,,,,,"$531,867.00",,,,
+Stonington,2018-2019,,,,,,,,,,"$504,814.00",,,,
+Stonington,2017-2018,,,,,,,,,,"$474,536.00",,,,
+Stratford,FY 2022,,,,"$2,097,944.00",,,,,,,,,,Solid waste = refuse/ recycling division (salary is incuded in that)
+Stratford,FY 2021,,,,"$1,871,345.00",,,,,,,,,,
+Stratford,FY 2020,,,,"$1,866,480.00",,,,,,,,,,
+Stratford,FY 2019,,,,"$1,822,806.00",,,,,,,,,,
+Stratford,FY 2018,,,,"$1,743,181.00",,,,,,,,,,
+Suffield,,,,,,,,,,,,,,,"* they have their revenues broken down into landfill and waste, but oddly nothign broken down for expenditures, outside of public works that is only loosely tied"
+Thomaston,2021-2022,,,,,,,,,,,,,,solid waste = solid waste and recycling
+Thomaston,2020-2021,,,,,,,,,,,,,,
+Thomaston,2019-2020,,,,,,,,,,,,,,
+Thompson,2021-2022,,"$20,000.00","$35,000.00",,$0.00,,,,,"$110,811.00",,,,transfer station = total department expenditures
+Thompson,2020-2021,,"$2,000.00","$40,000.00",,$0.00,,,,,"$107,806.00",,,,
+Thompson,2019-2020,,"$21,774.00","$34,258.00",,"$20,000.00",,,,,"$110,946.00",,,,
+Thompson,2018-2019,,"$27,411.00","$49,620.00",,"$12,000.00",,,,,"$108,064.00",,,,
+Tolland,2021-2022,,,,,,,,,,,,,,Its listed as refuse and recycling services
+Torrington,2021-2022,,,,,,,,,,,,,,its just listed as landfill
+Torrington,2020-2021,,,,,,,,,,,,,,
+Trumbull,FY 2021,,"$1,490,411.00",280 tons per month at $85 a ton,,,,,,,"$112,030.00",,,,* shares a transfer station with monroe and easton
+Trumbull,FY 2020,,"$2,495,009.00",,,,,,,,"$179,524.00",,,,* recycling = recycling center total which includes a wage breakdown
+Trumbull,FY2019,,"$2,368,986.00",,,,,,,,"$160,504.00",,,,
+Trumbull,FY 2018,,"$2,203,077.00",,,,,,,,"$155,890.00",,,,
+Union,2021-2022,,,,,,,,,,"$22,694.00",,,"$68,742.00",* solid waste and recycling = waste collection (removal) + salary + 3745 (maintenance)
+Vernon,FY 2022,"$164,000.00",,"$646,228.00",,,,,,,"$258,719.00",,,"$1,255,702.00",* waste collection = department total
+Vernon,FY 2021,"$164,000.00",,"$664,400.00",,,,,,,"$245,863.00",,,"$1,255,702.00",
+Vernon,2019-2020,"$85,544.00",,"$439,531.00",,,,,,,,,,"$829,511.00",
+Voluntown,2021-2022,,,,,,,,,,,,,,* they share a transfer station with sterling
+Wallingford,2021-2022,,,,,,,,,"$2,753,715.00",,,,,* it looks like they might have some stuff about dump trucks; other than that its not broken down clearly
+Wallingford,2020-2021,,,,,,,,,"$2,729,109.00",,,,,
+Wallingford,2019-2020,,,,,,,,,"$2,480,824.00",,,,,
+Warren,2021-2022,,"$2,847.00",,,"$1,373.00",,,,,,"$102,641.00",,"$262,606.00",Waste collection = Total Town Buildings and Waste Removal _ the rest are subsets of that category. (hauling= waste collection and hauling)
+Washington,2021-2022,,"$117,528.00","$59,117.00",,"$4,400.00",,,,,"$57,400.00","$14,265.00",,,"transfer station = total ( hauling, tipping, payroll) Recycling is separate and includes hazardous waste"
+Washington,2020-2021,,"$172,281.00","$146,587.00",,"$5,391.00",,,,,"$30,468.00","$38,165.00",,,
+Washington,2019-2020,,"$174,991.00","$128,252.00",,"$6,016.00",,,,,"$28,121.00","$33,886.00",,,
+Waterbury,2021-2022,,,,,,,,,,,,,"$7,574,825.00",Waste collection = refuse collection total
+Waterbury,2020-2021,,,,,,,,,,,,,"$7,430,961.00",transfer station = north end disposal
+Waterbury,2019-2020,,,,,,,,,,,,,"$6,894,277.00",
+Waterford,2021-2022,,$0.00,,,,,,,,"$452,517.00",,,,
+Waterford,2020-2021,,$0.00,,,,,,,,"$434,885.00",,,,
+Watertown,2021-2022,,"$15,600.00",,,"$11,500.00",,,,,"$64,533.00",,,"$293,427.00","Solid waste= Solid waste CRRA fees. Waste Collection = Solid Waste Total It seems they may own their own trucks, as they have a vehicle maintenance cost."
+Watertown,2020-2021,,"$15,600.00",,,"$12,000.00",,,,,"$62,088.00",,,"$316,886.00",
+West Hartford,FY 2022,,,,,,,,,,,92 per ton,,,In general they have a good breakdown of their stuff. Refuse Disposal Contract with Covanta (2024- 97.60 per ton) (2022- $92 per ton @ 20650 tons) . They also have a bar graph that shows changes in solid waste disposal costs from 2010 on.
+West Hartford,FY 2021,,,,,,,,,,,,,,"They have info on tons of waste recycled; percent of total waste recycled; and tons of refuse collected. They have a lot of info, its just not structered in a way that fits this format (they are talking about it more than giving a list of numbers)"
+West Haven,2020-2021,,"$8,647.00",,,,,,,,,,,,
+Westbrook,2021-2022,,,,,,,,,,,,,"$95,000.00",
+Westbrook,2020-2021,,,,,,,,,,,,,"$82,013.00",
+Weston,2021-2022,,,,,,"$170,000.00",,,,"$96,272.00",,,,
+Weston,2020-2021,,,,,,"$170,000.00",,,,"$146,950.00",,,,
+Weston,2019-2020,,,,,,"$149,183.00",,,,"$148,032.00",,,,
+Westport,FY 2022,,,"$400,000.00",,,,,,,,,,,"* They also have a good breakdown of their fees, with bar graphs showing the changes over time. They also have info about commerical tipping fees. https://www.westportct.gov/home/showpublisheddocument/49461/637674908297870000 (around pg 185)"
+Westport,FY 2021,,,"$350,000.00",,,,,,,,,,,
+Westport,FY 2020,,,"$362,839.00",,,,,,,,,,,
+Wethersfield,2021-2022,,,,,,"$1,114,327.00","$1,029,000.00",,,,,,,* they started contracting with Murphy Road Recycling in 2022 ( Previosuly contracted with MIRA ) the waste will be brough to the Murphy Road Recycling plant in Berlin
+Wethersfield,2020-2021,,,,,,"$1,107,843.00","$942,444.00",,,,,,,* contractual services = refuse collection ; landfill costs= Refuse disposal
+Wethersfield,2019-2020,,,,,,"$1,058,264.00","$838,300.00",,,,,,,* They also have a good breakdown of info
+Wethersfield,2018-2019,,,,,,"$1,035,600.00","$678,265.00",,,,,,,
+Wethersfield,2017-2018,,,,,,"$1,006,687.00","$679,000.00",,,,,,,
+Wethersfield,2016-2017,,,,,,"$968,182.00","$653,986.00",,,,,,,
+Willington,2021-2022,,,,,,,,,,,,,,
+Wilton,FY 2022,,,,,,,,,,,,,,* they also have refuse disposal listed; but its in multiple locations and not super clearly explained
+Winchester,2021-2022,,,,,,,,,,,,,,Solid waste = waste disposal and recycling
+Winchester,2020-2021,,,,,,,,,,,,,,
+Winchester,2019-2020,,,,,,,,,,,,,,
+Windham,2021-2022,,,"$560,000.00",,,,,,,,,,,tipping fees = curbside tipping and disposal fees. Transfer station = transfer station/ disposal services
+Windham,2020-2021,,,"$603,291.00",,,,,,,,,,,Solid waste disposal encapsulates both transfer station and tipping
+Windsor,2021-2022,,,,,,,,,,,,,"$102,610.00","waste collection = sanitary waste removal (this is the term they use, but they imply that this includes dumping fees for trash disposal and recycling)"
+Windsor Locks,2021-2022,,,,,,,,,,,,,,Transfer station = landfill/ refuse removal (they dont go into any more detail than this)
+Windsor Locks,2020-2021,,,,,,,,,,,,,,
+Windsor Locks,2019-2020,,,,,,,,,,,,,,
+Wolcott,2021-2022,,"$386,000.00",,,,,,,,,,,"$1,077,000.00",solid waste = refuse disposal ; waste collection = refuse collection
+Wolcott,2020-2021,,"$295,825.00",,,,,,,,,,,"$985,989.00",
+Wolcott,2019-2020,,"$363,312.00",,,,,,,,,,,"$1,010,240.00",
+Woodbridge,FY 2022,"$98,277.00","$118,075.00","$149,285.00","$130,312.00",,,,,,,,,,* they have a good breakdown of stuff ( they have a whole waste management department)
+Woodbridge,FY 2021,"$81,285.00","$124,874.00","$153,233.00","$110,153.00",,,,,,,,,,* Solid waste = total expenditure and encapsualtes the other columns
+Woodbridge,FY 2019,"$77,046.00","$118,887.00","$189,002.00","$114,746.00",,,,,,,,,,
+Woodbury,2021-2022,,,,,,,,,,,,,,* solid waste = sanitary/ waste removal
+Woodstock,2021-2022,,,,,,,,,,,,,,
+Woodstock,2020-2021,,,,,,,,,,,,,,
+Woodstock,2019-2020,,,,,,,,,,,,,,
