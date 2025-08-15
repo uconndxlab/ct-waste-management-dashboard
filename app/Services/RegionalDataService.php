@@ -50,11 +50,17 @@ class RegionalDataService
         $selectParts = [$regionField];
         
         foreach (self::FINANCIAL_FIELDS as $field) {
-            $selectParts[] = "SUM(CAST(REPLACE(REPLACE(COALESCE(municipalities.{$field}, '0'), '$', ''), ',', '') AS DECIMAL(15,2))) as total_{$field}";
+            // Handle currency strings like "$29,000.00" and empty strings
+            $selectParts[] = "SUM(
+                CASE 
+                    WHEN municipalities.{$field} IS NULL OR municipalities.{$field} = '' THEN 0
+                    ELSE CAST(REPLACE(REPLACE(REPLACE(municipalities.{$field}, '$', ''), ',', ''), ' ', '') AS DECIMAL(15,2))
+                END
+            ) as total_{$field}";
         }
         
         $selectParts[] = "COUNT(DISTINCT municipalities.name) as total_municipalities";
-        $selectParts[] = "COUNT(DISTINCT CASE WHEN municipalities.total_sanitation_refuse IS NOT NULL THEN municipalities.name END) as municipalities_with_data";
+        $selectParts[] = "COUNT(DISTINCT CASE WHEN municipalities.total_sanitation_refuse IS NOT NULL AND municipalities.total_sanitation_refuse != '' THEN municipalities.name END) as municipalities_with_data";
         
         return implode(', ', $selectParts);
     }
@@ -158,7 +164,7 @@ class RegionalDataService
             $fieldMap = [
                 'county' => 'town_classifications.county',
                 'planning-region' => 'town_classifications.geographical_region',
-                'planning_region' => 'town_classifications.geographical_region', // Support both formats
+                'planning_region' => 'town_classifications.geographical_region',
                 'classification' => 'town_classifications.region_type',
             ];
 
@@ -167,7 +173,6 @@ class RegionalDataService
                 return null;
             }
 
-            // Validate region name is not empty
             if (empty(trim($regionName))) {
                 \Log::warning('Empty region name provided', ['regionType' => $regionType, 'regionName' => $regionName]);
                 return null;
@@ -182,7 +187,6 @@ class RegionalDataService
                 ->groupBy($regionField)
                 ->first();
 
-            // Validate that we got meaningful data
             if ($result && ($result->total_municipalities ?? 0) <= 0) {
                 \Log::warning('Region found but contains no municipalities', [
                     'regionType' => $regionType, 
@@ -202,13 +206,15 @@ class RegionalDataService
             return null;
         }
     }
-
-    /**
+ 
+   /**
      * Get population totals by county and year
      */
     public function getCountyPopulationTotals(?int $year = null): Collection
     {
-        $query = Population::join('town_classifications', 'populations.municipality', '=', 'town_classifications.municipality')
+        $query = Population::join('town_classifications', function($join) {
+                $join->whereRaw('LOWER(populations.municipality) = LOWER(town_classifications.municipality)');
+            })
             ->selectRaw('
                 town_classifications.county,
                 populations.year,
@@ -231,7 +237,9 @@ class RegionalDataService
      */
     public function getPlanningRegionPopulationTotals(?int $year = null): Collection
     {
-        $query = Population::join('town_classifications', 'populations.municipality', '=', 'town_classifications.municipality')
+        $query = Population::join('town_classifications', function($join) {
+                $join->whereRaw('LOWER(populations.municipality) = LOWER(town_classifications.municipality)');
+            })
             ->selectRaw('
                 town_classifications.geographical_region,
                 populations.year,
@@ -254,7 +262,9 @@ class RegionalDataService
      */
     public function getClassificationPopulationTotals(?int $year = null): Collection
     {
-        $query = Population::join('town_classifications', 'populations.municipality', '=', 'town_classifications.municipality')
+        $query = Population::join('town_classifications', function($join) {
+                $join->whereRaw('LOWER(populations.municipality) = LOWER(town_classifications.municipality)');
+            })
             ->selectRaw('
                 town_classifications.region_type,
                 populations.year,
@@ -280,7 +290,7 @@ class RegionalDataService
         $fieldMap = [
             'county' => 'town_classifications.county',
             'planning-region' => 'town_classifications.geographical_region',
-            'planning_region' => 'town_classifications.geographical_region', // Support both formats
+            'planning_region' => 'town_classifications.geographical_region',
             'classification' => 'town_classifications.region_type',
         ];
 
@@ -290,7 +300,9 @@ class RegionalDataService
 
         $regionField = $fieldMap[$regionType];
         
-        $query = Population::join('town_classifications', 'populations.municipality', '=', 'town_classifications.municipality')
+        $query = Population::join('town_classifications', function($join) {
+                $join->whereRaw('LOWER(populations.municipality) = LOWER(town_classifications.municipality)');
+            })
             ->selectRaw("
                 {$regionField} as region_name,
                 populations.year,
@@ -316,7 +328,7 @@ class RegionalDataService
         $fieldMap = [
             'county' => 'town_classifications.county',
             'planning-region' => 'town_classifications.geographical_region',
-            'planning_region' => 'town_classifications.geographical_region', // Support both formats
+            'planning_region' => 'town_classifications.geographical_region',
             'classification' => 'town_classifications.region_type',
         ];
 
@@ -333,7 +345,12 @@ class RegionalDataService
         ];
         
         foreach (self::FINANCIAL_FIELDS as $field) {
-            $selectParts[] = "SUM(CAST(REPLACE(REPLACE(COALESCE(municipalities.{$field}, '0'), '$', ''), ',', '') AS DECIMAL(15,2))) as total_{$field}";
+            $selectParts[] = "SUM(
+                CASE 
+                    WHEN municipalities.{$field} IS NULL OR municipalities.{$field} = '' THEN 0
+                    ELSE CAST(REPLACE(REPLACE(REPLACE(municipalities.{$field}, '$', ''), ',', ''), ' ', '') AS DECIMAL(15,2))
+                END
+            ) as total_{$field}";
         }
         
         $selectParts[] = "COUNT(DISTINCT municipalities.name) as total_municipalities";
@@ -418,41 +435,6 @@ class RegionalDataService
     }
 
     /**
-     * Extract population year from fiscal year string
-     */
-    private function extractPopulationYear($fiscalYear): ?int
-    {
-        // Handle empty or invalid data
-        if (empty($fiscalYear) || $fiscalYear === 'No Budget Info') {
-            return null;
-        }
-        
-        // Clean the input - remove extra spaces
-        $fiscalYear = trim($fiscalYear);
-        
-        // Handle FY formats: "FY 2019", "FY2019" -> 2019
-        if (preg_match('/FY\s*(\d{4})/', $fiscalYear, $matches)) {
-            return (int) $matches[1];
-        }
-        
-        // Handle fiscal year ranges: "2019-2020" -> use the later year (2020)
-        if (strpos($fiscalYear, '-') !== false) {
-            $parts = explode('-', $fiscalYear);
-            if (count($parts) >= 2 && is_numeric($parts[1])) {
-                return (int) $parts[1];
-            }
-        }
-        
-        // Handle regular years: "2019" -> 2019
-        if (is_numeric($fiscalYear)) {
-            return (int) $fiscalYear;
-        }
-        
-        // If we can't parse it, return null
-        return null;
-    }
-
-    /**
      * Get all available years for a specific region
      */
     public function getRegionAvailableYears(string $regionType, string $regionName): Collection
@@ -460,7 +442,7 @@ class RegionalDataService
         $fieldMap = [
             'county' => 'town_classifications.county',
             'planning-region' => 'town_classifications.geographical_region',
-            'planning_region' => 'town_classifications.geographical_region', // Support both formats
+            'planning_region' => 'town_classifications.geographical_region',
             'classification' => 'town_classifications.region_type',
         ];
 

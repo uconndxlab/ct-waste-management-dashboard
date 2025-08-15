@@ -106,7 +106,7 @@
                     <div class="col-md-3">
                         <div class="text-center">
                             <div class="fw-bold text-success">
-                                ${{ number_format($region->total_refuse ?? 0, 0) }}
+                                ${{ number_format($region->total_total_sanitation_refuse ?? 0, 0) }}
                             </div>
                             <small class="text-muted">Total Refuse</small>
                         </div>
@@ -114,7 +114,7 @@
                     <div class="col-md-3">
                         <div class="text-center">
                             <div class="fw-bold text-info">
-                                ${{ number_format($region->total_admin ?? 0, 0) }}
+                                ${{ number_format($region->total_admin_costs ?? 0, 0) }}
                             </div>
                             <small class="text-muted">Admin Costs</small>
                         </div>
