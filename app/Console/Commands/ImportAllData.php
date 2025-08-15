@@ -59,7 +59,7 @@ class ImportAllData extends Command
         $populationsFile = storage_path('app/populations.csv');
         if (file_exists($populationsFile)) {
             Artisan::call('import:population-data');
-            $this->info('Population data imported successfully');
+            $this->info(Artisan::output());
         } else {
             $this->warn("Population file not found: $populationsFile");
             $this->info('Generating sample population data instead...');
