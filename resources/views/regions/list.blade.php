@@ -103,7 +103,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-2">
                         <div class="text-center">
                             <div class="fw-bold text-success">
                                 ${{ number_format($region->total_total_sanitation_refuse ?? 0, 0) }}
@@ -111,12 +111,24 @@
                             <small class="text-muted">Total Refuse</small>
                         </div>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-2">
                         <div class="text-center">
                             <div class="fw-bold text-info">
                                 ${{ number_format($region->total_admin_costs ?? 0, 0) }}
                             </div>
                             <small class="text-muted">Admin Costs</small>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="text-center">
+                            <div class="fw-bold text-primary">
+                                @if($region->total_population && $region->total_population > 0)
+                                    {{ number_format($region->total_population) }}
+                                @else
+                                    <span class="text-muted">No data</span>
+                                @endif
+                            </div>
+                            <small class="text-muted">Population (2020)</small>
                         </div>
                     </div>
                     <div class="col-md-2">

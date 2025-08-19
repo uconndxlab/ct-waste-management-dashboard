@@ -123,58 +123,198 @@
                         </tr>
                         <tr>
                             <td>Tipping Fees per Capita</td>
-                            <td>${{ number_format($regions[0]->total_tipping_fees_per_capita ?? 0, 2) }}</td>
-                            <td>${{ number_format($regions[1]->total_tipping_fees_per_capita ?? 0, 2) }}</td>
-                            <td class="{{ ($regions[0]->total_tipping_fees_per_capita ?? 0) > ($regions[1]->total_tipping_fees_per_capita ?? 0) ? 'text-danger' : 'text-success' }}">
-                                ${{ number_format(($regions[0]->total_tipping_fees_per_capita ?? 0) - ($regions[1]->total_tipping_fees_per_capita ?? 0), 2) }}
+                            <td>
+                                @if($regions[0]->total_tipping_fees_per_capita !== null)
+                                    ${{ number_format($regions[0]->total_tipping_fees_per_capita, 2) }}
+                                @else
+                                    <span class="text-muted">No data available</span>
+                                @endif
+                            </td>
+                            <td>
+                                @if($regions[1]->total_tipping_fees_per_capita !== null)
+                                    ${{ number_format($regions[1]->total_tipping_fees_per_capita, 2) }}
+                                @else
+                                    <span class="text-muted">No data available</span>
+                                @endif
+                            </td>
+                            <td>
+                                @if($regions[0]->total_tipping_fees_per_capita !== null && $regions[1]->total_tipping_fees_per_capita !== null)
+                                    @php
+                                        $difference = $regions[0]->total_tipping_fees_per_capita - $regions[1]->total_tipping_fees_per_capita;
+                                        $class = $difference > 0 ? 'text-danger' : 'text-success';
+                                    @endphp
+                                    <span class="{{ $class }}">${{ number_format($difference, 2) }}</span>
+                                @else
+                                    <span class="text-muted">Cannot calculate</span>
+                                @endif
                             </td>
                         </tr>
                         <tr>
                             <td>Admin Costs per Capita</td>
-                            <td>${{ number_format($regions[0]->total_admin_costs_per_capita ?? 0, 2) }}</td>
-                            <td>${{ number_format($regions[1]->total_admin_costs_per_capita ?? 0, 2) }}</td>
-                            <td class="{{ ($regions[0]->total_admin_costs_per_capita ?? 0) > ($regions[1]->total_admin_costs_per_capita ?? 0) ? 'text-danger' : 'text-success' }}">
-                                ${{ number_format(($regions[0]->total_admin_costs_per_capita ?? 0) - ($regions[1]->total_admin_costs_per_capita ?? 0), 2) }}
+                            <td>
+                                @if($regions[0]->total_admin_costs_per_capita !== null)
+                                    ${{ number_format($regions[0]->total_admin_costs_per_capita, 2) }}
+                                @else
+                                    <span class="text-muted">No data available</span>
+                                @endif
+                            </td>
+                            <td>
+                                @if($regions[1]->total_admin_costs_per_capita !== null)
+                                    ${{ number_format($regions[1]->total_admin_costs_per_capita, 2) }}
+                                @else
+                                    <span class="text-muted">No data available</span>
+                                @endif
+                            </td>
+                            <td>
+                                @if($regions[0]->total_admin_costs_per_capita !== null && $regions[1]->total_admin_costs_per_capita !== null)
+                                    @php
+                                        $difference = $regions[0]->total_admin_costs_per_capita - $regions[1]->total_admin_costs_per_capita;
+                                        $class = $difference > 0 ? 'text-danger' : 'text-success';
+                                    @endphp
+                                    <span class="{{ $class }}">${{ number_format($difference, 2) }}</span>
+                                @else
+                                    <span class="text-muted">Cannot calculate</span>
+                                @endif
                             </td>
                         </tr>
                         <tr>
                             <td>Hazardous Waste per Capita</td>
-                            <td>${{ number_format($regions[0]->total_hazardous_waste_per_capita ?? 0, 2) }}</td>
-                            <td>${{ number_format($regions[1]->total_hazardous_waste_per_capita ?? 0, 2) }}</td>
-                            <td class="{{ ($regions[0]->total_hazardous_waste_per_capita ?? 0) > ($regions[1]->total_hazardous_waste_per_capita ?? 0) ? 'text-danger' : 'text-success' }}">
-                                ${{ number_format(($regions[0]->total_hazardous_waste_per_capita ?? 0) - ($regions[1]->total_hazardous_waste_per_capita ?? 0), 2) }}
+                            <td>
+                                @if($regions[0]->total_hazardous_waste_per_capita !== null)
+                                    ${{ number_format($regions[0]->total_hazardous_waste_per_capita, 2) }}
+                                @else
+                                    <span class="text-muted">No data available</span>
+                                @endif
+                            </td>
+                            <td>
+                                @if($regions[1]->total_hazardous_waste_per_capita !== null)
+                                    ${{ number_format($regions[1]->total_hazardous_waste_per_capita, 2) }}
+                                @else
+                                    <span class="text-muted">No data available</span>
+                                @endif
+                            </td>
+                            <td>
+                                @if($regions[0]->total_hazardous_waste_per_capita !== null && $regions[1]->total_hazardous_waste_per_capita !== null)
+                                    @php
+                                        $difference = $regions[0]->total_hazardous_waste_per_capita - $regions[1]->total_hazardous_waste_per_capita;
+                                        $class = $difference > 0 ? 'text-danger' : 'text-success';
+                                    @endphp
+                                    <span class="{{ $class }}">${{ number_format($difference, 2) }}</span>
+                                @else
+                                    <span class="text-muted">Cannot calculate</span>
+                                @endif
                             </td>
                         </tr>
                         <tr>
                             <td>Contractual Services per Capita</td>
-                            <td>${{ number_format($regions[0]->total_contractual_services_per_capita ?? 0, 2) }}</td>
-                            <td>${{ number_format($regions[1]->total_contractual_services_per_capita ?? 0, 2) }}</td>
-                            <td class="{{ ($regions[0]->total_contractual_services_per_capita ?? 0) > ($regions[1]->total_contractual_services_per_capita ?? 0) ? 'text-danger' : 'text-success' }}">
-                                ${{ number_format(($regions[0]->total_contractual_services_per_capita ?? 0) - ($regions[1]->total_contractual_services_per_capita ?? 0), 2) }}
+                            <td>
+                                @if($regions[0]->total_contractual_services_per_capita !== null)
+                                    ${{ number_format($regions[0]->total_contractual_services_per_capita, 2) }}
+                                @else
+                                    <span class="text-muted">No data available</span>
+                                @endif
+                            </td>
+                            <td>
+                                @if($regions[1]->total_contractual_services_per_capita !== null)
+                                    ${{ number_format($regions[1]->total_contractual_services_per_capita, 2) }}
+                                @else
+                                    <span class="text-muted">No data available</span>
+                                @endif
+                            </td>
+                            <td>
+                                @if($regions[0]->total_contractual_services_per_capita !== null && $regions[1]->total_contractual_services_per_capita !== null)
+                                    @php
+                                        $difference = $regions[0]->total_contractual_services_per_capita - $regions[1]->total_contractual_services_per_capita;
+                                        $class = $difference > 0 ? 'text-danger' : 'text-success';
+                                    @endphp
+                                    <span class="{{ $class }}">${{ number_format($difference, 2) }}</span>
+                                @else
+                                    <span class="text-muted">Cannot calculate</span>
+                                @endif
                             </td>
                         </tr>
                         <tr>
                             <td>Landfill Costs per Capita</td>
-                            <td>${{ number_format($regions[0]->total_landfill_costs_per_capita ?? 0, 2) }}</td>
-                            <td>${{ number_format($regions[1]->total_landfill_costs_per_capita ?? 0, 2) }}</td>
-                            <td class="{{ ($regions[0]->total_landfill_costs_per_capita ?? 0) > ($regions[1]->total_landfill_costs_per_capita ?? 0) ? 'text-danger' : 'text-success' }}">
-                                ${{ number_format(($regions[0]->total_landfill_costs_per_capita ?? 0) - ($regions[1]->total_landfill_costs_per_capita ?? 0), 2) }}
+                            <td>
+                                @if($regions[0]->total_landfill_costs_per_capita !== null)
+                                    ${{ number_format($regions[0]->total_landfill_costs_per_capita, 2) }}
+                                @else
+                                    <span class="text-muted">No data available</span>
+                                @endif
+                            </td>
+                            <td>
+                                @if($regions[1]->total_landfill_costs_per_capita !== null)
+                                    ${{ number_format($regions[1]->total_landfill_costs_per_capita, 2) }}
+                                @else
+                                    <span class="text-muted">No data available</span>
+                                @endif
+                            </td>
+                            <td>
+                                @if($regions[0]->total_landfill_costs_per_capita !== null && $regions[1]->total_landfill_costs_per_capita !== null)
+                                    @php
+                                        $difference = $regions[0]->total_landfill_costs_per_capita - $regions[1]->total_landfill_costs_per_capita;
+                                        $class = $difference > 0 ? 'text-danger' : 'text-success';
+                                    @endphp
+                                    <span class="{{ $class }}">${{ number_format($difference, 2) }}</span>
+                                @else
+                                    <span class="text-muted">Cannot calculate</span>
+                                @endif
                             </td>
                         </tr>
                         <tr>
                             <td>Transfer Station Wages per Capita</td>
-                            <td>${{ number_format($regions[0]->total_transfer_station_wages_per_capita ?? 0, 2) }}</td>
-                            <td>${{ number_format($regions[1]->total_transfer_station_wages_per_capita ?? 0, 2) }}</td>
-                            <td class="{{ ($regions[0]->total_transfer_station_wages_per_capita ?? 0) > ($regions[1]->total_transfer_station_wages_per_capita ?? 0) ? 'text-danger' : 'text-success' }}">
-                                ${{ number_format(($regions[0]->total_transfer_station_wages_per_capita ?? 0) - ($regions[1]->total_transfer_station_wages_per_capita ?? 0), 2) }}
+                            <td>
+                                @if($regions[0]->total_transfer_station_wages_per_capita !== null)
+                                    ${{ number_format($regions[0]->total_transfer_station_wages_per_capita, 2) }}
+                                @else
+                                    <span class="text-muted">No data available</span>
+                                @endif
+                            </td>
+                            <td>
+                                @if($regions[1]->total_transfer_station_wages_per_capita !== null)
+                                    ${{ number_format($regions[1]->total_transfer_station_wages_per_capita, 2) }}
+                                @else
+                                    <span class="text-muted">No data available</span>
+                                @endif
+                            </td>
+                            <td>
+                                @if($regions[0]->total_transfer_station_wages_per_capita !== null && $regions[1]->total_transfer_station_wages_per_capita !== null)
+                                    @php
+                                        $difference = $regions[0]->total_transfer_station_wages_per_capita - $regions[1]->total_transfer_station_wages_per_capita;
+                                        $class = $difference > 0 ? 'text-danger' : 'text-success';
+                                    @endphp
+                                    <span class="{{ $class }}">${{ number_format($difference, 2) }}</span>
+                                @else
+                                    <span class="text-muted">Cannot calculate</span>
+                                @endif
                             </td>
                         </tr>
                         <tr>
                             <td>Hauling Fees per Capita</td>
-                            <td>${{ number_format($regions[0]->total_hauling_fees_per_capita ?? 0, 2) }}</td>
-                            <td>${{ number_format($regions[1]->total_hauling_fees_per_capita ?? 0, 2) }}</td>
-                            <td class="{{ ($regions[0]->total_hauling_fees_per_capita ?? 0) > ($regions[1]->total_hauling_fees_per_capita ?? 0) ? 'text-danger' : 'text-success' }}">
-                                ${{ number_format(($regions[0]->total_hauling_fees_per_capita ?? 0) - ($regions[1]->total_hauling_fees_per_capita ?? 0), 2) }}
+                            <td>
+                                @if($regions[0]->total_hauling_fees_per_capita !== null)
+                                    ${{ number_format($regions[0]->total_hauling_fees_per_capita, 2) }}
+                                @else
+                                    <span class="text-muted">No data available</span>
+                                @endif
+                            </td>
+                            <td>
+                                @if($regions[1]->total_hauling_fees_per_capita !== null)
+                                    ${{ number_format($regions[1]->total_hauling_fees_per_capita, 2) }}
+                                @else
+                                    <span class="text-muted">No data available</span>
+                                @endif
+                            </td>
+                            <td>
+                                @if($regions[0]->total_hauling_fees_per_capita !== null && $regions[1]->total_hauling_fees_per_capita !== null)
+                                    @php
+                                        $difference = $regions[0]->total_hauling_fees_per_capita - $regions[1]->total_hauling_fees_per_capita;
+                                        $class = $difference > 0 ? 'text-danger' : 'text-success';
+                                    @endphp
+                                    <span class="{{ $class }}">${{ number_format($difference, 2) }}</span>
+                                @else
+                                    <span class="text-muted">Cannot calculate</span>
+                                @endif
                             </td>
                         </tr>
                         <tr>

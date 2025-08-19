@@ -199,13 +199,13 @@ class MunicipalityController extends Controller
         foreach($reports as $report) {
             $reportPopulationYear = $this->extractPopulationYear($report->year);
             if ($reportPopulationYear) { // Only query if we have a valid year
-                $reportPopulation = Population::where('municipality', $name)
+                $reportPopulation = Population::whereRaw('LOWER(municipality) = LOWER(?)', [$name])
                     ->where('year', $reportPopulationYear)
                     ->first();
                 
                 // If no exact match and year is before 2020, use 2020 as closest approximation
                 if (!$reportPopulation && $reportPopulationYear < 2020) {
-                    $reportPopulation = Population::where('municipality', $name)
+                    $reportPopulation = Population::whereRaw('LOWER(municipality) = LOWER(?)', [$name])
                         ->where('year', 2020)
                         ->first();
                 }
@@ -228,7 +228,7 @@ class MunicipalityController extends Controller
                 
                 $actualPopulationYear = null;
                 if ($reportPopulationYear) { // Only query if we have a valid year
-                    $reportPopulation = Population::where('municipality', $name)
+                    $reportPopulation = Population::whereRaw('LOWER(municipality) = LOWER(?)', [$name])
                         ->where('year', $reportPopulationYear)
                         ->first();
                     
@@ -236,7 +236,7 @@ class MunicipalityController extends Controller
                         $actualPopulationYear = $reportPopulationYear;
                     } else if ($reportPopulationYear < 2020) {
                         // If no exact match and year is before 2020, use 2020 as closest approximation
-                        $reportPopulation = Population::where('municipality', $name)
+                        $reportPopulation = Population::whereRaw('LOWER(municipality) = LOWER(?)', [$name])
                             ->where('year', 2020)
                             ->first();
                         $actualPopulationYear = $reportPopulation ? '2020*' : null;
@@ -429,7 +429,7 @@ class MunicipalityController extends Controller
                 
             if ($municipality) {
                 // Get latest population for per capita calculations
-                $latestPopulation = Population::where('municipality', $name)
+                $latestPopulation = Population::whereRaw('LOWER(municipality) = LOWER(?)', [$name])
                     ->orderBy('year', 'desc')
                     ->first();
                     
@@ -440,13 +440,13 @@ class MunicipalityController extends Controller
                 $correctPopulation = null;
                 
                 if ($populationYear) { // Only query if we have a valid year
-                    $correctPopulation = Population::where('municipality', $name)
+                    $correctPopulation = Population::whereRaw('LOWER(municipality) = LOWER(?)', [$name])
                         ->where('year', $populationYear)
                         ->first();
                     
                     // If no exact match and year is before 2020, use 2020 as closest approximation
                     if (!$correctPopulation && $populationYear < 2020) {
-                        $correctPopulation = Population::where('municipality', $name)
+                        $correctPopulation = Population::whereRaw('LOWER(municipality) = LOWER(?)', [$name])
                             ->where('year', 2020)
                             ->first();
                     }
@@ -494,12 +494,12 @@ class MunicipalityController extends Controller
             ->get();
             
         // Get population data for per capita historical calculations
-        $municipality1Populations = Population::where('municipality', $municipality1Name)
+        $municipality1Populations = Population::whereRaw('LOWER(municipality) = LOWER(?)', [$municipality1Name])
             ->whereIn('year', $commonYears)
             ->orderBy('year')
             ->get()
             ->keyBy('year');
-        $municipality2Populations = Population::where('municipality', $municipality2Name)
+        $municipality2Populations = Population::whereRaw('LOWER(municipality) = LOWER(?)', [$municipality2Name])
             ->whereIn('year', $commonYears)
             ->orderBy('year')
             ->get()
@@ -526,13 +526,13 @@ class MunicipalityController extends Controller
             $populationCount = 1; // Default to 1 to avoid division by zero
             
             if ($populationYear) { // Only query if we have a valid year
-                $population = Population::where('municipality', $municipality1Name)
+                $population = Population::whereRaw('LOWER(municipality) = LOWER(?)', [$municipality1Name])
                     ->where('year', $populationYear)
                     ->first();
                 
                 // If no exact match and year is before 2020, use 2020 as closest approximation
                 if (!$population && $populationYear < 2020) {
-                    $population = Population::where('municipality', $municipality1Name)
+                    $population = Population::whereRaw('LOWER(municipality) = LOWER(?)', [$municipality1Name])
                         ->where('year', 2020)
                         ->first();
                 }
@@ -554,13 +554,13 @@ class MunicipalityController extends Controller
             $populationCount = 1; // Default to 1 to avoid division by zero
             
             if ($populationYear) { // Only query if we have a valid year
-                $population = Population::where('municipality', $municipality2Name)
+                $population = Population::whereRaw('LOWER(municipality) = LOWER(?)', [$municipality2Name])
                     ->where('year', $populationYear)
                     ->first();
                 
                 // If no exact match and year is before 2020, use 2020 as closest approximation
                 if (!$population && $populationYear < 2020) {
-                    $population = Population::where('municipality', $municipality2Name)
+                    $population = Population::whereRaw('LOWER(municipality) = LOWER(?)', [$municipality2Name])
                         ->where('year', 2020)
                         ->first();
                 }
