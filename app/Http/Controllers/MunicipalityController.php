@@ -76,11 +76,20 @@ class MunicipalityController extends Controller
 
     public function showHome()
     {
-        // Get unique municipalities with their latest/maximum refuse value
+        // Get unique municipalities with their latest/maximum refuse value and year
         $municipalities = Municipality::select('name', 'href')
             ->selectRaw('MAX(total_sanitation_refuse) as total_sanitation_refuse')
+            ->selectRaw('MAX(year) as latest_year')
             ->groupBy('name', 'href')
             ->get();
+            
+        // Process and standardize the year values
+        foreach ($municipalities as $municipality) {
+            if ($municipality->latest_year) {
+                $standardizedYear = $this->extractPopulationYear($municipality->latest_year);
+                $municipality->latest_year = $standardizedYear;
+            }
+        }
             
         $townClassifications = TownClassification::all()->keyBy('municipality');
 
@@ -129,8 +138,11 @@ class MunicipalityController extends Controller
             ->limit(10)
             ->get();
 
+
+
         return view('welcome', compact('municipalities', 'townClassifications', 'countyTotals', 'regionTotals', 'typeTotals', 'test'));
     }
+
 
     private function currencyToNumeric($currencyString)
     {
@@ -159,11 +171,22 @@ class MunicipalityController extends Controller
             return (int) $matches[1];
         }
         
-        // Handle fiscal year ranges: "2019-2020" -> use the later year (2020)
+        // Handle fiscal year ranges: use the FIRST/EARLIER year
         if (strpos($fiscalYear, '-') !== false) {
             $parts = explode('-', $fiscalYear);
-            if (count($parts) >= 2 && is_numeric($parts[1])) {
-                return (int) $parts[1];
+            if (count($parts) >= 2) {
+                $firstPart = trim($parts[0]);
+                $secondPart = trim($parts[1]);
+                
+                // Handle full year ranges like "2022-2023" -> 2022
+                if (is_numeric($firstPart) && strlen($firstPart) === 4) {
+                    return (int) $firstPart;
+                }
+                
+                // Handle abbreviated ranges like "2021-22" -> 2021
+                if (is_numeric($firstPart) && strlen($firstPart) === 4 && is_numeric($secondPart) && strlen($secondPart) === 2) {
+                    return (int) $firstPart;
+                }
             }
         }
         

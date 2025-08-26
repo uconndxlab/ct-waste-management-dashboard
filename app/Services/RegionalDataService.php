@@ -43,6 +43,52 @@ class RegionalDataService
     }
 
     /**
+     * Extract standardized year from fiscal year string
+     */
+    private function extractPopulationYear($fiscalYear): ?int
+    {
+        // Handle empty or invalid data
+        if (empty($fiscalYear) || $fiscalYear === 'No Budget Info') {
+            return null;
+        }
+        
+        // Clean the input - remove extra spaces
+        $fiscalYear = trim($fiscalYear);
+        
+        // Handle FY formats: "FY 2019", "FY2019" -> 2019
+        if (preg_match('/FY\s*(\d{4})/', $fiscalYear, $matches)) {
+            return (int) $matches[1];
+        }
+        
+        // Handle fiscal year ranges: use the FIRST/EARLIER year
+        if (strpos($fiscalYear, '-') !== false) {
+            $parts = explode('-', $fiscalYear);
+            if (count($parts) >= 2) {
+                $firstPart = trim($parts[0]);
+                $secondPart = trim($parts[1]);
+                
+                // Handle full year ranges like "2022-2023" -> 2022
+                if (is_numeric($firstPart) && strlen($firstPart) === 4) {
+                    return (int) $firstPart;
+                }
+                
+                // Handle abbreviated ranges like "2021-22" -> 2021
+                if (is_numeric($firstPart) && strlen($firstPart) === 4 && is_numeric($secondPart) && strlen($secondPart) === 2) {
+                    return (int) $firstPart;
+                }
+            }
+        }
+        
+        // Handle regular years: "2019" -> 2019
+        if (is_numeric($fiscalYear)) {
+            return (int) $fiscalYear;
+        }
+        
+        // If we can't parse it, return null
+        return null;
+    }
+
+    /**
      * Build the SELECT clause for financial field aggregation
      */
     private function buildFinancialSelectClause(string $regionField): string
@@ -358,13 +404,23 @@ class RegionalDataService
         
         $selectClause = implode(', ', $selectParts);
         
-        return Municipality::leftJoin('town_classifications', 'municipalities.name', '=', 'town_classifications.municipality')
+        $results = Municipality::leftJoin('town_classifications', 'municipalities.name', '=', 'town_classifications.municipality')
             ->selectRaw($selectClause)
             ->where($regionField, $regionName)
             ->whereNotNull('municipalities.year')
             ->groupBy($regionField, 'municipalities.year')
             ->orderBy('municipalities.year')
             ->get();
+
+        // Standardize years in the results
+        foreach ($results as $result) {
+            if ($result->year) {
+                $standardizedYear = $this->extractPopulationYear($result->year);
+                $result->year = $standardizedYear;
+            }
+        }
+
+        return $results;
     }
 
     /**
@@ -452,12 +508,19 @@ class RegionalDataService
 
         $regionField = $fieldMap[$regionType];
         
-        return Municipality::leftJoin('town_classifications', 'municipalities.name', '=', 'town_classifications.municipality')
+        $rawYears = Municipality::leftJoin('town_classifications', 'municipalities.name', '=', 'town_classifications.municipality')
             ->select('municipalities.year')
             ->where($regionField, $regionName)
             ->whereNotNull('municipalities.year')
             ->distinct()
             ->orderBy('municipalities.year')
             ->pluck('year');
+
+        // Standardize and filter years
+        $standardizedYears = $rawYears->map(function ($year) {
+            return $this->extractPopulationYear($year);
+        })->filter()->unique()->sort()->values();
+
+        return $standardizedYears;
     }
 }

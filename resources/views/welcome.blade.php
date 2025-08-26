@@ -103,7 +103,6 @@
                 </section>
             </div>
         </div>
-
         <!-- Regional Analysis Navigation -->
         <div class="row mb-4">
             <div class="col-12">
@@ -390,6 +389,13 @@
                 const townData = townClassifications[municipalityName];
                 
                 let tooltipContent = `<strong>${municipalityName}</strong>`;
+                
+                // Add latest year if available
+                if (municipality && municipality.latest_year) {
+                    tooltipContent += `${municipality.latest_year}`;
+                }
+
+                
                 
                 if (currentView !== 'default' && townData) {
                     let categoryValue, totalRefuse = 0, totalAdmin = 0;
