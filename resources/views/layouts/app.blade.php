@@ -9,6 +9,14 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
     @stack('styles')
+    <style>
+        @media (min-width: 1200px) {
+            .container-xxl { max-width: 1400px; }
+        }
+        @media (min-width: 1400px) {
+            .container-xxl { max-width: 1600px; }
+        }
+    </style>
 </head>
 <body>
 
@@ -29,8 +37,8 @@
     </nav>
     
 
-    <main class="container">
-        <nav aria-label="breadcrumbb">
+    <main class="container-xxl px-4">
+        <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
                 @yield('breadcrumbs', view('partials.breadcrumbs'))
             </ol>

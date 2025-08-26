@@ -496,27 +496,69 @@ class MunicipalityController extends Controller
         $municipality1Name = $municipalities[0]->name;
         $municipality2Name = $municipalities[1]->name;
         
-        // Get all years both municipalities have data for
-        $municipality1Years = Municipality::where('name', $municipality1Name)
+        // Get all years both municipalities have data for and standardize them
+        $municipality1RawYears = Municipality::where('name', $municipality1Name)
             ->pluck('year')
             ->toArray();
-        $municipality2Years = Municipality::where('name', $municipality2Name)
+        $municipality2RawYears = Municipality::where('name', $municipality2Name)
             ->pluck('year')
             ->toArray();
-        $commonYears = array_intersect($municipality1Years, $municipality2Years);
+            
+        // Standardize years and create mapping from standardized to raw years
+        $municipality1YearMap = [];
+        $municipality1StandardizedYears = [];
+        foreach ($municipality1RawYears as $rawYear) {
+            $standardizedYear = $this->extractPopulationYear($rawYear);
+            if ($standardizedYear) {
+                $municipality1YearMap[$standardizedYear] = $rawYear;
+                $municipality1StandardizedYears[] = $standardizedYear;
+            }
+        }
+        
+        $municipality2YearMap = [];
+        $municipality2StandardizedYears = [];
+        foreach ($municipality2RawYears as $rawYear) {
+            $standardizedYear = $this->extractPopulationYear($rawYear);
+            if ($standardizedYear) {
+                $municipality2YearMap[$standardizedYear] = $rawYear;
+                $municipality2StandardizedYears[] = $standardizedYear;
+            }
+        }
+        
+        // Find common standardized years
+        $commonYears = array_intersect($municipality1StandardizedYears, $municipality2StandardizedYears);
         sort($commonYears);
         
-        // Get historical data for common years
+        // Get historical data for common years using raw year values for database queries
+        $municipality1RawYearsForQuery = array_map(function($year) use ($municipality1YearMap) {
+            return $municipality1YearMap[$year];
+        }, $commonYears);
+        $municipality2RawYearsForQuery = array_map(function($year) use ($municipality2YearMap) {
+            return $municipality2YearMap[$year];
+        }, $commonYears);
+        
         $municipality1Historical = Municipality::where('name', $municipality1Name)
-            ->whereIn('year', $commonYears)
+            ->whereIn('year', $municipality1RawYearsForQuery)
             ->orderBy('year')
             ->get();
         $municipality2Historical = Municipality::where('name', $municipality2Name)
-            ->whereIn('year', $commonYears)
+            ->whereIn('year', $municipality2RawYearsForQuery)
             ->orderBy('year')
             ->get();
             
-        // Get population data for per capita historical calculations
+        // Standardize years in historical data for consistent processing
+        foreach ($municipality1Historical as $record) {
+            $record->standardized_year = $this->extractPopulationYear($record->year);
+        }
+        foreach ($municipality2Historical as $record) {
+            $record->standardized_year = $this->extractPopulationYear($record->year);
+        }
+        
+        // Sort by standardized year
+        $municipality1Historical = $municipality1Historical->sortBy('standardized_year');
+        $municipality2Historical = $municipality2Historical->sortBy('standardized_year');
+            
+        // Get population data for per capita historical calculations using standardized years
         $municipality1Populations = Population::whereRaw('LOWER(municipality) = LOWER(?)', [$municipality1Name])
             ->whereIn('year', $commonYears)
             ->orderBy('year')
@@ -543,8 +585,8 @@ class MunicipalityController extends Controller
         ];
         
         foreach($municipality1Historical as $record) {
-            // Handle fiscal year format (e.g., "2020-2021" -> use 2021 population)
-            $populationYear = $this->extractPopulationYear($record->year);
+            // Use the already standardized year
+            $populationYear = $record->standardized_year;
             $population = null;
             $populationCount = 1; // Default to 1 to avoid division by zero
             
@@ -571,8 +613,8 @@ class MunicipalityController extends Controller
         }
         
         foreach($municipality2Historical as $record) {
-            // Handle fiscal year format (e.g., "2020-2021" -> use 2021 population)
-            $populationYear = $this->extractPopulationYear($record->year);
+            // Use the already standardized year
+            $populationYear = $record->standardized_year;
             $population = null;
             $populationCount = 1; // Default to 1 to avoid division by zero
             
