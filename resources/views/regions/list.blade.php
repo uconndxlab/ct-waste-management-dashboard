@@ -1,10 +1,27 @@
 @extends('layouts.app')
 
-@section('title', ucfirst($regionType) . 's')
+@php
+    // display name mapping so plurals like "County" -> "Counties" are correct
+    $regionDisplayNames = [
+        'county' => ['singular' => 'County', 'plural' => 'Counties'],
+        'planning-region' => ['singular' => 'Planning Region', 'plural' => 'Planning Regions'],
+        'classification' => ['singular' => 'Classification', 'plural' => 'Classifications'],
+    ];
+
+    $displaySingular = $regionDisplayNames[$regionType]['singular'] ?? ucfirst($regionType);
+    $displayPlural = $regionDisplayNames[$regionType]['plural'] ?? ($displaySingular . 's');
+
+    // lowercase variants for inline sentences and JS
+    $displaySingularLower = strtolower($displaySingular);
+    $displayPluralLower = strtolower($displayPlural);
+
+@endphp
+
+@section('title',  $displayPlural)
 
 @section('content')
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h1 class="text-primary">{{ ucfirst($regionType) }}s</h1>
+        <h1 class="text-primary">{{ $regionType === 'classification' ? 'Rural & Urban' : $displayPlural }}</h1>
         <a href="{{ route('municipalities.all') }}" class="btn btn-outline-secondary">
             <i class="bi bi-arrow-left me-2"></i>Back to Municipalities
         </a>
@@ -30,7 +47,7 @@
             <a class="nav-link {{ $regionType === 'classification' ? 'active' : '' }}" 
                href="{{ route('regions.classifications') }}" 
                role="tab">
-                <i class="bi bi-building me-2"></i>Classifications
+                <i class="bi bi-building me-2"></i>Urban/Rural
             </a>
         </li>
     </ul>
@@ -40,7 +57,7 @@
         <div class="col-md-3">
             <div class="card bg-primary text-white">
                 <div class="card-body">
-                    <h5 class="card-title">Total {{ ucfirst($regionType) }}s</h5>
+                    <h5 class="card-title">Total {{ $displayPlural }}</h5>
                     <h3 class="mb-0">{{ count($regions) }}</h3>
                 </div>
             </div>
@@ -76,7 +93,7 @@
     <!-- Comparison Controls -->
     <div class="d-flex justify-content-between align-items-center mb-4">
         <div class="d-flex align-items-center">
-            <small class="text-muted me-3" id="selection-info">Select 2 {{ $regionType }}s to compare</small>
+            <small class="text-muted me-3" id="selection-info">Select 2 {{ $displayPluralLower }} to compare</small>
             <form id="compare-form" action="{{ route('regions.compare') }}" method="POST" class="d-inline">
                 @csrf
                 <input type="hidden" name="region_type" value="{{ $regionType }}">
@@ -159,8 +176,8 @@
         @empty
             <div class="list-group-item text-center py-5">
                 <i class="bi bi-exclamation-circle text-muted" style="font-size: 3rem;"></i>
-                <h5 class="text-muted mt-3">No {{ $regionType }}s found</h5>
-                <p class="text-muted">There are no {{ $regionType }}s available in the system.</p>
+                <h5 class="text-muted mt-3">No {{ $displayPluralLower }} found</h5>
+                <p class="text-muted">There are no {{ $displayPluralLower }} available in the system.</p>
             </div>
         @endforelse
     </div>
@@ -177,7 +194,8 @@
         @if($regionsWithNoData > 0)
             <div class="alert alert-warning mt-4">
                 <i class="bi bi-exclamation-triangle me-2"></i>
-                <strong>Data Quality Notice:</strong> {{ $regionsWithNoData }} {{ $regionType }}{{ $regionsWithNoData !== 1 ? 's' : '' }} 
+                <strong>Data Quality Notice:</strong> {{ $regionsWithNoData }} 
+                {{ $regionsWithNoData === 1 ? $displaySingularLower : $displayPluralLower }} 
                 {{ $regionsWithNoData === 1 ? 'has' : 'have' }} no financial data available and cannot be used for meaningful comparisons.
             </div>
         @endif
@@ -185,7 +203,8 @@
         @if($regionsWithLowCoverage > 0)
             <div class="alert alert-info mt-4">
                 <i class="bi bi-info-circle me-2"></i>
-                <strong>Coverage Notice:</strong> {{ $regionsWithLowCoverage }} {{ $regionType }}{{ $regionsWithLowCoverage !== 1 ? 's' : '' }} 
+                <strong>Coverage Notice:</strong> {{ $regionsWithLowCoverage }} 
+                {{ $regionsWithLowCoverage === 1 ? $displaySingularLower : $displayPluralLower }} 
                 {{ $regionsWithLowCoverage === 1 ? 'has' : 'have' }} data for less than 50% of their municipalities. 
                 Comparisons may not be fully representative.
             </div>
@@ -193,7 +212,7 @@
 
         <div class="mt-4 text-center">
             <small class="text-muted">
-                Showing {{ count($regions) }} {{ $regionType }}{{ count($regions) !== 1 ? 's' : '' }} 
+                Showing {{ count($regions) }} {{ count($regions) === 1 ? $displaySingularLower : $displayPluralLower }} 
                 with {{ $regions->sum('total_municipalities') }} total municipalities
                 ({{ $regions->sum('municipalities_with_data') }} with financial data)
             </small>
@@ -205,6 +224,8 @@
         const compareButton = document.getElementById('compare-button');
         const compareForm = document.getElementById('compare-form');
         const regionType = '{{ $regionType }}';
+        const displaySingular = '{{ $displaySingularLower }}';
+        const displayPlural = '{{ $displayPluralLower }}';
         let selected = [];
 
         function rebuildHiddenInputs() {
@@ -220,15 +241,6 @@
             });
         }
 
-        function getRegionTypeDisplayName() {
-            switch(regionType) {
-                case 'county': return 'county';
-                case 'planning-region': return 'planning region';
-                case 'classification': return 'classification';
-                default: return 'region';
-            }
-        }
-
         checkboxes.forEach(checkbox => {
             checkbox.addEventListener('change', () => {
                 const name = checkbox.dataset.name;
@@ -239,7 +251,7 @@
                     // Check if region has data
                     if (!hasData) {
                         checkbox.checked = false;
-                        alert('This ' + getRegionTypeDisplayName() + ' has no financial data available and cannot be used for comparison.');
+                        alert('This ' + displaySingular + ' has no financial data available and cannot be used for comparison.');
                         return;
                     }
                     
@@ -259,15 +271,15 @@
                 
                 // Update button text and info
                 const selectionInfo = document.getElementById('selection-info');
-                const regionTypeDisplay = getRegionTypeDisplayName();
+                const regionTypeDisplay = displaySingular;
                 
                 if (selected.length === 0) {
                     compareButton.innerHTML = '<i class="bi bi-arrow-left-right me-2"></i>Compare';
-                    selectionInfo.textContent = `Select 2 ${regionTypeDisplay}s to compare`;
+                    selectionInfo.textContent = `Select 2 ${displayPlural} to compare`;
                     selectionInfo.className = 'text-muted me-3';
                 } else if (selected.length === 1) {
                     compareButton.innerHTML = `<i class="bi bi-arrow-left-right me-2"></i>Compare (${selected.length}/2)`;
-                    selectionInfo.textContent = `${selected[0]} selected - choose 1 more ${regionTypeDisplay}`;
+                    selectionInfo.textContent = `${selected[0]} selected - choose 1 more ${displaySingular}`;
                     selectionInfo.className = 'text-info me-3';
                 } else {
                     compareButton.innerHTML = '<i class="bi bi-arrow-left-right me-2"></i>Compare Selected';
@@ -281,7 +293,7 @@
         document.getElementById('compare-form').addEventListener('submit', function(e) {
             if (selected.length !== 2) {
                 e.preventDefault();
-                alert('Please select exactly 2 ' + getRegionTypeDisplayName() + 's for comparison.');
+                alert('Please select exactly 2 ' + displayPlural + ' for comparison.');
                 return false;
             }
 
@@ -300,7 +312,7 @@
 
             if (hasInvalidSelection) {
                 e.preventDefault();
-                alert('One or more selected ' + getRegionTypeDisplayName() + 's have no financial data available. Please select regions with available data.');
+                alert('One or more selected ' + displayPlural + ' have no financial data available. Please select regions with available data.');
                 return false;
             }
         });

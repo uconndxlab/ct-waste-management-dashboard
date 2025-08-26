@@ -88,7 +88,7 @@
                             <div class="col-md-4">
                                 <a href="{{ route('regions.list', ['type' => 'classification']) }}" class="btn btn-outline-primary w-100">
                                     <i class="bi bi-building me-2"></i>
-                                    Classifications
+                                    Urban/Rural
                                 </a>
                             </div>
                         </div>
