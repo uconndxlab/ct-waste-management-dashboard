@@ -11,103 +11,124 @@
     </div>
 
 
-    <!-- Per Capita Comparison -->
-    <div class="card mb-4">
-        <div class="card-header">
-            <h5 class="mb-0"><i class="bi bi-person me-2"></i>Per Capita Comparison (Latest Year)</h5>
-        </div>
-        <div class="card-body">
-            <div class="table-responsive">
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th>Category</th>
-                            <th>{{ $municipalities[0]->name }}</th>
-                            <th>{{ $municipalities[1]->name }}</th>
-                            <th>Difference</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><strong>Population ({{ $municipalities[0]->year ?? 'Latest' }})</strong></td>
-                            <td>{{ number_format($municipalities[0]->latest_population ?? 0) }}</td>
-                            <td>{{ number_format($municipalities[1]->latest_population ?? 0) }}</td>
-                            <td>{{ number_format(($municipalities[0]->latest_population ?? 0) - ($municipalities[1]->latest_population ?? 0)) }}</td>
-                        </tr>
-                        <tr>
-                            <td>Recycling per Capita</td>
-                            <td>${{ number_format($municipalities[0]->recycling_per_capita ?? 0, 2) }}</td>
-                            <td>${{ number_format($municipalities[1]->recycling_per_capita ?? 0, 2) }}</td>
-                            <td class="{{ ($municipalities[0]->recycling_per_capita ?? 0) > ($municipalities[1]->recycling_per_capita ?? 0) ? 'text-danger' : 'text-success' }}">
-                                ${{ number_format(($municipalities[0]->recycling_per_capita ?? 0) - ($municipalities[1]->recycling_per_capita ?? 0), 2) }}
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Tipping Fees per Capita</td>
-                            <td>${{ number_format($municipalities[0]->tipping_fees_per_capita ?? 0, 2) }}</td>
-                            <td>${{ number_format($municipalities[1]->tipping_fees_per_capita ?? 0, 2) }}</td>
-                            <td class="{{ ($municipalities[0]->tipping_fees_per_capita ?? 0) > ($municipalities[1]->tipping_fees_per_capita ?? 0) ? 'text-danger' : 'text-success' }}">
-                                ${{ number_format(($municipalities[0]->tipping_fees_per_capita ?? 0) - ($municipalities[1]->tipping_fees_per_capita ?? 0), 2) }}
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Transfer Station Wages per Capita</td>
-                            <td>${{ number_format($municipalities[0]->transfer_station_wages_per_capita ?? 0, 2) }}</td>
-                            <td>${{ number_format($municipalities[1]->transfer_station_wages_per_capita ?? 0, 2) }}</td>
-                            <td class="{{ ($municipalities[0]->transfer_station_wages_per_capita ?? 0) > ($municipalities[1]->transfer_station_wages_per_capita ?? 0) ? 'text-danger' : 'text-success' }}">
-                                ${{ number_format(($municipalities[0]->transfer_station_wages_per_capita ?? 0) - ($municipalities[1]->transfer_station_wages_per_capita ?? 0), 2) }}
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Total Sanitation per Capita</td>
-                            <td>${{ number_format($municipalities[0]->total_sanitation_refuse_per_capita ?? 0, 2) }}</td>
-                            <td>${{ number_format($municipalities[1]->total_sanitation_refuse_per_capita ?? 0, 2) }}</td>
-                            <td class="{{ ($municipalities[0]->total_sanitation_refuse_per_capita ?? 0) > ($municipalities[1]->total_sanitation_refuse_per_capita ?? 0) ? 'text-danger' : 'text-success' }}">
-                                ${{ number_format(($municipalities[0]->total_sanitation_refuse_per_capita ?? 0) - ($municipalities[1]->total_sanitation_refuse_per_capita ?? 0), 2) }}
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+    <!-- Main Content Row -->
+    <div class="row">
+        <!-- Per Capita Comparison -->
+        <div class="col-lg-6 mb-4">
+            <div class="card h-100">
+                <div class="card-header">
+                    <h5 class="mb-0"><i class="bi bi-person me-2"></i>Per Capita Comparison (Latest Year)</h5>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-striped table-sm">
+                            <thead>
+                                <tr>
+                                    <th>Category</th>
+                                    <th>{{ $municipalities[0]->name }}</th>
+                                    <th>{{ $municipalities[1]->name }}</th>
+                                    <th>Difference</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>Population ({{ $municipalities[0]->year ?? 'Latest' }})</strong></td>
+                                    <td>{{ number_format($municipalities[0]->latest_population ?? 0) }}</td>
+                                    <td>{{ number_format($municipalities[1]->latest_population ?? 0) }}</td>
+                                    <td>{{ number_format(($municipalities[0]->latest_population ?? 0) - ($municipalities[1]->latest_population ?? 0)) }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Recycling per Capita</td>
+                                    <td>${{ number_format($municipalities[0]->recycling_per_capita ?? 0, 2) }}</td>
+                                    <td>${{ number_format($municipalities[1]->recycling_per_capita ?? 0, 2) }}</td>
+                                    <td class="{{ ($municipalities[0]->recycling_per_capita ?? 0) > ($municipalities[1]->recycling_per_capita ?? 0) ? 'text-danger' : 'text-success' }}">
+                                        ${{ number_format(($municipalities[0]->recycling_per_capita ?? 0) - ($municipalities[1]->recycling_per_capita ?? 0), 2) }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Tipping Fees per Capita</td>
+                                    <td>${{ number_format($municipalities[0]->tipping_fees_per_capita ?? 0, 2) }}</td>
+                                    <td>${{ number_format($municipalities[1]->tipping_fees_per_capita ?? 0, 2) }}</td>
+                                    <td class="{{ ($municipalities[0]->tipping_fees_per_capita ?? 0) > ($municipalities[1]->tipping_fees_per_capita ?? 0) ? 'text-danger' : 'text-success' }}">
+                                        ${{ number_format(($municipalities[0]->tipping_fees_per_capita ?? 0) - ($municipalities[1]->tipping_fees_per_capita ?? 0), 2) }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Transfer Station Wages per Capita</td>
+                                    <td>${{ number_format($municipalities[0]->transfer_station_wages_per_capita ?? 0, 2) }}</td>
+                                    <td>${{ number_format($municipalities[1]->transfer_station_wages_per_capita ?? 0, 2) }}</td>
+                                    <td class="{{ ($municipalities[0]->transfer_station_wages_per_capita ?? 0) > ($municipalities[1]->transfer_station_wages_per_capita ?? 0) ? 'text-danger' : 'text-success' }}">
+                                        ${{ number_format(($municipalities[0]->transfer_station_wages_per_capita ?? 0) - ($municipalities[1]->transfer_station_wages_per_capita ?? 0), 2) }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Total Sanitation per Capita</td>
+                                    <td>${{ number_format($municipalities[0]->total_sanitation_refuse_per_capita ?? 0, 2) }}</td>
+                                    <td>${{ number_format($municipalities[1]->total_sanitation_refuse_per_capita ?? 0, 2) }}</td>
+                                    <td class="{{ ($municipalities[0]->total_sanitation_refuse_per_capita ?? 0) > ($municipalities[1]->total_sanitation_refuse_per_capita ?? 0) ? 'text-danger' : 'text-success' }}">
+                                        ${{ number_format(($municipalities[0]->total_sanitation_refuse_per_capita ?? 0) - ($municipalities[1]->total_sanitation_refuse_per_capita ?? 0), 2) }}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
 
-    <!-- Year-over-Year Trends -->
-    @if(count($commonYears) > 1)
-    <div class="card mb-4">
-        <div class="card-header">
-            <h5 class="mb-0"><i class="bi bi-graph-up me-2"></i>Year-over-Year Trends ({{ min($commonYears) }} - {{ max($commonYears) }})</h5>
-        </div>
-        <div class="card-body">
-            <div class="row">
-                <div class="col-md-6 mb-4">
-                    <h6 class="text-center mb-3">Recycling per Capita</h6>
-                    <div style="height: 300px;">
-                        <canvas id="recyclingChart"></canvas>
-                    </div>
+        <!-- Year-over-Year Trends -->
+        @if(count($commonYears) > 1)
+        <div class="col-lg-6 mb-4">
+            <div class="card h-100">
+                <div class="card-header">
+                    <h5 class="mb-0"><i class="bi bi-graph-up me-2"></i>Year-over-Year Trends ({{ min($commonYears) }} - {{ max($commonYears) }})</h5>
                 </div>
-                <div class="col-md-6 mb-4">
-                    <h6 class="text-center mb-3">Tipping Fees per Capita</h6>
-                    <div style="height: 300px;">
-                        <canvas id="tippingChart"></canvas>
-                    </div>
-                </div>
-                <div class="col-md-6 mb-4">
-                    <h6 class="text-center mb-3">Transfer Station Wages per Capita</h6>
-                    <div style="height: 300px;">
-                        <canvas id="transferChart"></canvas>
-                    </div>
-                </div>
-                <div class="col-md-6 mb-4">
-                    <h6 class="text-center mb-3">Total Sanitation per Capita</h6>
-                    <div style="height: 300px;">
-                        <canvas id="totalChart"></canvas>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-6 mb-3">
+                            <h6 class="text-center mb-2 small">Recycling per Capita</h6>
+                            <div style="height: 200px;">
+                                <canvas id="recyclingChart"></canvas>
+                            </div>
+                        </div>
+                        <div class="col-6 mb-3">
+                            <h6 class="text-center mb-2 small">Tipping Fees per Capita</h6>
+                            <div style="height: 200px;">
+                                <canvas id="tippingChart"></canvas>
+                            </div>
+                        </div>
+                        <div class="col-6 mb-3">
+                            <h6 class="text-center mb-2 small">Transfer Station Wages per Capita</h6>
+                            <div style="height: 200px;">
+                                <canvas id="transferChart"></canvas>
+                            </div>
+                        </div>
+                        <div class="col-6 mb-3">
+                            <h6 class="text-center mb-2 small">Total Sanitation per Capita</h6>
+                            <div style="height: 200px;">
+                                <canvas id="totalChart"></canvas>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
+        @else
+        <div class="col-lg-6 mb-4">
+            <div class="card h-100">
+                <div class="card-header">
+                    <h5 class="mb-0"><i class="bi bi-info-circle me-2"></i>Historical Data</h5>
+                </div>
+                <div class="card-body d-flex align-items-center justify-content-center">
+                    <div class="alert alert-info text-center">
+                        <i class="bi bi-info-circle me-2"></i>
+                        <strong>Limited Historical Data:</strong> Trend analysis requires at least two years of overlapping data between municipalities.
+                    </div>
+                </div>
+            </div>
+        </div>
+        @endif
     </div>
-    @endif
 
 @endsection
 

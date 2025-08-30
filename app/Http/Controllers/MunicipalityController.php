@@ -76,11 +76,20 @@ class MunicipalityController extends Controller
 
     public function showHome()
     {
-        // Get unique municipalities with their latest/maximum refuse value
+        // Get unique municipalities with their latest/maximum refuse value and year
         $municipalities = Municipality::select('name', 'href')
             ->selectRaw('MAX(total_sanitation_refuse) as total_sanitation_refuse')
+            ->selectRaw('MAX(year) as latest_year')
             ->groupBy('name', 'href')
             ->get();
+            
+        // Process and standardize the year values
+        foreach ($municipalities as $municipality) {
+            if ($municipality->latest_year) {
+                $standardizedYear = $this->extractPopulationYear($municipality->latest_year);
+                $municipality->latest_year = $standardizedYear;
+            }
+        }
             
         $townClassifications = TownClassification::all()->keyBy('municipality');
 
@@ -129,8 +138,11 @@ class MunicipalityController extends Controller
             ->limit(10)
             ->get();
 
+
+
         return view('welcome', compact('municipalities', 'townClassifications', 'countyTotals', 'regionTotals', 'typeTotals', 'test'));
     }
+
 
     private function currencyToNumeric($currencyString)
     {
@@ -159,11 +171,22 @@ class MunicipalityController extends Controller
             return (int) $matches[1];
         }
         
-        // Handle fiscal year ranges: "2019-2020" -> use the later year (2020)
+        // Handle fiscal year ranges: use the FIRST/EARLIER year
         if (strpos($fiscalYear, '-') !== false) {
             $parts = explode('-', $fiscalYear);
-            if (count($parts) >= 2 && is_numeric($parts[1])) {
-                return (int) $parts[1];
+            if (count($parts) >= 2) {
+                $firstPart = trim($parts[0]);
+                $secondPart = trim($parts[1]);
+                
+                // Handle full year ranges like "2022-2023" -> 2022
+                if (is_numeric($firstPart) && strlen($firstPart) === 4) {
+                    return (int) $firstPart;
+                }
+                
+                // Handle abbreviated ranges like "2021-22" -> 2021
+                if (is_numeric($firstPart) && strlen($firstPart) === 4 && is_numeric($secondPart) && strlen($secondPart) === 2) {
+                    return (int) $firstPart;
+                }
             }
         }
         
@@ -199,13 +222,13 @@ class MunicipalityController extends Controller
         foreach($reports as $report) {
             $reportPopulationYear = $this->extractPopulationYear($report->year);
             if ($reportPopulationYear) { // Only query if we have a valid year
-                $reportPopulation = Population::where('municipality', $name)
+                $reportPopulation = Population::whereRaw('LOWER(municipality) = LOWER(?)', [$name])
                     ->where('year', $reportPopulationYear)
                     ->first();
                 
                 // If no exact match and year is before 2020, use 2020 as closest approximation
                 if (!$reportPopulation && $reportPopulationYear < 2020) {
-                    $reportPopulation = Population::where('municipality', $name)
+                    $reportPopulation = Population::whereRaw('LOWER(municipality) = LOWER(?)', [$name])
                         ->where('year', 2020)
                         ->first();
                 }
@@ -228,7 +251,7 @@ class MunicipalityController extends Controller
                 
                 $actualPopulationYear = null;
                 if ($reportPopulationYear) { // Only query if we have a valid year
-                    $reportPopulation = Population::where('municipality', $name)
+                    $reportPopulation = Population::whereRaw('LOWER(municipality) = LOWER(?)', [$name])
                         ->where('year', $reportPopulationYear)
                         ->first();
                     
@@ -236,7 +259,7 @@ class MunicipalityController extends Controller
                         $actualPopulationYear = $reportPopulationYear;
                     } else if ($reportPopulationYear < 2020) {
                         // If no exact match and year is before 2020, use 2020 as closest approximation
-                        $reportPopulation = Population::where('municipality', $name)
+                        $reportPopulation = Population::whereRaw('LOWER(municipality) = LOWER(?)', [$name])
                             ->where('year', 2020)
                             ->first();
                         $actualPopulationYear = $reportPopulation ? '2020*' : null;
@@ -429,7 +452,7 @@ class MunicipalityController extends Controller
                 
             if ($municipality) {
                 // Get latest population for per capita calculations
-                $latestPopulation = Population::where('municipality', $name)
+                $latestPopulation = Population::whereRaw('LOWER(municipality) = LOWER(?)', [$name])
                     ->orderBy('year', 'desc')
                     ->first();
                     
@@ -440,13 +463,13 @@ class MunicipalityController extends Controller
                 $correctPopulation = null;
                 
                 if ($populationYear) { // Only query if we have a valid year
-                    $correctPopulation = Population::where('municipality', $name)
+                    $correctPopulation = Population::whereRaw('LOWER(municipality) = LOWER(?)', [$name])
                         ->where('year', $populationYear)
                         ->first();
                     
                     // If no exact match and year is before 2020, use 2020 as closest approximation
                     if (!$correctPopulation && $populationYear < 2020) {
-                        $correctPopulation = Population::where('municipality', $name)
+                        $correctPopulation = Population::whereRaw('LOWER(municipality) = LOWER(?)', [$name])
                             ->where('year', 2020)
                             ->first();
                     }
@@ -473,33 +496,75 @@ class MunicipalityController extends Controller
         $municipality1Name = $municipalities[0]->name;
         $municipality2Name = $municipalities[1]->name;
         
-        // Get all years both municipalities have data for
-        $municipality1Years = Municipality::where('name', $municipality1Name)
+        // Get all years both municipalities have data for and standardize them
+        $municipality1RawYears = Municipality::where('name', $municipality1Name)
             ->pluck('year')
             ->toArray();
-        $municipality2Years = Municipality::where('name', $municipality2Name)
+        $municipality2RawYears = Municipality::where('name', $municipality2Name)
             ->pluck('year')
             ->toArray();
-        $commonYears = array_intersect($municipality1Years, $municipality2Years);
+            
+        // Standardize years and create mapping from standardized to raw years
+        $municipality1YearMap = [];
+        $municipality1StandardizedYears = [];
+        foreach ($municipality1RawYears as $rawYear) {
+            $standardizedYear = $this->extractPopulationYear($rawYear);
+            if ($standardizedYear) {
+                $municipality1YearMap[$standardizedYear] = $rawYear;
+                $municipality1StandardizedYears[] = $standardizedYear;
+            }
+        }
+        
+        $municipality2YearMap = [];
+        $municipality2StandardizedYears = [];
+        foreach ($municipality2RawYears as $rawYear) {
+            $standardizedYear = $this->extractPopulationYear($rawYear);
+            if ($standardizedYear) {
+                $municipality2YearMap[$standardizedYear] = $rawYear;
+                $municipality2StandardizedYears[] = $standardizedYear;
+            }
+        }
+        
+        // Find common standardized years
+        $commonYears = array_intersect($municipality1StandardizedYears, $municipality2StandardizedYears);
         sort($commonYears);
         
-        // Get historical data for common years
+        // Get historical data for common years using raw year values for database queries
+        $municipality1RawYearsForQuery = array_map(function($year) use ($municipality1YearMap) {
+            return $municipality1YearMap[$year];
+        }, $commonYears);
+        $municipality2RawYearsForQuery = array_map(function($year) use ($municipality2YearMap) {
+            return $municipality2YearMap[$year];
+        }, $commonYears);
+        
         $municipality1Historical = Municipality::where('name', $municipality1Name)
-            ->whereIn('year', $commonYears)
+            ->whereIn('year', $municipality1RawYearsForQuery)
             ->orderBy('year')
             ->get();
         $municipality2Historical = Municipality::where('name', $municipality2Name)
-            ->whereIn('year', $commonYears)
+            ->whereIn('year', $municipality2RawYearsForQuery)
             ->orderBy('year')
             ->get();
             
-        // Get population data for per capita historical calculations
-        $municipality1Populations = Population::where('municipality', $municipality1Name)
+        // Standardize years in historical data for consistent processing
+        foreach ($municipality1Historical as $record) {
+            $record->standardized_year = $this->extractPopulationYear($record->year);
+        }
+        foreach ($municipality2Historical as $record) {
+            $record->standardized_year = $this->extractPopulationYear($record->year);
+        }
+        
+        // Sort by standardized year
+        $municipality1Historical = $municipality1Historical->sortBy('standardized_year');
+        $municipality2Historical = $municipality2Historical->sortBy('standardized_year');
+            
+        // Get population data for per capita historical calculations using standardized years
+        $municipality1Populations = Population::whereRaw('LOWER(municipality) = LOWER(?)', [$municipality1Name])
             ->whereIn('year', $commonYears)
             ->orderBy('year')
             ->get()
             ->keyBy('year');
-        $municipality2Populations = Population::where('municipality', $municipality2Name)
+        $municipality2Populations = Population::whereRaw('LOWER(municipality) = LOWER(?)', [$municipality2Name])
             ->whereIn('year', $commonYears)
             ->orderBy('year')
             ->get()
@@ -520,19 +585,19 @@ class MunicipalityController extends Controller
         ];
         
         foreach($municipality1Historical as $record) {
-            // Handle fiscal year format (e.g., "2020-2021" -> use 2021 population)
-            $populationYear = $this->extractPopulationYear($record->year);
+            // Use the already standardized year
+            $populationYear = $record->standardized_year;
             $population = null;
             $populationCount = 1; // Default to 1 to avoid division by zero
             
             if ($populationYear) { // Only query if we have a valid year
-                $population = Population::where('municipality', $municipality1Name)
+                $population = Population::whereRaw('LOWER(municipality) = LOWER(?)', [$municipality1Name])
                     ->where('year', $populationYear)
                     ->first();
                 
                 // If no exact match and year is before 2020, use 2020 as closest approximation
                 if (!$population && $populationYear < 2020) {
-                    $population = Population::where('municipality', $municipality1Name)
+                    $population = Population::whereRaw('LOWER(municipality) = LOWER(?)', [$municipality1Name])
                         ->where('year', 2020)
                         ->first();
                 }
@@ -548,19 +613,19 @@ class MunicipalityController extends Controller
         }
         
         foreach($municipality2Historical as $record) {
-            // Handle fiscal year format (e.g., "2020-2021" -> use 2021 population)
-            $populationYear = $this->extractPopulationYear($record->year);
+            // Use the already standardized year
+            $populationYear = $record->standardized_year;
             $population = null;
             $populationCount = 1; // Default to 1 to avoid division by zero
             
             if ($populationYear) { // Only query if we have a valid year
-                $population = Population::where('municipality', $municipality2Name)
+                $population = Population::whereRaw('LOWER(municipality) = LOWER(?)', [$municipality2Name])
                     ->where('year', $populationYear)
                     ->first();
                 
                 // If no exact match and year is before 2020, use 2020 as closest approximation
                 if (!$population && $populationYear < 2020) {
-                    $population = Population::where('municipality', $municipality2Name)
+                    $population = Population::whereRaw('LOWER(municipality) = LOWER(?)', [$municipality2Name])
                         ->where('year', 2020)
                         ->first();
                 }

@@ -49,15 +49,18 @@
     <body class="">
 
         {{-- <a href="/municipalities" class="mb-4">View All Municipalities</a> --}}
-        <div class="d-flex align-items-center justifiy-content-between w-100">
-                        <form action="{{ route('municipalities.all') }}" method="GET" class="flex-grow-1 me-3">
+        <div class="d-flex align-items-center justify-content-between w-100 mb-4">
+            <form action="{{ route('municipalities.all') }}" method="GET" class="flex-grow-1 me-3">
                 <div class="input-group">
                     <input type="text" name="search" class="form-control" placeholder="Search municipalities..." value="{{ request('search') }}">
-        
                 </div>
             </form>
-            <a  href="{{ route('municipalities.all') }}" class="btn btn-primary"><i class="bi bi-search"></i>View all municipalities</a>
+            <a href="{{ route('municipalities.all') }}" class="btn btn-primary">
+                <i class="bi bi-search"></i> View all municipalities
+            </a>
         </div>
+
+        
 
         <div class="container mt-4">
             <div class="row align-items-stretch">
@@ -98,6 +101,48 @@
                         </div>
                     </div>
                 </section>
+            </div>
+        </div>
+        <!-- Regional Analysis Navigation -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title mb-3">
+                            <i class="bi bi-bar-chart-line text-primary me-2"></i>
+                            Year-Over-Year Comparison: CT Regional and Municipal Analysis
+                        </h5>
+                        <p class="card-text text-muted mb-3">
+                            Compare waste management data across different regional groupings and municipalities.
+                        </p>
+                        <div class="row g-2">
+                            <div class="col-md-3">
+                                <a href="{{ route('regions.list', ['type' => 'county']) }}" class="btn btn-outline-primary w-100">
+                                    <i class="bi bi-geo-alt me-2"></i>
+                                    Counties
+                                </a>
+                            </div>
+                            <div class="col-md-3">
+                                <a href="{{ route('regions.list', ['type' => 'planning-region']) }}" class="btn btn-outline-primary w-100">
+                                    <i class="bi bi-map me-2"></i>
+                                    Planning Regions
+                                </a>
+                            </div>
+                            <div class="col-md-3">
+                                <a href="{{ route('regions.list', ['type' => 'classification']) }}" class="btn btn-outline-primary w-100">
+                                    <i class="bi bi-tree me-2"></i>
+                                    Urban/Rural
+                                </a>
+                            </div>
+                            <div class="col-md-3">
+                                <a href="{{ route('municipalities.all') }}" class="btn btn-outline-primary w-100">
+                                    <i class="bi bi-building me-2"></i>
+                                    Municipalities
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -344,6 +389,13 @@
                 const townData = townClassifications[municipalityName];
                 
                 let tooltipContent = `<strong>${municipalityName}</strong>`;
+                
+                // Add latest year if available
+                if (municipality && municipality.latest_year) {
+                    tooltipContent += `${municipality.latest_year}`;
+                }
+
+                
                 
                 if (currentView !== 'default' && townData) {
                     let categoryValue, totalRefuse = 0, totalAdmin = 0;
