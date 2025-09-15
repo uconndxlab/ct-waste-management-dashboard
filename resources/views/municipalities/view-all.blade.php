@@ -60,14 +60,16 @@
     </div>
 
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <button class="btn btn-outline-secondary" type="button" data-bs-toggle="collapse" data-bs-target="#filterCollapseContent" aria-expanded="false" aria-controls="filterCollapseContent">
-            <i class="bi bi-funnel me-2"></i>Filter Options
-        </button>
-
         <div class="d-flex align-items-center gap-3">
+            <button class="btn btn-outline-secondary" type="button" data-bs-toggle="collapse" data-bs-target="#filterCollapseContent" aria-expanded="false" aria-controls="filterCollapseContent">
+                <i class="bi bi-funnel me-2"></i>Filter Options
+            </button>
             <a href="{{ route('regions.list', ['type' => 'planning-region']) }}" class="btn btn-outline-primary">
                 <i class="bi bi-map me-2"></i>Regional Analysis
             </a>
+        </div>
+
+        <div class="d-flex align-items-center">
             <small class="text-muted me-3" id="selection-info">Select 2 municipalities to compare</small>
             <form id="compare-form" action="{{ route('municipalities.compare') }}" method="POST" class="d-inline">
                 @csrf
