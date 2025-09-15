@@ -7,17 +7,21 @@ use App\Models\MunicipalityFinancialData;
 use App\Models\Municipality;
 use App\Models\Population;
 use App\Models\TownClassification;
+use App\Services\MunicipalityService;
 use Illuminate\Http\Request;
 
 class MunicipalityController extends Controller
 {
+    protected $municipalityService;
+
+    public function __construct(MunicipalityService $municipalityService)
+    {
+        $this->municipalityService = $municipalityService;
+    }
 
     public function allMunicipalities(Request $request)
     {
-        $letters = Municipality::selectRaw('SUBSTR(name, 1, 1) as letter')
-            ->groupBy('letter')
-            ->orderBy('letter')
-            ->pluck('letter');
+        $letters = $this->municipalityService->getMunicipalityLetters();
     
         $selectedLetter = $request->input('letter', null);
         $search = $request->input('search', '');
@@ -76,17 +80,13 @@ class MunicipalityController extends Controller
 
     public function showHome()
     {
-        // Get unique municipalities with their latest/maximum refuse value and year
-        $municipalities = Municipality::select('name', 'href')
-            ->selectRaw('MAX(total_sanitation_refuse) as total_sanitation_refuse')
-            ->selectRaw('MAX(year) as latest_year')
-            ->groupBy('name', 'href')
-            ->get();
+        // Get unique municipalities with their latest values and year
+        $municipalities = $this->municipalityService->getMunicipalitiesWithLatestData();
             
         // Process and standardize the year values
         foreach ($municipalities as $municipality) {
             if ($municipality->latest_year) {
-                $standardizedYear = $this->extractPopulationYear($municipality->latest_year);
+                $standardizedYear = $this->municipalityService->extractPopulationYear($municipality->latest_year);
                 $municipality->latest_year = $standardizedYear;
             }
         }
@@ -95,42 +95,9 @@ class MunicipalityController extends Controller
 
         // Dealing with money to num
 
-        $countyTotals = Municipality::leftJoin('town_classifications', 'municipalities.name', '=', 'town_classifications.municipality')
-            ->selectRaw("
-                town_classifications.county, 
-                SUM(CAST(REPLACE(REPLACE(COALESCE(municipalities.total_sanitation_refuse, '0'), '$', ''), ',', '') AS DECIMAL(15,2))) as total_refuse, 
-                SUM(CAST(REPLACE(REPLACE(COALESCE(municipalities.admin_costs, '0'), '$', ''), ',', '') AS DECIMAL(15,2))) as total_admin,
-                COUNT(DISTINCT municipalities.name) as total_municipalities, 
-                COUNT(DISTINCT CASE WHEN municipalities.total_sanitation_refuse IS NOT NULL THEN municipalities.name END) as municipalities_with_data
-            ")
-            ->whereNotNull('town_classifications.county') 
-            ->groupBy('town_classifications.county')
-            ->get()
-            ->keyBy('county');
-        
-        $regionTotals = Municipality::leftJoin('town_classifications', 'municipalities.name', '=', 'town_classifications.municipality')
-            ->selectRaw("
-                town_classifications.geographical_region, 
-                SUM(CAST(REPLACE(REPLACE(COALESCE(municipalities.total_sanitation_refuse, '0'), '$', ''), ',', '') AS DECIMAL(15,2))) as total_refuse, 
-                COUNT(DISTINCT municipalities.name) as total_municipalities, 
-                COUNT(DISTINCT CASE WHEN municipalities.total_sanitation_refuse IS NOT NULL THEN municipalities.name END) as municipalities_with_data
-            ")
-            ->whereNotNull('town_classifications.geographical_region') 
-            ->groupBy('town_classifications.geographical_region')
-            ->get()
-            ->keyBy('geographical_region');
-        
-        $typeTotals = Municipality::leftJoin('town_classifications', 'municipalities.name', '=', 'town_classifications.municipality')
-            ->selectRaw("
-                town_classifications.region_type, 
-                SUM(CAST(REPLACE(REPLACE(COALESCE(municipalities.total_sanitation_refuse, '0'), '$', ''), ',', '') AS DECIMAL(15,2))) as total_refuse, 
-                COUNT(DISTINCT municipalities.name) as total_municipalities, 
-                COUNT(DISTINCT CASE WHEN municipalities.total_sanitation_refuse IS NOT NULL THEN municipalities.name END) as municipalities_with_data
-            ")
-            ->whereNotNull('town_classifications.region_type') 
-            ->groupBy('town_classifications.region_type')
-            ->get()
-            ->keyBy('region_type');
+        $countyTotals = $this->municipalityService->getCountyTotals();
+        $regionTotals = $this->municipalityService->getRegionTotals();
+        $typeTotals = $this->municipalityService->getTypeTotals();
 
         // Keep the test query for debugging
         $test = Municipality::join('town_classifications', 'municipalities.name', '=', 'town_classifications.municipality')
@@ -638,6 +605,22 @@ class MunicipalityController extends Controller
             $municipality2TrendData['tipping_fees'][] = round($this->currencyToNumeric($record->tipping_fees) / $populationCount, 2);
             $municipality2TrendData['transfer_station_wages'][] = round($this->currencyToNumeric($record->transfer_station_wages) / $populationCount, 2);
             $municipality2TrendData['total_sanitation_refuse'][] = round($this->currencyToNumeric($record->total_sanitation_refuse) / $populationCount, 2);
+        }
+
+
+
+        // Check if this is an AJAX request
+        if ($request->ajax() || $request->wantsJson()) {
+            return view('municipalities.compare-content', compact(
+                'municipalities', 
+                'commonYears', 
+                'municipality1Historical', 
+                'municipality2Historical',
+                'municipality1Populations',
+                'municipality2Populations',
+                'municipality1TrendData',
+                'municipality2TrendData'
+            ));
         }
 
         return view('municipalities.compare', compact(

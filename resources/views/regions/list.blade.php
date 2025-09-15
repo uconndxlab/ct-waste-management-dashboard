@@ -104,8 +104,21 @@
         </div>
     </div>
 
+    <!-- Comparison Results Container (initially hidden) -->
+    <div id="comparison-results" class="card mb-4" style="display: none;">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h5 class="mb-0" id="comparison-title">Regional Comparison</h5>
+            <button type="button" class="btn btn-outline-secondary btn-sm" id="back-to-list">
+                <i class="bi bi-arrow-left me-2"></i>Back to List
+            </button>
+        </div>
+        <div class="card-body" id="comparison-content">
+            <!-- Comparison content will be loaded here -->
+        </div>
+    </div>
+
     <!-- Regions List -->
-    <div class="list-group shadow-sm">
+    <div class="list-group shadow-sm" id="regions-list">
         @forelse($regions as $region)
             <div class="list-group-item list-group-item-action py-3 region-row">
                 <div class="row align-items-center">
@@ -223,6 +236,11 @@
         const checkboxes = document.querySelectorAll('.region-checkbox');
         const compareButton = document.getElementById('compare-button');
         const compareForm = document.getElementById('compare-form');
+        const comparisonResults = document.getElementById('comparison-results');
+        const comparisonContent = document.getElementById('comparison-content');
+        const comparisonTitle = document.getElementById('comparison-title');
+        const regionsList = document.getElementById('regions-list');
+        const backToListButton = document.getElementById('back-to-list');
         const regionType = '{{ $regionType }}';
         const displaySingular = '{{ $displaySingularLower }}';
         const displayPlural = '{{ $displayPluralLower }}';
@@ -240,6 +258,45 @@
                 compareForm.appendChild(inp);
             });
         }
+
+        function showComparison(data) {
+            comparisonTitle.textContent = `${selected[0]} & ${selected[1]} Comparison`;
+            comparisonContent.innerHTML = data;
+            comparisonResults.style.display = 'block';
+            regionsList.style.display = 'none';
+            
+            // Execute any scripts in the loaded content
+            const scripts = comparisonContent.querySelectorAll('script');
+            scripts.forEach((script, index) => {
+                try {
+                    eval(script.textContent);
+                } catch (error) {
+                    console.error(`Error executing region script ${index + 1}:`, error);
+                }
+            });
+            
+            // Scroll to comparison results
+            comparisonResults.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Charts are now handled in the loaded content
+
+        function hideComparison() {
+            comparisonResults.style.display = 'none';
+            regionsList.style.display = 'block';
+            
+            // Clear selections
+            selected = [];
+            checkboxes.forEach(checkbox => checkbox.checked = false);
+            compareButton.disabled = true;
+            compareButton.innerHTML = '<i class="bi bi-arrow-left-right me-2"></i>Compare';
+            
+            const selectionInfo = document.getElementById('selection-info');
+            selectionInfo.textContent = `Select 2 ${displayPlural} to compare`;
+            selectionInfo.className = 'text-muted me-3';
+        }
+
+        backToListButton.addEventListener('click', hideComparison);
 
         checkboxes.forEach(checkbox => {
             checkbox.addEventListener('change', () => {
@@ -289,12 +346,13 @@
             });
         });
 
-        // Add form submission validation
-        document.getElementById('compare-form').addEventListener('submit', function(e) {
+        // Add form submission handler
+        compareForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
             if (selected.length !== 2) {
-                e.preventDefault();
                 alert('Please select exactly 2 ' + displayPlural + ' for comparison.');
-                return false;
+                return;
             }
 
             // Double-check that selected regions have data
@@ -311,10 +369,40 @@
             });
 
             if (hasInvalidSelection) {
-                e.preventDefault();
                 alert('One or more selected ' + displayPlural + ' have no financial data available. Please select regions with available data.');
-                return false;
+                return;
             }
+
+            compareButton.disabled = true;
+            compareButton.innerHTML = '<i class="spinner-border spinner-border-sm me-2"></i>Comparing...';
+
+            try {
+                const formData = new FormData(compareForm);
+                
+                const response = await fetch('{{ route("regions.compare") }}', {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '{{ csrf_token() }}'
+                    }
+                });
+
+                if (response.ok) {
+                    const html = await response.text();
+                    showComparison(html);
+                } else {
+                    const errorText = await response.text();
+                    console.error('Response error:', response.status, errorText);
+                    alert(`Error loading comparison (${response.status}). Please try again.`);
+                }
+            } catch (error) {
+                console.error('Network error:', error);
+                alert('Network error loading comparison. Please check your connection and try again.');
+            }
+
+            compareButton.disabled = false;
+            compareButton.innerHTML = '<i class="bi bi-arrow-left-right me-2"></i>Compare Selected';
         });
     </script>
 

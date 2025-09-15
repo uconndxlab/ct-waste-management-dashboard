@@ -375,6 +375,20 @@ class RegionalController extends Controller
             'classification' => 'Classifications'
         ];
 
+        // Check if this is an AJAX request
+        if ($request->ajax() || $request->wantsJson()) {
+            return view('regions.compare-content', [
+                'regions' => $regions,
+                'regionType' => $regionType,
+                'regionTypeLabel' => $regionTypeLabels[$regionType],
+                'commonYears' => $commonYears,
+                'region1Historical' => $region1Historical->whereIn('year', $commonYears),
+                'region2Historical' => $region2Historical->whereIn('year', $commonYears),
+                'region1TrendData' => $region1TrendData,
+                'region2TrendData' => $region2TrendData
+            ]);
+        }
+
         return view('regions.compare', [
             'regions' => $regions,
             'regionType' => $regionType,

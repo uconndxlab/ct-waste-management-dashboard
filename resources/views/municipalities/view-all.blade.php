@@ -64,7 +64,10 @@
             <i class="bi bi-funnel me-2"></i>Filter Options
         </button>
 
-        <div class="d-flex align-items-center">
+        <div class="d-flex align-items-center gap-3">
+            <a href="{{ route('regions.list', ['type' => 'planning-region']) }}" class="btn btn-outline-primary">
+                <i class="bi bi-map me-2"></i>Regional Analysis
+            </a>
             <small class="text-muted me-3" id="selection-info">Select 2 municipalities to compare</small>
             <form id="compare-form" action="{{ route('municipalities.compare') }}" method="POST" class="d-inline">
                 @csrf
@@ -129,7 +132,20 @@
     <form id="compare-form" action="{{ route('municipalities.compare') }}" method="POST">
         @csrf
 
-        <div class="list-group shadow-sm">
+        <!-- Comparison Results Container (initially hidden) -->
+        <div id="comparison-results" class="card mb-4" style="display: none;">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0" id="comparison-title">Municipality Comparison</h5>
+                <button type="button" class="btn btn-outline-secondary btn-sm" id="back-to-list">
+                    <i class="bi bi-arrow-left me-2"></i>Back to List
+                </button>
+            </div>
+            <div class="card-body" id="comparison-content">
+                <!-- Comparison content will be loaded here -->
+            </div>
+        </div>
+
+        <div class="list-group shadow-sm" id="municipalities-list">
             @foreach($municipalities as $municipality)
                 <div class="list-group-item list-group-item-action d-flex justify-content-between align-items-center py-3 municipality-row">
                     <div class="d-flex align-items-center">
@@ -153,6 +169,11 @@
         const checkboxes = document.querySelectorAll('.municipality-checkbox');
         const compareButton = document.getElementById('compare-button');
         const compareForm = document.getElementById('compare-form');
+        const comparisonResults = document.getElementById('comparison-results');
+        const comparisonContent = document.getElementById('comparison-content');
+        const comparisonTitle = document.getElementById('comparison-title');
+        const municipalitiesList = document.getElementById('municipalities-list');
+        const backToListButton = document.getElementById('back-to-list');
         let selected = [];
 
         function rebuildHiddenInputs() {
@@ -167,6 +188,82 @@
                 compareForm.appendChild(inp);
             });
         }
+
+        function showComparison(data) {
+            comparisonTitle.textContent = `${selected[0]} & ${selected[1]} Comparison`;
+            comparisonContent.innerHTML = data;
+            comparisonResults.style.display = 'block';
+            municipalitiesList.style.display = 'none';
+            
+            // Execute any scripts in the loaded content
+            const scripts = comparisonContent.querySelectorAll('script');
+            scripts.forEach((script, index) => {
+                try {
+                    eval(script.textContent);
+                } catch (error) {
+                    console.error(`Error executing script ${index + 1}:`, error);
+                }
+            });
+            
+            // Scroll to comparison results
+            comparisonResults.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Charts are now handled in the loaded content
+
+        function hideComparison() {
+            comparisonResults.style.display = 'none';
+            municipalitiesList.style.display = 'block';
+            
+            // Clear selections
+            selected = [];
+            checkboxes.forEach(checkbox => checkbox.checked = false);
+            compareButton.disabled = true;
+            compareButton.innerHTML = '<i class="bi bi-arrow-left-right me-2"></i>Compare';
+            
+            const selectionInfo = document.getElementById('selection-info');
+            selectionInfo.textContent = 'Select 2 municipalities to compare';
+            selectionInfo.className = 'text-muted me-3';
+        }
+
+        backToListButton.addEventListener('click', hideComparison);
+
+        compareForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            if (selected.length !== 2) return;
+
+            compareButton.disabled = true;
+            compareButton.innerHTML = '<i class="spinner-border spinner-border-sm me-2"></i>Comparing...';
+
+            try {
+                const formData = new FormData(compareForm);
+                
+                const response = await fetch('{{ route("municipalities.compare") }}', {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '{{ csrf_token() }}'
+                    }
+                });
+
+                if (response.ok) {
+                    const html = await response.text();
+                    showComparison(html);
+                } else {
+                    const errorText = await response.text();
+                    console.error('Response error:', response.status, errorText);
+                    alert(`Error loading comparison (${response.status}). Please try again.`);
+                }
+            } catch (error) {
+                console.error('Network error:', error);
+                alert('Network error loading comparison. Please check your connection and try again.');
+            }
+
+            compareButton.disabled = false;
+            compareButton.innerHTML = '<i class="bi bi-arrow-left-right me-2"></i>Compare Selected';
+        });
 
         checkboxes.forEach(checkbox => {
             checkbox.addEventListener('change', () => {
