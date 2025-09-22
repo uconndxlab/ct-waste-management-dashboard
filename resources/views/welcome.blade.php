@@ -398,7 +398,7 @@
                 
                 
                 if (currentView !== 'default' && townData) {
-                    let categoryValue, totalTippingFees = 0, totalRecyclingFees = 0, totalTransferStationCosts = 0;
+                    let categoryValue, totalTippingFees = 0, totalSanitationRefuse = 0;
                     let categoryLabel = '';
                     
                     switch(currentView) {
@@ -407,8 +407,7 @@
                             categoryLabel = 'County';
                             if (countyTotals[categoryValue]) {
                                 totalTippingFees = countyTotals[categoryValue].total_tipping_fees;
-                                totalRecyclingFees = countyTotals[categoryValue].total_recycling_fees;
-                                totalTransferStationCosts = countyTotals[categoryValue].total_transfer_station_costs;
+                                totalSanitationRefuse = countyTotals[categoryValue].total_sanitation_refuse;
                             }
                             break;
                         case 'region':
@@ -416,8 +415,7 @@
                             categoryLabel = 'Planning Region';
                             if (regionTotals[categoryValue]) {
                                 totalTippingFees = regionTotals[categoryValue].total_tipping_fees;
-                                totalRecyclingFees = regionTotals[categoryValue].total_recycling_fees;
-                                totalTransferStationCosts = regionTotals[categoryValue].total_transfer_station_costs;
+                                totalSanitationRefuse = regionTotals[categoryValue].total_sanitation_refuse;
                             }
                             break;
                         case 'type':
@@ -425,8 +423,7 @@
                             categoryLabel = 'Classification';
                             if (typeTotals[categoryValue]) {
                                 totalTippingFees = typeTotals[categoryValue].total_tipping_fees;
-                                totalRecyclingFees = typeTotals[categoryValue].total_recycling_fees;
-                                totalTransferStationCosts = typeTotals[categoryValue].total_transfer_station_costs;
+                                totalSanitationRefuse = typeTotals[categoryValue].total_sanitation_refuse;
                             }
                             break;
                     }
@@ -446,30 +443,17 @@
                         tooltipContent += `<br>Regional Tipping Fees: $0`;
                     }
                     
-                    // Format and add the recycling fees total
-                    totalRecyclingFees = parseFloat(totalRecyclingFees);
-                    if (!isNaN(totalRecyclingFees) && totalRecyclingFees > 0) {
-                        const formattedRecyclingTotal = new Intl.NumberFormat('en-US', { 
+                    // Format and add the total sanitation refuse total
+                    totalSanitationRefuse = parseFloat(totalSanitationRefuse);
+                    if (!isNaN(totalSanitationRefuse) && totalSanitationRefuse > 0) {
+                        const formattedRefuseTotal = new Intl.NumberFormat('en-US', { 
                             style: 'currency', 
                             currency: 'USD',
                             maximumFractionDigits: 0
-                        }).format(totalRecyclingFees);
-                        tooltipContent += `<br>Regional Recycling Fees: ${formattedRecyclingTotal}`;
+                        }).format(totalSanitationRefuse);
+                        tooltipContent += `<br>Regional Total Sanitation Refuse: ${formattedRefuseTotal}`;
                     } else {
-                        tooltipContent += `<br>Regional Recycling Fees: $0`;
-                    }
-                    
-                    // Format and add the transfer station costs total
-                    totalTransferStationCosts = parseFloat(totalTransferStationCosts);
-                    if (!isNaN(totalTransferStationCosts) && totalTransferStationCosts > 0) {
-                        const formattedTransferStationTotal = new Intl.NumberFormat('en-US', { 
-                            style: 'currency', 
-                            currency: 'USD',
-                            maximumFractionDigits: 0
-                        }).format(totalTransferStationCosts);
-                        tooltipContent += `<br>Regional Transfer Station Costs: ${formattedTransferStationTotal}`;
-                    } else {
-                        tooltipContent += `<br>Regional Transfer Station Costs: $0`;
+                        tooltipContent += `<br>Regional Total Sanitation Refuse: $0`;
                     }
                 }
                 
@@ -494,46 +478,53 @@
                     tooltipContent += `<br>Municipality Tipping Fees: No data available`;
                 }
                 
-                // Add municipality recycling fees
-                if (municipality && municipality.recycling_fees) {
-                    const recyclingString = municipality.recycling_fees.toString();
-                    const cleanRecyclingValue = recyclingString.replace(/[\$,]/g, '');
-                    const recyclingValue = parseFloat(cleanRecyclingValue);
+                // Add municipality total sanitation refuse
+                if (municipality && municipality.total_sanitation_refuse) {
+                    const refuseString = municipality.total_sanitation_refuse.toString();
+                    const cleanRefuseValue = refuseString.replace(/[\$,]/g, '');
+                    const refuseValue = parseFloat(cleanRefuseValue);
                     
-                    if (!isNaN(recyclingValue) && recyclingValue > 0) {
-                        const municipalityRecycling = new Intl.NumberFormat('en-US', { 
+                    if (!isNaN(refuseValue) && refuseValue > 0) {
+                        const municipalityRefuse = new Intl.NumberFormat('en-US', { 
                             style: 'currency', 
                             currency: 'USD',
                             maximumFractionDigits: 0
-                        }).format(recyclingValue);
+                        }).format(refuseValue);
                         
-                        tooltipContent += `<br>Municipality Recycling Fees: ${municipalityRecycling}`;
+                        tooltipContent += `<br>Municipality Total Sanitation Refuse: ${municipalityRefuse}`;
                     } else {
-                        tooltipContent += `<br>Municipality Recycling Fees: No data available`;
+                        tooltipContent += `<br>Municipality Total Sanitation Refuse: No data available`;
                     }
                 } else {
-                    tooltipContent += `<br>Municipality Recycling Fees: No data available`;
+                    tooltipContent += `<br>Municipality Total Sanitation Refuse: No data available`;
                 }
                 
-                // Add municipality transfer station costs
-                if (municipality && municipality.transfer_station_costs) {
-                    const transferString = municipality.transfer_station_costs.toString();
-                    const cleanTransferValue = transferString.replace(/[\$,]/g, '');
-                    const transferValue = parseFloat(cleanTransferValue);
-                    
-                    if (!isNaN(transferValue) && transferValue > 0) {
-                        const municipalityTransfer = new Intl.NumberFormat('en-US', { 
-                            style: 'currency', 
-                            currency: 'USD',
-                            maximumFractionDigits: 0
-                        }).format(transferValue);
-                        
-                        tooltipContent += `<br>Municipality Transfer Station Costs: ${municipalityTransfer}`;
-                    } else {
-                        tooltipContent += `<br>Municipality Transfer Station Costs: No data available`;
+                // Add Services Offered section
+                const services = [];
+                const allServices = [
+                    { field: 'bulky_waste', name: 'Bulky Waste' },
+                    { field: 'curbside_pickup_fees', name: 'Curbside Pickup' },
+                    { field: 'hazardous_waste', name: 'Hazardous Waste' },
+                    { field: 'recycling', name: 'Recycling' },
+                    { field: 'transfer_station_wages', name: 'Transfer Station' }
+                ];
+                
+                // Check which services have values > 0
+                allServices.forEach(service => {
+                    if (municipality && municipality[service.field] && parseFloat(municipality[service.field].toString().replace(/[\$,]/g, '')) > 0) {
+                        services.push(service.name);
                     }
+                });
+                
+                // Always show Services Offered section
+                tooltipContent += `<br></br><strong>Services Offered (${services.length}/5):</strong>`;
+                
+                if (services.length > 0) {
+                    // Show the services that are offered
+                    tooltipContent += services.join('<br>');
                 } else {
-                    tooltipContent += `<br>Municipality Transfer Station Costs: No data available`;
+                    // No services are offered
+                    tooltipContent += `<em>No services offered</em>`;
                 }
                 
                 layer.bindTooltip(tooltipContent, { sticky: true });

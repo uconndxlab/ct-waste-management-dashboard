@@ -16,8 +16,12 @@ class MunicipalityService
     {
         return Municipality::select('name', 'href')
             ->selectRaw('MAX(tipping_fees) as tipping_fees')
-            ->selectRaw('MAX(recycling) as recycling_fees')
-            ->selectRaw('MAX(transfer_station_wages) as transfer_station_costs')
+            ->selectRaw('MAX(total_sanitation_refuse) as total_sanitation_refuse')
+            ->selectRaw('MAX(bulky_waste) as bulky_waste')
+            ->selectRaw('MAX(curbside_pickup_fees) as curbside_pickup_fees')
+            ->selectRaw('MAX(hazardous_waste) as hazardous_waste')
+            ->selectRaw('MAX(recycling) as recycling')
+            ->selectRaw('MAX(transfer_station_wages) as transfer_station_wages')
             ->selectRaw('MAX(year) as latest_year')
             ->groupBy('name', 'href')
             ->get();
@@ -52,8 +56,7 @@ class MunicipalityService
             ->selectRaw("
                 town_classifications.geographical_region, 
                 SUM(CAST(REPLACE(REPLACE(COALESCE(municipalities.tipping_fees, '0'), '$', ''), ',', '') AS DECIMAL(15,2))) as total_tipping_fees, 
-                SUM(CAST(REPLACE(REPLACE(COALESCE(municipalities.recycling, '0'), '$', ''), ',', '') AS DECIMAL(15,2))) as total_recycling_fees,
-                SUM(CAST(REPLACE(REPLACE(COALESCE(municipalities.transfer_station_wages, '0'), '$', ''), ',', '') AS DECIMAL(15,2))) as total_transfer_station_costs,
+                SUM(CAST(REPLACE(REPLACE(COALESCE(municipalities.total_sanitation_refuse, '0'), '$', ''), ',', '') AS DECIMAL(15,2))) as total_sanitation_refuse,
                 COUNT(DISTINCT municipalities.name) as total_municipalities, 
                 COUNT(DISTINCT CASE WHEN municipalities.tipping_fees IS NOT NULL THEN municipalities.name END) as municipalities_with_data
             ")
@@ -72,8 +75,7 @@ class MunicipalityService
             ->selectRaw("
                 town_classifications.region_type, 
                 SUM(CAST(REPLACE(REPLACE(COALESCE(municipalities.tipping_fees, '0'), '$', ''), ',', '') AS DECIMAL(15,2))) as total_tipping_fees, 
-                SUM(CAST(REPLACE(REPLACE(COALESCE(municipalities.recycling, '0'), '$', ''), ',', '') AS DECIMAL(15,2))) as total_recycling_fees,
-                SUM(CAST(REPLACE(REPLACE(COALESCE(municipalities.transfer_station_wages, '0'), '$', ''), ',', '') AS DECIMAL(15,2))) as total_transfer_station_costs,
+                SUM(CAST(REPLACE(REPLACE(COALESCE(municipalities.total_sanitation_refuse, '0'), '$', ''), ',', '') AS DECIMAL(15,2))) as total_sanitation_refuse,
                 COUNT(DISTINCT municipalities.name) as total_municipalities, 
                 COUNT(DISTINCT CASE WHEN municipalities.tipping_fees IS NOT NULL THEN municipalities.name END) as municipalities_with_data
             ")
