@@ -78,6 +78,161 @@ class MunicipalityController extends Controller
         ));
     }
 
+    public function getMunicipalitiesGrid(Request $request)
+    {
+        $search = $request->input('search', '');
+        $selectedLetter = $request->input('letter', null);
+        $regionType = $request->input('region_type');
+        $geographicalRegion = $request->input('geographical_region');
+        $county = $request->input('county');
+    
+        $query = Municipality::query()
+            ->select('municipalities.name')
+            ->leftJoin('town_classifications', 'municipalities.name', '=', 'town_classifications.municipality');
+    
+        if ($selectedLetter) {
+            $query->where('municipalities.name', 'like', $selectedLetter . '%');
+        }
+    
+        if ($search) {
+            $query->where('municipalities.name', 'like', '%' . $search . '%');
+        }
+
+        if ($regionType) {
+            $query->where('town_classifications.region_type', $regionType);
+        }
+
+        if ($geographicalRegion) {
+            $query->where('town_classifications.geographical_region', $geographicalRegion);
+        }
+
+        if ($county) {
+            $query->where('town_classifications.county', $county);
+        }
+
+        $query->groupBy('municipalities.name')
+          ->orderBy('municipalities.name');
+
+        $municipalities = $query->get();
+        
+        return view('municipalities.partials.municipality-grid', compact('municipalities'));
+    }
+
+    public function getMunicipalityModal($name)
+    {
+        $municipality = Municipality::where('name', $name)->firstOrFail();
+        $reports = Municipality::where('name', $name)->orderBy('year')->get();
+        $townInfo = OverallTownInfo::where('municipality', $name)->first();
+        $townClassification = TownClassification::where('municipality', $name)->first();
+        $financials = MunicipalityFinancialData::where('municipality', $name)->get();
+        $financialData = MunicipalityFinancialData::where('municipality', $name)->firstOrFail();
+
+        // Process population data as in viewMunicipality method
+        $hasAnyPopulationData = false;
+        $population = null;
+        
+        foreach($reports as $report) {
+            $reportPopulationYear = $this->extractPopulationYear($report->year);
+            if ($reportPopulationYear) {
+                $reportPopulation = Population::whereRaw('LOWER(municipality) = LOWER(?)', [$name])
+                    ->where('year', $reportPopulationYear)
+                    ->first();
+                
+                if (!$reportPopulation && $reportPopulationYear < 2020) {
+                    $reportPopulation = Population::whereRaw('LOWER(municipality) = LOWER(?)', [$name])
+                        ->where('year', 2020)
+                        ->first();
+                }
+                
+                if ($reportPopulation) {
+                    $hasAnyPopulationData = true;
+                    if (!$population) {
+                        $population = $reportPopulation->population;
+                    }
+                }
+            }
+        }
+
+        if ($hasAnyPopulationData) {
+            foreach($reports as $report) {
+                $reportPopulationYear = $this->extractPopulationYear($report->year);
+                $reportPopulation = null;
+                $reportPopulationCount = null;
+                
+                $actualPopulationYear = null;
+                if ($reportPopulationYear) {
+                    $reportPopulation = Population::whereRaw('LOWER(municipality) = LOWER(?)', [$name])
+                        ->where('year', $reportPopulationYear)
+                        ->first();
+                    
+                    if ($reportPopulation) {
+                        $actualPopulationYear = $reportPopulationYear;
+                    } else if ($reportPopulationYear < 2020) {
+                        $reportPopulation = Population::whereRaw('LOWER(municipality) = LOWER(?)', [$name])
+                            ->where('year', 2020)
+                            ->first();
+                        $actualPopulationYear = $reportPopulation ? '2020*' : null;
+                    }
+                    
+                    $reportPopulationCount = $reportPopulation ? $reportPopulation->population : null;
+                }
+
+                // Calculate per capita values
+                $recycling = $this->currencyToNumeric($report->recycling);
+                $tippingFees = $this->currencyToNumeric($report->tipping_fees);
+                $transferStationWages = $this->currencyToNumeric($report->transfer_station_wages);
+                $totalSanitation = $this->currencyToNumeric($report->total_sanitation_refuse);
+                $bulkyWaste = $this->currencyToNumeric($report->bulky_waste);
+                $adminCosts = $this->currencyToNumeric($report->admin_costs);
+                $hazardousWaste = $this->currencyToNumeric($report->hazardous_waste);
+                $contractualServices = $this->currencyToNumeric($report->contractual_services);
+                $landfillCosts = $this->currencyToNumeric($report->landfill_costs);
+                $onlyPublicWorks = $this->currencyToNumeric($report->only_public_works);
+                $haulingFees = $this->currencyToNumeric($report->hauling_fees);
+                $curbsidePickupFees = $this->currencyToNumeric($report->curbside_pickup_fees);
+                $wasteCollection = $this->currencyToNumeric($report->waste_collection);
+
+                $report->has_population_data = $reportPopulation ? true : false;
+                $report->report_population = $reportPopulation ? $reportPopulation->population : null;
+                $report->population_year_used = $actualPopulationYear;
+                
+                if ($reportPopulation && $reportPopulationCount > 0) {
+                    $report->bulky_waste_per_capita = $bulkyWaste ? number_format($bulkyWaste / $reportPopulationCount, 2) : null;
+                    $report->recycling_per_capita = $recycling ? number_format($recycling / $reportPopulationCount, 2) : null;
+                    $report->tipping_fees_per_capita = $tippingFees ? number_format($tippingFees / $reportPopulationCount, 2) : null;
+                    $report->admin_costs_per_capita = $adminCosts ? number_format($adminCosts / $reportPopulationCount, 2) : null;
+                    $report->hazardous_waste_per_capita = $hazardousWaste ? number_format($hazardousWaste / $reportPopulationCount, 2) : null;
+                    $report->contractual_services_per_capita = $contractualServices ? number_format($contractualServices / $reportPopulationCount, 2) : null;
+                    $report->landfill_costs_per_capita = $landfillCosts ? number_format($landfillCosts / $reportPopulationCount, 2) : null;
+                    $report->total_sanitation_refuse_per_capita = $totalSanitation ? number_format($totalSanitation / $reportPopulationCount, 2) : null;
+                    $report->only_public_works_per_capita = $onlyPublicWorks ? number_format($onlyPublicWorks / $reportPopulationCount, 2) : null;
+                    $report->transfer_station_wages_per_capita = $transferStationWages ? number_format($transferStationWages / $reportPopulationCount, 2) : null;
+                    $report->hauling_fees_per_capita = $haulingFees ? number_format($haulingFees / $reportPopulationCount, 2) : null;
+                    $report->curbside_pickup_fees_per_capita = $curbsidePickupFees ? number_format($curbsidePickupFees / $reportPopulationCount, 2) : null;
+                    $report->waste_collection_per_capita = $wasteCollection ? number_format($wasteCollection / $reportPopulationCount, 2) : null;
+                } else {
+                    $report->bulky_waste_per_capita = null;
+                    $report->recycling_per_capita = null;
+                    $report->tipping_fees_per_capita = null;
+                    $report->admin_costs_per_capita = null;
+                    $report->hazardous_waste_per_capita = null;
+                    $report->contractual_services_per_capita = null;
+                    $report->landfill_costs_per_capita = null;
+                    $report->total_sanitation_refuse_per_capita = null;
+                    $report->only_public_works_per_capita = null;
+                    $report->transfer_station_wages_per_capita = null;
+                    $report->hauling_fees_per_capita = null;
+                    $report->curbside_pickup_fees_per_capita = null;
+                    $report->waste_collection_per_capita = null;
+                }
+            }
+        }
+
+        return view('municipalities.partials.municipality-modal', compact(
+            'name', 'reports', 'townInfo', 'financials', 'financialData',
+             'townClassification', 'municipality', 'population', 'hasAnyPopulationData'));
+    }
+
     public function showHome()
     {
         // Get unique municipalities with their latest values and year

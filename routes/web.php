@@ -7,6 +7,11 @@ use App\Http\Controllers\MunicipalityFinancialController;
 
 Route::get('/', [MunicipalityController::class, 'showHome']);
 Route::get('/municipalities', [MunicipalityController::class, 'allMunicipalities'])->name('municipalities.all');
+
+// HTMX routes for SPA functionality
+Route::get('/htmx/municipalities/grid', [MunicipalityController::class, 'getMunicipalitiesGrid'])->name('htmx.municipalities.grid');
+Route::get('/htmx/municipalities/{name}', [MunicipalityController::class, 'getMunicipalityModal'])->name('htmx.municipalities.modal');
+
 Route::get('/municipalities/{name}', [MunicipalityController::class, 'viewMunicipality'])->name('municipalities.view');
 Route::get('/municipalities/report/{id}', [MunicipalityController::class, 'viewReport'])->name('municipalities.report');
 Route::get('/municipalities/{municipality}/financials', [MunicipalityFinancialController::class, 'show'])->name('municipalities.financials');
