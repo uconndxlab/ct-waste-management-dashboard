@@ -117,30 +117,59 @@
                         </p>
                         <div class="row g-2">
                             <div class="col-md-3">
-                                <a href="{{ route('regions.list', ['type' => 'county']) }}" class="btn btn-outline-primary w-100">
+                                <button 
+                                    class="btn btn-outline-primary w-100"
+                                    hx-get="{{ route('regions.list', ['type' => 'county']) }}"
+                                    hx-target="#spa-content"
+                                    hx-select="#response-content"
+                                    hx-swap="innerHTML"
+                                    hx-push-url="true"
+                                >
                                     <i class="bi bi-geo-alt me-2"></i>
                                     Counties
-                                </a>
+                                </button>
                             </div>
                             <div class="col-md-3">
-                                <a href="{{ route('regions.list', ['type' => 'planning-region']) }}" class="btn btn-outline-primary w-100">
+                                <button 
+                                    class="btn btn-outline-primary w-100"
+                                    hx-get="{{ route('regions.list', ['type' => 'planning-region']) }}"
+                                    hx-target="#spa-content"
+                                    hx-select="#response-content"
+                                    hx-swap="innerHTML"
+                                    hx-push-url="true"
+                                >
                                     <i class="bi bi-map me-2"></i>
                                     Planning Regions
-                                </a>
+                                </button>
                             </div>
                             <div class="col-md-3">
-                                <a href="{{ route('regions.list', ['type' => 'classification']) }}" class="btn btn-outline-primary w-100">
+                                <button 
+                                    class="btn btn-outline-primary w-100"
+                                    hx-get="{{ route('regions.list', ['type' => 'classification']) }}"
+                                    hx-target="#spa-content"
+                                    hx-select="#response-content"
+                                    hx-swap="innerHTML"
+                                    hx-push-url="true"
+                                >
                                     <i class="bi bi-tree me-2"></i>
                                     Urban/Rural
-                                </a>
+                                </button>
                             </div>
                             <div class="col-md-3">
-                                <a href="{{ route('municipalities.all') }}" class="btn btn-outline-primary w-100">
+                                <button 
+                                    class="btn btn-outline-primary w-100"
+                                    hx-get="{{ route('municipalities.all') }}"
+                                    hx-target="#spa-content"
+                                    hx-select="#response-content"
+                                    hx-swap="innerHTML"
+                                    hx-push-url="true"
+                                >
                                     <i class="bi bi-building me-2"></i>
                                     Municipalities
-                                </a>
+                                </button>
                             </div>
-                        </div>
+                            <div id="spa-content" class="mt-4"> </div>
+
                     </div>
                 </div>
             </div>
@@ -191,6 +220,7 @@
 @endsection
 
 @push('scripts')
+    <script src="https://unpkg.com/htmx.org@1.9.10"></script>
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
      integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
      crossorigin=""></script>
