@@ -49,15 +49,8 @@
     <body class="">
 
         {{-- <a href="/municipalities" class="mb-4">View All Municipalities</a> --}}
-        <div class="d-flex align-items-center justify-content-between w-100 mb-4">
-            <form action="{{ route('municipalities.all') }}" method="GET" class="flex-grow-1 me-3">
-                <div class="input-group">
-                    <input type="text" name="search" class="form-control" placeholder="Search municipalities..." value="{{ request('search') }}">
-                </div>
-            </form>
-            <a href="{{ route('municipalities.all') }}" class="btn btn-primary">
-                <i class="bi bi-search"></i> View all municipalities
-            </a>
+        <div class="d-flex align-items-center justify-content-center w-100 mb-4">
+            <h1 class="text-center mb-0">Interactive Map of Latest Year Data</h1>
         </div>
 
         
@@ -118,7 +111,8 @@
                         <div class="row g-2">
                             <div class="col-md-3">
                                 <button 
-                                    class="btn btn-outline-primary w-100"
+                                    id="counties-btn"
+                                    class="btn btn-primary w-100"
                                     hx-get="{{ route('regions.list', ['type' => 'county']) }}"
                                     hx-target="#spa-content"
                                     hx-select="#response-content"
@@ -612,6 +606,55 @@
 
     <script>
     document.addEventListener('DOMContentLoaded', function() {
+        // Get all navigation buttons
+        const navButtons = document.querySelectorAll('[hx-get]');
+        
+        // Function to update active states
+        function updateActiveStates(activeButton) {
+            navButtons.forEach(btn => {
+                if (btn === activeButton) {
+                    btn.classList.remove('btn-outline-primary');
+                    btn.classList.add('btn-primary');
+                } else {
+                    btn.classList.remove('btn-primary');
+                    btn.classList.add('btn-outline-primary');
+                }
+            });
+        }
+        
+        // Add click event listeners to all nav buttons
+        navButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                updateActiveStates(this);
+                // Store the clicked button for persistence after HTMX swaps
+                sessionStorage.setItem('activeNavButton', this.innerText.trim());
+            });
+        });
+        
+        // Listen for HTMX events to maintain active state
+        document.body.addEventListener('htmx:afterSwap', function(evt) {
+            const activeButtonText = sessionStorage.getItem('activeNavButton');
+            if (activeButtonText) {
+                // Find and reactivate the button after content swap
+                const buttonToActivate = Array.from(navButtons).find(btn => 
+                    btn.innerText.trim() === activeButtonText
+                );
+                if (buttonToActivate) {
+                    updateActiveStates(buttonToActivate);
+                }
+            }
+        });
+        
+        // Auto-click the Counties button when page loads
+        setTimeout(function() {
+            const countiesBtn = document.getElementById('counties-btn');
+            if (countiesBtn) {
+                countiesBtn.click();
+                updateActiveStates(countiesBtn);
+                sessionStorage.setItem('activeNavButton', countiesBtn.innerText.trim());
+            }
+        }, 100); // Small delay to ensure HTMX is fully loaded
+        
         fetch("{{ asset('maps/ct-towns.geojson') }}")
             .then(response => response.json())
             .then(data => {

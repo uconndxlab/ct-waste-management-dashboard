@@ -22,9 +22,7 @@
 @section('content')
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h1 class="text-primary">{{ $regionType === 'classification' ? 'Rural & Urban' : $displayPlural }}</h1>
-        <a href="{{ route('municipalities.all') }}" class="btn btn-outline-secondary">
-            <i class="bi bi-arrow-left me-2"></i>Back to Municipalities
-        </a>
+
     </div>
     <!-- Summary Information -->
     <div class="row mb-4">

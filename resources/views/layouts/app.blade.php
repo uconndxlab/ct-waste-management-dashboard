@@ -28,6 +28,20 @@
 
 <body>
 
+    <!-- Development Notice Banner -->
+    <div class="alert alert-warning alert-dismissible fade show m-0 rounded-0" role="alert">
+        <div class="container-fluid">
+            <div class="d-flex align-items-center">
+                <i class="fas fa-exclamation-triangle me-2"></i>
+                <span>
+                    <strong>Notice:</strong>
+This dashboard is part of an ongoing development effort and currently displays preliminary data intended for demonstration purposes. The information presented is subject to refinement and validation and may not reflect final or complete datasets. It is provided for demonstration use only, and the hosting organization is not responsible for any decisions or actions taken based on this preliminary data.
+                </span>
+                <button type="button" class="btn-close ms-auto" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        </div>
+    </div>
+
     <nav class="navbar navbar-expand-lg mb-4 position-relative">
         <div class="container d-flex justify-content-start align-items-center text-start mt-3">
             <a class="navbar-brand display-1 fw-bolder brand-title" href="/">CT Waste Management Dashboard</a>
@@ -46,11 +60,11 @@
 
 
     <main class="container-xxl px-4">
-        <nav aria-label="breadcrumb">
+        {{-- <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
                 @yield('breadcrumbs', view('partials.breadcrumbs'))
             </ol>
-        </nav>
+        </nav> --}}
 
         <!-- Error and Success Messages -->
         @if ($errors->any())
