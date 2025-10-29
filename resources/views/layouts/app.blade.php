@@ -29,15 +29,14 @@
 <body>
 
     <!-- Development Notice Banner -->
-    <div class="alert alert-warning alert-dismissible fade show m-0 rounded-0" role="alert">
+    <div class="alert alert-danger fade show m-0 rounded-0 py-4" role="alert">
         <div class="container-fluid">
             <div class="d-flex align-items-center">
-                <i class="fas fa-exclamation-triangle me-2"></i>
-                <span>
+                <i class="fas fa-exclamation-triangle me-3 fs-3"></i>
+                <span class="fs-5">
                     <strong>Notice:</strong>
 This dashboard is part of an ongoing development effort and currently displays preliminary data intended for demonstration purposes. The information presented is subject to refinement and validation and may not reflect final or complete datasets. It is provided for demonstration use only, and the hosting organization is not responsible for any decisions or actions taken based on this preliminary data.
                 </span>
-                <button type="button" class="btn-close ms-auto" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
         </div>
     </div>
